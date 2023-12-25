@@ -10,7 +10,7 @@ import Wishlist from './features/Wishlist/Wishlist';
 import CreateNewCheckout, {
   formDataAction,
 } from './features/checkOut/CreateNewCheckout';
-import Checkout, { loader } from './features/checkOut/checkout';
+import Checkout, { loader } from './features/checkOut/Checkout';
 import WatchDetails from './features/watchList/WatchDetails';
 
 const router = createBrowserRouter([
