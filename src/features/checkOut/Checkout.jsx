@@ -4,9 +4,8 @@ import SummaryItems from './SummaryItems';
 import { HiArrowLeft } from 'react-icons/hi2';
 
 function Checkout() {
-  const data = useLoaderData();
+  const { id: cartId, cart, address, fName, lName } = useLoaderData();
   const navigate = useNavigate();
-  const { id: cartId, cart, address, fName, lName } = data;
   const totalPrice = cart
     .filter((cart) => cart.totalPrice)
     .reduce((cur, acc) => cur + acc.totalPrice, 0);
@@ -19,7 +18,8 @@ function Checkout() {
         </div>
         <p className="text-2xl font-semibold pb-5">Your Order # {cartId}</p>
         <p className="font-light">
-          Hello,<span className="font-bold">{fName + ' ' + lName}</span>
+          Hello,
+          <span className="font-bold capitalize"> {fName + ' ' + lName}</span>
         </p>
         <div className="flex flex-col justify-center items-center font-light text-xl">
           <p className="p-5">Your Purchased Item</p>

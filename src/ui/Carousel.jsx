@@ -7,6 +7,7 @@ function Carousel() {
   const [curIndex, setCurIndex] = useState(0);
 
   const maxLength = carouselData.length;
+
   function handlePrevSlide() {
     const newIndex = curIndex === 0 ? maxLength - 1 : curIndex - 1;
     setCurIndex(newIndex);
@@ -16,6 +17,7 @@ function Carousel() {
     const newIndex = curIndex === maxLength - 1 ? 0 : curIndex + 1;
     setCurIndex(newIndex);
   }
+
   return (
     <div className="w-full h-[500px] sm:h-[650px] my-0 mx-auto z-10">
       <div className="h-[100%] sm:h-[640px] relative z-10">

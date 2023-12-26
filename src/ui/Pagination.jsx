@@ -7,35 +7,43 @@ function Pagination({ totalItems, itemsPerPage, paginate }) {
 
   function handlePage(page) {
     if (page >= 1 && page <= totalPage) {
-      console.log(page);
       setCurrentPage(page);
       paginate(page);
     }
   }
 
   return (
-    <div className="w-1/2 grid grid-cols-4 justify-items-center content-center gap-5 h-10 text-xl ">
-      {currentPage > 1 && (
+    <div className=" grid grid-cols-5 gap-5 h-10  content-center place-items-center">
+      {
         <button
           onClick={() => handlePage(currentPage - 1)}
-          className="border  p-2"
+          className={currentPage > 1 ? 'border p-2 self-center' : 'invisible'}
         >
-          {<HiChevronLeft />}
+          <HiChevronLeft />
         </button>
-      )}
-      <span>{currentPage > 1 && currentPage - 1}</span>
-      <span className="font-extrabold text-2xl border w-10 text-center border-gray-500">
+      }
+      <span
+        className=" self-center text-sm cursor-pointer"
+        onClick={() => handlePage(1)}
+      >
+        {currentPage > 1 && 'first'}
+      </span>
+      <span className="font-extrabold text-2xl  w-10 text-center self-center border-gray-500 pointer-events-none">
         {currentPage}
       </span>
+      <span
+        className=" self-center text-sm cursor-pointer"
+        onClick={() => handlePage(totalPage)}
+      >
+        {currentPage >= 1 && currentPage < totalPage && 'last'}
+      </span>
 
-      {currentPage < totalPage && (
-        <button
-          onClick={() => handlePage(currentPage + 1)}
-          className="border  p-2 "
-        >
-          {<HiChevronRight />}
-        </button>
-      )}
+      <button
+        onClick={() => handlePage(currentPage + 1)}
+        className={currentPage < totalPage ? 'border  p-2' : 'invisible'}
+      >
+        <HiChevronRight />
+      </button>
     </div>
   );
 }

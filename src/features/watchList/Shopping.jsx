@@ -1,33 +1,18 @@
 import { useState } from 'react';
-import styled, { css } from 'styled-components';
 import Products from './Products';
 import ProductsSidebar from './ProductsSidebar';
 import { getWatch } from '../../services/apiWatches';
 import { useLoaderData } from 'react-router-dom';
 import { getFilters } from '../../services/apiWatches';
 
-const StyledDiv = styled.div`
-  margin-top: 2rem;
-  column-gap: 10px;
-`;
-
-const Main = styled.main`
-  display: grid;
-  ${(props) => css`
-    @media (min-width: 640px) {
-      grid-template-columns: 250px 1fr;
-    }
-  `}
-`;
-
 function Shopping() {
   const [openFilters, setOpenFilters] = useState(false);
   const { watch, brands, categories } = useLoaderData();
 
   return (
-    <StyledDiv className="lg:m-10 ">
+    <div className="mt-8 gap-y-2.5 lg:m-10 ">
       <h1 className="text-5xl my-2 mb-16 pt-5 pl-5">Products</h1>
-      <Main className="grid sm:grid-cols-2">
+      <main className="grid sm:grid-cols-[250px_1fr]">
         <ProductsSidebar
           watch={watch}
           brands={brands}
@@ -42,8 +27,8 @@ function Shopping() {
           openFilters={openFilters}
           setOpenFilters={setOpenFilters}
         />
-      </Main>
-    </StyledDiv>
+      </main>
+    </div>
   );
 }
 

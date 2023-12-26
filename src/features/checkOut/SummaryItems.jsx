@@ -1,7 +1,7 @@
 function SummaryItems({ items }) {
   const { name, image_url, material_type } = items;
   return (
-    <div className="py-5">
+    <div className="py-5 px-2">
       <div className="flex flex-col items-center border border-gray-900 border-b-2 shadow-lg shadow-gray-900">
         <img
           src={image_url}

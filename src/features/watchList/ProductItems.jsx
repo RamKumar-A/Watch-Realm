@@ -13,7 +13,7 @@ import { addItem } from '../cart/cartSlice';
 import { addList } from '../Wishlist/wishlistSlice';
 import { useNavigate } from 'react-router-dom';
 
-function ProductItems({ watch }) {
+function ProductItems({ watch, isCentered }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,9 +61,9 @@ function ProductItems({ watch }) {
 
   return (
     <main
-      className="w-[300px] h-[550px] p-1 mb-4 mx-8 border-0 border-b-[3px] border-gray-600 
-        shadow-xl   hover:shadow-gray-900
-       "
+      className={`w-[300px] h-[550px] p-1 mb-8 mx-8 border-0 border-b-[3px] border-gray-600 
+        shadow-xl hover:shadow-gray-900 
+       `}
     >
       <div className="h-[350px] pt-0.5">
         <img

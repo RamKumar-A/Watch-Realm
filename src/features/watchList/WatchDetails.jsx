@@ -131,26 +131,18 @@ function WatchDetails() {
           </table>
         </div>
 
-        {/* Specifications */}
-        {/* <div>
-          <h1>Highlights</h1>
-          <table className="w-80 sm:w-96  bg-gray-100 text-gray-600 border-4 border-gray-400 my-5 mx-auto">
-            <tbody>
-              <tr className="border-b border-gray-300">
-                <td className="p-5 font-semibold ">Size</td>
-                <td>{details.size}</td>
-              </tr>
-              <tr className="border-b border-gray-300">
-                <td className="p-5 font-semibold">Material</td>
-                <td>{details.material_type}</td>
-              </tr>
-              <tr className="border-b border-gray-300">
-                <td className="p-5 font-semibold">Brand</td>
-                <td>{brand}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div> */}
+        {/* Description */}
+        <div>
+          <h1 className="text-xl font-semibold ">Description</h1>
+          <p className="my-5 text-justify">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex iusto
+            porro nostrum minus temporibus a saepe quibusdam illo consectetur
+            quia accusantium, repellat minima exercitationem numquam, eligendi
+            inventore necessitatibus ad atque incidunt facere molestiae qui!
+            Unde aperiam cumque aut expedita soluta illum illo voluptatum quis
+            ea reprehenderit! Placeat nemo nobis temporibus.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Form, redirect } from 'react-router-dom';
+import { Form, redirect, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCart } from '../cart/cartSlice';
 import CheckoutItem from './CheckoutItem';
@@ -21,6 +21,7 @@ const Input = styled.input`
   border: 1px solid gray;
   height: 2.5rem;
   width: 100%;
+  padding-left: 0.5rem;
 `;
 
 const Price = styled.p`
@@ -28,23 +29,27 @@ const Price = styled.p`
 `;
 
 const Label = styled.label`
-  font-size: 1.2rem;
-  font-weight: 500;
-  padding: 1.75rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 1.75rem 0;
+  line-height: 1.5rem;
 `;
 
 function CreateNewCheckout() {
   const cart = useSelector(getCart);
+  const navigate = useNavigate();
   const subtotal = cart
     .map((price) => price.price_range)
     .reduce((cur, price) => cur + price, 0);
   const totalPrice = subtotal + 200;
 
+  if (cart.length === 0) return navigate('/cart');
+
   return (
-    <div className="grid lg:grid-cols-2 sm:m-5 lg:m-20">
-      <Form method="POST" className="m-10">
+    <div className="grid lg:grid-cols-2 sm:m-5 lg:m-8 xl:mx-20">
+      <Form method="POST" className="m-5 lg:m-10">
         <div className="flex flex-col">
-          <Label htmlFor="contact" className="text-xl font-semibold py-3">
+          <Label htmlFor="contact" className=" ">
             Contact
           </Label>
           <Input
@@ -53,15 +58,17 @@ function CreateNewCheckout() {
             name="email"
             className=" px-4"
             placeholder="Email"
+            required
           />
         </div>
-        <div className="flex flex-col py-3 gap-2">
-          <Label htmlFor="state">Delivery</Label>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="state">Deliver At & To</Label>
           <div>
             <select
               name="state"
               id="state"
               className="relative w-[75%] sm:w-full h-12 border border-gray-500 pt-2 px-3 "
+              required
             >
               <option value="" className="text-xs ">
                 TamilNadu
@@ -83,22 +90,27 @@ function CreateNewCheckout() {
 
           <div className="grid sm:grid-cols-2 py-5">
             <div className="sm:mr-2 pb-5">
-              <Input type="text" name="fName" placeholder="first name" />
+              <Input
+                type="text"
+                name="fName"
+                placeholder="first name"
+                required
+              />
             </div>
             <div className="sm:ml-2">
               <Input
                 type="text"
                 name="lName"
-                placeholder="last name (optional) "
+                placeholder="last name (optional)"
               />
             </div>
           </div>
           <div>
-            <Input type="text" placeholder="Address" name="address" />
+            <Input type="text" placeholder="Address" name="address" required />
           </div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
         </div>
-        <div className="flex items-center justify-center  h-10 border-b-2 border-gray-900 shadow-md shadow-gray-900 font-bold text-xl mt-5">
+        <div className="flex items-center justify-center h-10 shadow-sm shadow-gray-900 font-bold text-xl mt-5 cursor-pointer">
           <button type="submit" className="">
             Submit
           </button>
@@ -106,7 +118,7 @@ function CreateNewCheckout() {
       </Form>
       <div className="m-3 sm:m-10">
         <h1 className="text-2xl py-4 font-bold">Checkout Summary</h1>
-        <div className="grid grid-cols-4 text-center p-10  items-center gap-6 shadow-md shadow-gray-900 ">
+        <div className="grid grid-cols-4 text-center py-10 px-2 shadow-md shadow-gray-900 ">
           {cart.map((item) => (
             <CheckoutItem item={item} key={item.id} />
           ))}
@@ -116,17 +128,19 @@ function CreateNewCheckout() {
             <H1>Subtotal</H1>
             <Price>${subtotal}</Price>
           </StyledSummaryDetails>
+
           <StyledSummaryDetails>
             <H1>Shipping</H1>
             <Price>$200</Price>
           </StyledSummaryDetails>
+
           <StyledSummaryDetails>
             <H1>Total</H1>
             <Price>${totalPrice}</Price>
           </StyledSummaryDetails>
         </div>
-        <div className="w-full h-10 sm:h-14 bg-gray-500 text-center p-1 sm:p-3 cursor-pointer shadow-xl shadow-gray-900">
-          <H1 className="text-xl text-gray-50"> Buy Now</H1>
+        <div className="w-full h-10 sm:h-14 bg-gray-500 text-center p-1 sm:p-3 cursor-pointer shadow-md shadow-gray-900">
+          <button className="text-xl text-gray-50"> Buy Now</button>
         </div>
       </div>
     </div>
@@ -145,7 +159,6 @@ export async function formDataAction({ request }) {
 
   const newCheckout = await createNewCheckout(checkout);
 
-  // console.log(newCheckout.id);
   localStorage.setItem(newCheckout.id, JSON.stringify(newCheckout));
 
   return redirect(`/order/${newCheckout.id}`);

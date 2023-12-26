@@ -17,13 +17,9 @@ function Products({
   watches,
 }) {
   const [currPage, setCurrPage] = useState(1);
-  const ITEMS_PER_PAGE = 6;
+  const ITEMS_PER_PAGE = 5;
   const { allWatches, filteredWatches } = useFilter();
   // const { watch } = useLoaderData();
-
-  const renderWatch = (watch) => {
-    return <ProductItems watch={watch} key={watch.id} />;
-  };
 
   const displayWatches =
     filteredWatches.length !== 0 ? filteredWatches : watches;
@@ -31,17 +27,26 @@ function Products({
   const lastIndex = currPage * ITEMS_PER_PAGE;
   const firstIndex = lastIndex - ITEMS_PER_PAGE;
   const currentWatch = displayWatches.slice(firstIndex, lastIndex);
+  const renderWatch = (watch, i) => {
+    const isCentered = i >= currentWatch.length - 2;
+    console.log(isCentered);
+    return (
+      <ProductItems watch={watch} key={watch.id} isCentered={isCentered} />
+    );
+  };
+
   function paginate(num) {
     setCurrPage(num);
   }
+
   function handleToggle() {
     setOpenFilters(true);
   }
 
   return (
     <>
-      <div className="grid grid-rows-[auto_1fr_auto] justify-items-stretch place-content-center gap-y-2 mb-2">
-        <div className="flex items-center justify-between m-[2rem]">
+      <div className="grid grid-rows-[auto_1fr_auto] gap-y-2 mb-2 place-content-center">
+        <div className="flex items-center justify-between m-[2rem] sm:m-0">
           <div className="hidden sm:block">
             <Sort />
           </div>
@@ -66,7 +71,7 @@ function Products({
             <span className="text-xl">{displayWatches.length}</span> Products
           </div>
         </div>
-        <div className="lg:grid lg:grid-cols-2 xl:grid-cols-3">
+        <div className="lg:grid lg:grid-cols-2 xl:grid-cols-3 mt-3 ">
           {currentWatch.map(renderWatch)}
         </div>
         <div className="mt-10 flex items-center justify-center">
