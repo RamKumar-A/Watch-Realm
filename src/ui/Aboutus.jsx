@@ -34,21 +34,33 @@ function Aboutus() {
       </div>
       <main>
         <div className="grid grid-cols-2  sm:grid-cols-2 lg:grid-cols-5 lg:mx-10">
-          <Watches title="HYBRID" img="../../data/aboutusImg/hybrid.webp ">
+          <Watches
+            title="HYBRID"
+            img="../../public/data/aboutusImg/hybrid.webp "
+          >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet?
           </Watches>
-          <Watches title="AUTOMATIC" img="../../data/aboutusImg/automatic.webp">
+          <Watches
+            title="AUTOMATIC"
+            img="../../public/data/aboutusImg/automatic.webp"
+          >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet?
           </Watches>
-          <Watches title="STAINLESS" img="../../data/aboutusImg/stainless.webp">
+          <Watches
+            title="STAINLESS"
+            img="../../public/data/aboutusImg/stainless.webp"
+          >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet?
           </Watches>
-          <Watches title="GOLD DIAL" img="../../data/aboutusImg/golddial.webp">
+          <Watches
+            title="GOLD DIAL"
+            img="../../public/data/aboutusImg/golddial.webp"
+          >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet?
           </Watches>
           <Watches
             title="WORKWEAR"
-            img="../../data/aboutusImg/workwear.webp"
+            img="../../public/data/aboutusImg/workwear.webp"
             className="col-span-2 sm:col-span-1"
           >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. A, amet?
