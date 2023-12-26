@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useFilter } from './Context';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
-import useClickOutside from '../../helpers/useClickOutside';
+import useClickOutside from '../../hooks/useClickOutside';
 
 function Sort() {
   const [toggle, setToggle] = useState(false);
