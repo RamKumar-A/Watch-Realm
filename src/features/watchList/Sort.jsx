@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useFilter } from './Context';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
-import useClickOutside from '../../hooks/useClickOutside';
+import useClickOutside from '../../hooks/useOutsideClick';
 
 function Sort() {
   const [toggle, setToggle] = useState(false);
@@ -44,7 +44,7 @@ function Sort() {
         <select
           className={`${
             !toggle && 'hidden'
-          } absolute border border-gray-900 h-14 w-fit text-xl font-light cursor-pointer bg-gray-300 text-gray-950 px-3`}
+          } absolute border border-gray-900 h-14 w-fit text-lg font-light cursor-pointer bg-gray-300 text-gray-950 px-3`}
           onChange={(e) => setValue(e.target.value)}
         >
           <option value="ascending">A-Z</option>

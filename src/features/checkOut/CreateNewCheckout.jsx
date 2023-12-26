@@ -71,12 +71,15 @@ function CreateNewCheckout() {
               required
             >
               <option value="" className="text-xs ">
+                Select
+              </option>
+              <option value="tamilnadu" className="text-xs ">
                 TamilNadu
               </option>
-              <option value="" className="text-xs ">
+              <option value="andhra" className="text-xs ">
                 Andhra
               </option>
-              <option value="" className="text-xs ">
+              <option value="kerala" className="text-xs ">
                 Kerala
               </option>
             </select>
@@ -112,7 +115,7 @@ function CreateNewCheckout() {
         </div>
         <div className="flex items-center justify-center h-10 shadow-sm shadow-gray-900 font-bold text-xl mt-5 cursor-pointer">
           <button type="submit" className="">
-            Submit
+            Submit & Buy
           </button>
         </div>
       </Form>
@@ -139,9 +142,9 @@ function CreateNewCheckout() {
             <Price>${totalPrice}</Price>
           </StyledSummaryDetails>
         </div>
-        <div className="w-full h-10 sm:h-14 bg-gray-500 text-center p-1 sm:p-3 cursor-pointer shadow-md shadow-gray-900">
+        {/* <div className="w-full h-10 sm:h-14 bg-gray-500 text-center p-1 sm:p-3 cursor-pointer shadow-md shadow-gray-900">
           <button className="text-xl text-gray-50"> Buy Now</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

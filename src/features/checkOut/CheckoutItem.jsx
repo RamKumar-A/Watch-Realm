@@ -13,7 +13,7 @@ function CheckoutItem({ item }) {
   } = item;
   return (
     <>
-      <div className=" sm:w-[100px] h-20 shadow-lg shadow-gray-900">
+      <div className=" sm:w-[100px] h-20 shadow-sm shadow-gray-900">
         <img src={img} alt={name} className="object-contain  h-full w-full " />
       </div>
       <div className="col-span-2 self-center">

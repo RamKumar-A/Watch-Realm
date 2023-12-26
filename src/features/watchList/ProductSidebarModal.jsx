@@ -134,8 +134,8 @@ function ProductSidebarModal({ watch, brands, categories, openFilters }) {
             </label>
           </div>
         </FilterButtons>
+        <Sort />
       </div>
-      <Sort />
     </>
   );
 }

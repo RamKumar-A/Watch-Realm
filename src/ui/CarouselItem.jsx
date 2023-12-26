@@ -10,7 +10,10 @@ function CarouselItem({ carouselData, curIndex }) {
   };
 
   return (
-    <div className="h-[100%] bg-contain bg-no-repeat" style={carouselStyles}>
+    <div
+      className="bg-no-repeat transition-all duration-500"
+      style={carouselStyles}
+    >
       <div className="p-5 sm:flex flex-col justify-center sm:w-[85%] lg:w-[60%] w-[350px] ml-5">
         <div className="mt-10 mx-3 sm:mt-[10rem] sm:ml-7 sm:mb-3 lg:ml-[10rem]">
           <h1 className="text-gray-200 font-bold py-3 text-5xl para-style">
@@ -22,8 +25,10 @@ function CarouselItem({ carouselData, curIndex }) {
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <button className=" text-gray-50 font-bold h-12 w-[100px] bg-transparent  mt-4 border-2 border-gray-500">
-          <NavLink to="/shop">Shop</NavLink>
+        <button className=" text-gray-50 font-bold h-12 w-[100px] bg-transparent  mt-4 border-2 border-gray-300 parent">
+          <NavLink to="/shop" className="child p-1 px-3">
+            Shop
+          </NavLink>
         </button>
       </div>
     </div>

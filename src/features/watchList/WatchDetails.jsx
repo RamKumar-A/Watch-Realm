@@ -18,8 +18,11 @@ function WatchDetails() {
   const details = watchDetail.find((watch) => +watchId === watch.id);
   // console.log(details);
   const brand = brands.find((brand) => brand.id === details.brand_id).name;
+
   const wishlist = wishListData.some((list) => list.id === details.id);
+
   const cart = cartData.some((cart) => cart.id === details.id);
+
   const price = Number(details.price_range.slice(1));
 
   function handleAddToCart() {
@@ -45,7 +48,7 @@ function WatchDetails() {
   }
 
   function handleBuy() {
-    handleAddToCart();
+    if (!cart) handleAddToCart();
     navigate('/order/new');
   }
 

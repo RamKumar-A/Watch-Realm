@@ -6,7 +6,7 @@ function SummaryItems({ items }) {
         <img
           src={image_url}
           alt="name"
-          className="w-[500px] h-[300px] object-contain"
+          className="w-[500px] h-[300px] object-contain pt-2"
         />
         <h1 className="p-5">
           <span className="font-semibold">Name: </span>

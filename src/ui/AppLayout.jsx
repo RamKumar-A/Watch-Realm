@@ -8,7 +8,7 @@ import Loader from './Loader';
 const StyledDiv = styled.div`
   width: 100%;
   @media (max-width: 321px) {
-    width: 116%;
+    /* width: 116%; */
   }
 `;
 

@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import WishlistItem from './WishlistItem';
 import { clearList } from './wishlistSlice';
-import EmptyWishlist from './EmptyWishlist';
+import Empty from '../../ui/Empty';
+import BacktoShop from '../../ui/BacktoShop';
 
 const H1 = styled.h1`
   font-size: 1.3rem;
@@ -14,8 +15,13 @@ function Wishlist() {
   const dispatch = useDispatch();
   return (
     <>
-      <div className="m-10 sm:m-20 sm:grid sm:grid-cols-2 place-items-center lg:block ">
-        <div className="hidden lg:grid grid-cols-5 place-items-center mb-20">
+      <BacktoShop />
+      <div className="m-10 sm:m-20 grid sm:grid-cols-2 place-items-center lg:block ">
+        <div
+          className={`hidden lg:grid grid-cols-5 place-items-center mb-20 ${
+            wishlist.length === 0 && 'lg:hidden'
+          }`}
+        >
           <H1>Image</H1>
           <H1>Product</H1>
           <H1>Price</H1>
@@ -34,7 +40,7 @@ function Wishlist() {
           Remove All
         </div>
       ) : (
-        <EmptyWishlist />
+        <Empty>Nothing found in your wishlist</Empty>
       )}
     </>
   );

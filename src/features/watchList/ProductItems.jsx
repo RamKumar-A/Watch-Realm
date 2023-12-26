@@ -13,7 +13,7 @@ import { addItem } from '../cart/cartSlice';
 import { addList } from '../Wishlist/wishlistSlice';
 import { useNavigate } from 'react-router-dom';
 
-function ProductItems({ watch, isCentered }) {
+function ProductItems({ watch }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,12 +50,12 @@ function ProductItems({ watch, isCentered }) {
   }
 
   function handleBuy() {
-    handleAddToCart();
+    const cart = cartData.some((cart) => cart.id === id);
+    if (!cart) handleAddToCart();
     navigate('/order/new');
   }
 
   function handleDetails() {
-    console.log(id);
     navigate(`/watchdetails/${id}`);
   }
 

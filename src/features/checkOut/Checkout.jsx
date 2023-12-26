@@ -1,17 +1,18 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { getCheckout } from '../../services/apiWatches';
 import SummaryItems from './SummaryItems';
-import { HiArrowLeft } from 'react-icons/hi2';
+import BacktoShop from '../../ui/BacktoShop';
 
 function Checkout() {
   const { id: cartId, cart, address, fName, lName } = useLoaderData();
-  const navigate = useNavigate();
   const totalPrice = cart
     .filter((cart) => cart.totalPrice)
     .reduce((cur, acc) => cur + acc.totalPrice, 0);
 
   return (
     <>
+      <BacktoShop />
+
       <div className="flex flex-col justify-center items-center">
         <div className="m-auto mt-5 text-5xl py-7 pb-10 font-bold">
           CheckOut summary
@@ -38,13 +39,6 @@ function Checkout() {
           <p className="py-5">within 2days from today </p>
         </div>
       </div>
-      <button
-        className="pl-10 flex items-center gap-2"
-        onClick={() => navigate('/shop')}
-      >
-        <HiArrowLeft />
-        Go to shop
-      </button>
     </>
   );
 }

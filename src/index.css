@@ -51,3 +51,15 @@ body {
   border-radius: 5px;
   cursor: not-allowed;
 }
+
+.parent:hover {
+  background-color: #9ca3af;
+  transition: all 0.1s ease-in-out;
+}
+
+.parent:hover .child {
+  background-color: #9ca3af;
+  border: 2px solid #e5e7eb;
+  color: #e5e7eb;
+  transition: all 0.1s ease-in-out;
+}

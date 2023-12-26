@@ -14,16 +14,20 @@ function Pagination({ totalItems, itemsPerPage, paginate }) {
 
   return (
     <div className=" grid grid-cols-5 gap-5 h-10  content-center place-items-center">
-      {
+      <div className="p-1 parent">
         <button
           onClick={() => handlePage(currentPage - 1)}
-          className={currentPage > 1 ? 'border p-2 self-center' : 'invisible'}
+          className={
+            currentPage > 1
+              ? 'border p-2 child border-transparent'
+              : 'invisible border-none'
+          }
         >
           <HiChevronLeft />
         </button>
-      }
+      </div>
       <span
-        className=" self-center text-sm cursor-pointer"
+        className=" self-center text-sm cursor-pointer "
         onClick={() => handlePage(1)}
       >
         {currentPage > 1 && 'first'}
@@ -37,13 +41,18 @@ function Pagination({ totalItems, itemsPerPage, paginate }) {
       >
         {currentPage >= 1 && currentPage < totalPage && 'last'}
       </span>
-
-      <button
-        onClick={() => handlePage(currentPage + 1)}
-        className={currentPage < totalPage ? 'border  p-2' : 'invisible'}
-      >
-        <HiChevronRight />
-      </button>
+      <div className="p-1 parent">
+        <button
+          onClick={() => handlePage(currentPage + 1)}
+          className={
+            currentPage < totalPage
+              ? 'border-2  p-2 child border-transparent'
+              : 'invisible'
+          }
+        >
+          <HiChevronRight />
+        </button>
+      </div>
     </div>
   );
 }
