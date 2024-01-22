@@ -44,7 +44,7 @@ function CreateNewCheckout() {
   const totalPrice = subtotal + 200;
 
   if (cart.length === 0) return navigate('/cart');
-
+  console.log(cart.id);
   return (
     <div className="grid lg:grid-cols-2 sm:m-5 lg:m-8 xl:mx-20">
       <Form method="POST" className="m-5 lg:m-10">
@@ -153,7 +153,7 @@ function CreateNewCheckout() {
 export async function formDataAction({ request }) {
   const res = await request.formData();
   const data = Object.fromEntries(res);
-  // console.log(data);
+  console.log(data);
 
   const checkout = {
     ...data,
@@ -161,6 +161,8 @@ export async function formDataAction({ request }) {
   };
 
   const newCheckout = await createNewCheckout(checkout);
+
+  console.log(newCheckout, newCheckout.id);
 
   localStorage.setItem(newCheckout.id, JSON.stringify(newCheckout));
 

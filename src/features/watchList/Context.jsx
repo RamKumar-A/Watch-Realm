@@ -5,8 +5,8 @@ const FilterContext = createContext();
 
 const initialState = {
   allWatches: [],
-  selectedBrandId: 0,
   filteredWatches: [],
+  selectedBrandId: 0,
   selectedCategoryId: null,
 };
 
@@ -117,6 +117,7 @@ function reducer(state, action) {
         return price >= min && price <= max;
       });
       return { ...state, filteredWatches: filteredPrice };
+    //[{id:1,price:12},{price:13},{price:14}]
 
     case 'clearFilters':
       return { ...state, filteredWatches: [] };
@@ -175,7 +176,9 @@ function reducer(state, action) {
 function FilterProvider({ children }) {
   const [{ allWatches, selectedBrandId, filteredWatches }, dispatch] =
     useReducer(reducer, initialState);
+
   const { watch } = useLoaderData();
+
   useEffect(
     function () {
       dispatch({ type: 'dataReceived', payload: watch });

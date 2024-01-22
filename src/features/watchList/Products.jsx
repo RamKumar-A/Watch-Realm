@@ -27,6 +27,7 @@ function Products({
   const lastIndex = currPage * ITEMS_PER_PAGE;
   const firstIndex = lastIndex - ITEMS_PER_PAGE;
   const currentWatch = displayWatches.slice(firstIndex, lastIndex);
+
   const renderWatch = (watch, i) => {
     const isCentered = i >= currentWatch.length - 2;
     console.log(isCentered);

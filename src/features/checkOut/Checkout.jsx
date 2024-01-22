@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useLocation } from 'react-router-dom';
 import { getCheckout } from '../../services/apiWatches';
 import SummaryItems from './SummaryItems';
 import BacktoShop from '../../ui/BacktoShop';
@@ -8,7 +8,8 @@ function Checkout() {
   const totalPrice = cart
     .filter((cart) => cart.totalPrice)
     .reduce((cur, acc) => cur + acc.totalPrice, 0);
-
+  const state = useLocation();
+  console.log(state);
   return (
     <>
       <BacktoShop />

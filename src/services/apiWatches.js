@@ -43,9 +43,9 @@ export async function createNewCheckout(checkoutData) {
   };
 
   const res = await fetch(`${API_URL}/order`, options);
-
   if (!res.ok) throw new Error('Failed to get order details');
 
-  const data = res.json();
+  const data = await res.json();
+  console.log(data);
   return data;
 }

@@ -16,6 +16,9 @@ function ProductsSidebar({ watch, brands, categories }) {
 
   const [selectedSize, setSelectedSize] = useState(null);
 
+  const [min, setMin] = useState('');
+  const [max, setMax] = useState('5000000');
+
   const { dispatch } = useFilter();
 
   const allMaterialTypes = watch.map((material) => material.material_type);
@@ -25,9 +28,6 @@ function ProductsSidebar({ watch, brands, categories }) {
   const allSizes = watch.map((size) => size.size).filter((size) => size);
 
   const uniqueSize = [...new Set(allSizes)];
-
-  const [min, setMin] = useState('');
-  const [max, setMax] = useState('5000000');
 
   useEffect(
     function () {

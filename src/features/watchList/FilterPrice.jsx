@@ -15,7 +15,7 @@ function FilterPrice({ setMax, setMin, min, max }) {
             step={1000}
             value={min}
             className="w-24 pl-2 border rounded-lg"
-            onChange={(e) => setMin(+e.target.value)}
+            onChange={(e) => setMin(Number(e.target.value))}
           />
           <label htmlFor="minPrice">${min}</label>
         </div>

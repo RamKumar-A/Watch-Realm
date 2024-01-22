@@ -5,12 +5,13 @@ function FilterMaterial({ items, selectedMaterial, setSelectedMaterial }) {
   const [materialName, setMaterialName] = useState('');
 
   const isChecked = items === selectedMaterial;
-
   const { dispatch } = useFilter();
 
   function handleChange(e) {
     const { checked, value } = e.target;
-    setSelectedMaterial(isChecked ? null : items);
+
+    setSelectedMaterial(isChecked ? 0 : items);
+
     if (checked) setMaterialName(value);
   }
 
@@ -22,6 +23,7 @@ function FilterMaterial({ items, selectedMaterial, setSelectedMaterial }) {
         dispatch({ type: 'removeFilterMaterial', payload: materialName });
       }
     },
+
     [dispatch, materialName, isChecked]
   );
 

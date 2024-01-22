@@ -7,11 +7,12 @@ import {
   IoCartSharp,
 } from 'react-icons/io5';
 
-// <IoCartSharp />
 import { deleteList } from '../Wishlist/wishlistSlice';
 import { addItem } from '../cart/cartSlice';
 import { addList } from '../Wishlist/wishlistSlice';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../../ui/Modal';
+import CartModal from '../cart/CartModal';
 
 function ProductItems({ watch }) {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function ProductItems({ watch }) {
       price_range: price,
       totalPrice: price * 1,
     };
+
     dispatch(addItem(newItem));
   }
 
@@ -91,41 +93,48 @@ function ProductItems({ watch }) {
               <span className="text-xs line-through font-normal">$45.35</span>
             </div>
           </div>
-          <div className={` grid grid-cols-[auto_1fr_auto] px-2 pt-5 `}>
-            <button
-              className="border p-2 border-gray-500 "
-              onClick={handleAddToCart}
-              disabled={cart.includes(id)}
-            >
-              {cart.includes(id) ? (
-                <IoCartSharp className="text-2xl " />
-              ) : (
-                <span className="flex items-center">
-                  <HiPlus className=" font-bold" />
-                  <IoCartOutline className="text-2xl" />
-                </span>
-              )}
-            </button>
+          <Modal>
+            <div className={` grid grid-cols-[auto_1fr_auto] px-2 pt-5 `}>
+              <button
+                className="border p-2 border-gray-500 "
+                onClick={handleAddToCart}
+                disabled={cart.includes(id)}
+              >
+                <Modal.Trigger opens="cart">
+                  {cart.includes(id) ? (
+                    <IoCartSharp className="text-2xl " />
+                  ) : (
+                    <span className="flex items-center">
+                      <HiPlus className=" font-bold" />
+                      <IoCartOutline className="text-2xl" />
+                    </span>
+                  )}
+                </Modal.Trigger>
+              </button>
+              <Modal.Content name="cart">
+                <CartModal />
+              </Modal.Content>
 
-            <button className="" onClick={handleBuy}>
-              Buy Now
-            </button>
-            <button
-              className="p-2 border border-gray-500 text-2xl "
-              onClick={
-                wishlist.includes(id) ? handleDeleteList : handleAddToWishlist
-              }
-            >
-              {wishlist.includes(id) ? (
-                <IoBookmark />
-              ) : (
-                <span className="flex items-center">
-                  <HiPlus className="text-sm font-bold" />
-                  <IoBookmarkOutline className="text-gray-700 " />
-                </span>
-              )}
-            </button>
-          </div>
+              <button className="" onClick={handleBuy}>
+                Buy Now
+              </button>
+              <button
+                className="p-2 border border-gray-500 text-2xl "
+                onClick={
+                  wishlist.includes(id) ? handleDeleteList : handleAddToWishlist
+                }
+              >
+                {wishlist.includes(id) ? (
+                  <IoBookmark />
+                ) : (
+                  <span className="flex items-center">
+                    <HiPlus className="text-sm font-bold" />
+                    <IoBookmarkOutline className="text-gray-700 " />
+                  </span>
+                )}
+              </button>
+            </div>
+          </Modal>
         </div>
       </div>
     </main>

@@ -9,7 +9,7 @@ function FilterSize({ items, selectedSize, setSelectedSize }) {
 
   function handleChange(e) {
     const { value, checked } = e.target;
-    setSelectedSize(isChecked ? null : items);
+    setSelectedSize(isChecked ? '' : items);
     if (checked) setSize(value);
   }
 
