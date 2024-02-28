@@ -1,24 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useFilter } from './Context';
 
-function FilterSize({ items, selectedSize, setSelectedSize }) {
-  const [size, setSize] = useState('');
+function FilterSize({ items, size, setSize }) {
+  const [isChecked, setIsChecked] = useState(size.includes(items));
   const { dispatch } = useFilter();
-
-  const isChecked = items === selectedSize;
 
   function handleChange(e) {
     const { value, checked } = e.target;
-    setSelectedSize(isChecked ? '' : items);
-    if (checked) setSize(value);
+    setSize((prev) => {
+      if (checked) {
+        const uniqueValue = new Set([...prev, value]);
+        setIsChecked(true);
+        return [...uniqueValue];
+      } else {
+        const updatedValue = prev.filter((rmvType) => rmvType !== value);
+        setIsChecked(updatedValue.length > 0); // Check if there are still selected checkboxes
+        return updatedValue;
+      }
+    });
   }
 
   useEffect(
     function () {
-      if (isChecked) {
+      if (isChecked || size.length === 0) {
         dispatch({ type: 'filterSize', payload: size });
-      } else {
-        dispatch({ type: 'removeFilterSize', payload: size });
       }
     },
     [isChecked, dispatch, size]
@@ -34,9 +39,7 @@ function FilterSize({ items, selectedSize, setSelectedSize }) {
         checked={isChecked}
         onChange={(e) => handleChange(e)}
       />
-      <label htmlFor={items}>
-        {items} <span className="text-xs">({items.length})</span>
-      </label>
+      <label htmlFor={items}>{items}</label>
     </>
   );
 }

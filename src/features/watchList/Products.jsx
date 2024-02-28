@@ -1,13 +1,11 @@
 import { useState } from 'react';
-// import { useLoaderData } from 'react-router-dom';
-
 import ProductItems from './ProductItems';
 import { useFilter } from './Context';
 import Sort from './Sort';
 import Modal from '../../ui/Modal';
-import ProductSidebarModal from './ProductSidebarModal';
 import Pagination from '../../ui/Pagination';
 import { HiAdjustmentsVertical } from 'react-icons/hi2';
+import ProductsSidebar from './ProductsSidebar';
 
 function Products({
   categories,
@@ -17,7 +15,7 @@ function Products({
   watches,
 }) {
   const [currPage, setCurrPage] = useState(1);
-  const ITEMS_PER_PAGE = 5;
+  const ITEMS_PER_PAGE = 6;
   const { allWatches, filteredWatches } = useFilter();
   // const { watch } = useLoaderData();
 
@@ -30,7 +28,6 @@ function Products({
 
   const renderWatch = (watch, i) => {
     const isCentered = i >= currentWatch.length - 2;
-    console.log(isCentered);
     return (
       <ProductItems watch={watch} key={watch.id} isCentered={isCentered} />
     );
@@ -60,7 +57,7 @@ function Products({
               </Modal.Trigger>
             </div>
             <Modal.Content name="filter" clicks={setOpenFilters}>
-              <ProductSidebarModal
+              <ProductsSidebar
                 watch={allWatches}
                 brands={brands}
                 categories={categories}

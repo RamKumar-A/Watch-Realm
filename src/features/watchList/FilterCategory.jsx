@@ -1,28 +1,33 @@
 import { useEffect, useState } from 'react';
 import { useFilter } from './Context';
 
-function FilterCategory({ items, selectedCategory, setSelectedCategory }) {
-  const [categoryId, setCategoryId] = useState(0);
-
-  const isChecked = items.id === selectedCategory;
-
+function FilterCategory({ items, categoryIds, setCategoryIds }) {
+  const [isChecked, setIsChecked] = useState(categoryIds.includes(items.id));
   const { dispatch } = useFilter();
-  useEffect(
-    function () {
-      if (isChecked) {
-        dispatch({ type: 'filterCategory', payload: categoryId });
-      } else {
-        dispatch({ type: 'removeFilterCategory', payload: categoryId });
-      }
-    },
-    [categoryId, dispatch, isChecked]
-  );
 
   function handleChange(e) {
     const { id, checked } = e.target;
-    setSelectedCategory(isChecked ? null : items.id);
-    if (checked) setCategoryId(Number(id));
+    setCategoryIds((prev) => {
+      if (checked) {
+        const uniqueIds = new Set([...prev, parseInt(id)]);
+        setIsChecked(true);
+        return [...uniqueIds];
+      } else {
+        const updatedIds = prev.filter((rmvId) => rmvId !== parseInt(id));
+        setIsChecked(updatedIds.length > 0);
+        return updatedIds;
+      }
+    });
   }
+
+  useEffect(
+    function () {
+      if (isChecked || categoryIds.length === 0) {
+        dispatch({ type: 'filterCategory', payload: categoryIds });
+      }
+    },
+    [categoryIds, dispatch, isChecked]
+  );
 
   return (
     <div className="my-5 text-xl font-light flex gap-3 px-5">
@@ -34,9 +39,7 @@ function FilterCategory({ items, selectedCategory, setSelectedCategory }) {
         checked={isChecked}
         onChange={(e) => handleChange(e)}
       />
-      <label htmlFor={items.id}>
-        {items.name} <span className="text-xs"></span>
-      </label>
+      <label htmlFor={items.id}>{items.name}</label>
     </div>
   );
 }

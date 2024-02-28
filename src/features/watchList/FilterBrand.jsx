@@ -1,26 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useFilter } from './Context';
 
-function FilterBrand({ items, selectedBrand, setSelectedBrand }) {
-  const [brandId, setBrandId] = useState(0);
-  const isChecked = items.id === selectedBrand;
+function FilterBrand({ items, setBrandIds, brandIds }) {
+  const [isChecked, setIsChecked] = useState(brandIds.includes(items.id));
   const { dispatch } = useFilter();
 
   function handleChange(e) {
     const { id, checked } = e.target;
-    setSelectedBrand(isChecked ? null : items.id);
-    if (checked) setBrandId(Number(id));
+    setBrandIds((prev) => {
+      if (checked) {
+        const uniqueIds = new Set([...prev, parseInt(id)]);
+        setIsChecked(true);
+        return [...uniqueIds];
+      } else {
+        const updatedIds = prev.filter((rmvId) => rmvId !== parseInt(id));
+        console.log(updatedIds.length > 0);
+        setIsChecked(updatedIds.length > 0);
+        return updatedIds;
+      }
+    });
   }
 
   useEffect(
     function () {
-      if (isChecked) {
-        dispatch({ type: 'filterBrand', payload: brandId });
-      } else {
-        dispatch({ type: 'removeFilterBrand', payload: brandId });
-      }
+      if (isChecked || brandIds.length === 0)
+        dispatch({ type: 'filterBrand', payload: brandIds });
     },
-    [dispatch, brandId, isChecked]
+    [dispatch, brandIds, isChecked]
   );
 
   return (
@@ -33,9 +39,7 @@ function FilterBrand({ items, selectedBrand, setSelectedBrand }) {
         checked={isChecked}
         onChange={(e) => handleChange(e)}
       />
-      <label htmlFor={items.id}>
-        {items.name} <span className="text-xs"></span>
-      </label>
+      <label htmlFor={items.id}>{items.name}</label>
     </>
   );
 }

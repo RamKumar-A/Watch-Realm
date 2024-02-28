@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import CartItems from './CartItems';
 import { getCart } from './cartSlice';
-import { useNavigate } from 'react-router-dom';
 import Empty from '../../ui/Empty';
 
 function CartModal() {

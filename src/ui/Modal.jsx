@@ -2,6 +2,7 @@ import { cloneElement, createContext, useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HiOutlineXMark } from 'react-icons/hi2';
 import useOutsideClick from '../hooks/useOutsideClick';
+
 const ModalContext = createContext();
 
 function Modal({ children }) {
@@ -17,7 +18,10 @@ function Modal({ children }) {
 // Triggering component
 function Trigger({ children, opens: opensWindow }) {
   const { setOpenName } = useContext(ModalContext);
-  return cloneElement(children, { onClick: () => setOpenName(opensWindow) });
+
+  return cloneElement(children, {
+    onClick: () => setOpenName(opensWindow),
+  });
 }
 
 // Content of the Modal
@@ -41,7 +45,6 @@ function Content({ children, name, clicks }) {
           onClick={() => {
             close();
             clicks?.clicks((click) => {
-              console.log(click);
               return !click;
             });
           }}
@@ -60,10 +63,3 @@ Modal.Trigger = Trigger;
 Modal.Content = Content;
 
 export default Modal;
-
-// function useModal() {
-//   const context = useContext(ModalContext);
-//   if (context === undefined) throw new Error('In context there is an error');
-
-//   return context;
-// }

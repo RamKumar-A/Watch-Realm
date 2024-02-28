@@ -1,30 +1,33 @@
 import { useEffect, useState } from 'react';
 import { useFilter } from './Context';
 
-function FilterMaterial({ items, selectedMaterial, setSelectedMaterial }) {
-  const [materialName, setMaterialName] = useState('');
-
-  const isChecked = items === selectedMaterial;
+function FilterMaterial({ items, materialType, setMaterialType }) {
+  const [isChecked, setIsChecked] = useState(materialType.includes(items));
   const { dispatch } = useFilter();
 
   function handleChange(e) {
-    const { checked, value } = e.target;
-
-    setSelectedMaterial(isChecked ? 0 : items);
-
-    if (checked) setMaterialName(value);
+    const { value, checked } = e.target;
+    setMaterialType((prev) => {
+      if (checked) {
+        const uniqueValue = new Set([...prev, value]);
+        setIsChecked(true);
+        return [...uniqueValue];
+      } else {
+        const updatedValue = prev.filter((rmvType) => rmvType !== value);
+        setIsChecked(updatedValue.length > 0); // Check if there are still selected checkboxes
+        return updatedValue;
+      }
+    });
   }
 
   useEffect(
     function () {
-      if (isChecked) {
-        dispatch({ type: 'filterMaterial', payload: materialName });
-      } else {
-        dispatch({ type: 'removeFilterMaterial', payload: materialName });
+      if (isChecked || materialType.length === 0) {
+        dispatch({ type: 'filterMaterial', payload: materialType });
       }
     },
 
-    [dispatch, materialName, isChecked]
+    [dispatch, materialType, isChecked]
   );
 
   return (
@@ -37,9 +40,7 @@ function FilterMaterial({ items, selectedMaterial, setSelectedMaterial }) {
         checked={isChecked}
         onChange={(e) => handleChange(e)}
       />
-      <label htmlFor={items}>
-        {items} <span className="text-xs">({items.length})</span>
-      </label>
+      <label htmlFor={items}>{items}</label>
     </>
   );
 }

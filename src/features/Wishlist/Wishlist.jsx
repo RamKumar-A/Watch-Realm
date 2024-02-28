@@ -1,14 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
 import WishlistItem from './WishlistItem';
 import { clearList } from './wishlistSlice';
 import Empty from '../../ui/Empty';
 import BacktoShop from '../../ui/BacktoShop';
-
-const H1 = styled.h1`
-  font-size: 1.3rem;
-  font-weight: 700;
-`;
 
 function Wishlist() {
   const wishlist = useSelector((state) => state.wishlist.wishlist);
@@ -22,11 +16,11 @@ function Wishlist() {
             wishlist.length === 0 && 'lg:hidden'
           }`}
         >
-          <H1>Image</H1>
-          <H1>Product</H1>
-          <H1>Price</H1>
-          <H1>Purchase</H1>
-          <H1>Remove</H1>
+          <h1 className="text-[1.3rem] font-bold">Image</h1>
+          <h1 className="text-[1.3rem] font-bold">Product</h1>
+          <h1 className="text-[1.3rem] font-bold">Price</h1>
+          <h1 className="text-[1.3rem] font-bold">Purchase</h1>
+          <h1 className="text-[1.3rem] font-bold">Remove</h1>
         </div>
         {wishlist.map((list) => (
           <WishlistItem list={list} key={list.id} />

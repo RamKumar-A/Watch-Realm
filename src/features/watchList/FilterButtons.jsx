@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
 
 function FilterButtons({ children, title }) {
+  return <FilterButtonsContainer children={children} title={title} />;
+}
+
+function FilterButtonsContainer({ children, title }) {
   const [toggle, setToggle] = useState(false);
+
   return (
     <div className="mb-4">
       <button

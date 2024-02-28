@@ -1,68 +1,45 @@
 import { useSelector } from 'react-redux';
 import { Form, redirect, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { getCart } from '../cart/cartSlice';
 import CheckoutItem from './CheckoutItem';
 import { createNewCheckout } from '../../services/apiWatches';
 
-const StyledSummaryDetails = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0;
-`;
-
-const H1 = styled.h1`
-  text-align: center;
-  font-weight: 600;
-`;
-
-const Input = styled.input`
-  border: 1px solid gray;
-  height: 2.5rem;
-  width: 100%;
-  padding-left: 0.5rem;
-`;
-
-const Price = styled.p`
-  color: gray;
-`;
-
-const Label = styled.label`
-  font-size: 1.25rem;
-  font-weight: 600;
-  padding: 1.75rem 0;
-  line-height: 1.5rem;
-`;
+const summaryDetails = 'flex justify-between items-center py-2 px-0';
+const heading1 = 'text-center font-semibold';
+const input = 'border border-gray-600 h-10 w-full pl-2';
+const price = 'text-gray-600';
+const label = 'text-sm font-semibold py-7 px-0 ';
 
 function CreateNewCheckout() {
-  const cart = useSelector(getCart);
   const navigate = useNavigate();
+  const cart = useSelector(getCart);
+
   const subtotal = cart
     .map((price) => price.price_range)
     .reduce((cur, price) => cur + price, 0);
   const totalPrice = subtotal + 200;
 
   if (cart.length === 0) return navigate('/cart');
-  console.log(cart.id);
   return (
     <div className="grid lg:grid-cols-2 sm:m-5 lg:m-8 xl:mx-20">
       <Form method="POST" className="m-5 lg:m-10">
         <div className="flex flex-col">
-          <Label htmlFor="contact" className=" ">
+          <label className={label} htmlFor="contact">
             Contact
-          </Label>
-          <Input
+          </label>
+          <input
             type="email"
             id="contact"
             name="email"
-            className=" px-4"
+            className={` ${input} px-4`}
             placeholder="Email"
             required
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="state">Deliver At & To</Label>
+          <label className={label} htmlFor="state">
+            Deliver At & To
+          </label>
           <div>
             <select
               name="state"
@@ -93,7 +70,8 @@ function CreateNewCheckout() {
 
           <div className="grid sm:grid-cols-2 py-5">
             <div className="sm:mr-2 pb-5">
-              <Input
+              <input
+                className={input}
                 type="text"
                 name="fName"
                 placeholder="first name"
@@ -101,7 +79,8 @@ function CreateNewCheckout() {
               />
             </div>
             <div className="sm:ml-2">
-              <Input
+              <input
+                className={input}
                 type="text"
                 name="lName"
                 placeholder="last name (optional)"
@@ -109,7 +88,13 @@ function CreateNewCheckout() {
             </div>
           </div>
           <div>
-            <Input type="text" placeholder="Address" name="address" required />
+            <input
+              className={input}
+              type="text"
+              placeholder="Address"
+              name="address"
+              required
+            />
           </div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
         </div>
@@ -127,20 +112,20 @@ function CreateNewCheckout() {
           ))}
         </div>
         <div className="py-10 sm:px-5">
-          <StyledSummaryDetails>
-            <H1>Subtotal</H1>
-            <Price>${subtotal}</Price>
-          </StyledSummaryDetails>
+          <div className={summaryDetails}>
+            <h1 className={heading1}>Subtotal</h1>
+            <p className={price}>${subtotal}</p>
+          </div>
 
-          <StyledSummaryDetails>
-            <H1>Shipping</H1>
-            <Price>$200</Price>
-          </StyledSummaryDetails>
+          <div className={summaryDetails}>
+            <h1 className={heading1}>Shipping</h1>
+            <p className={price}>$200</p>
+          </div>
 
-          <StyledSummaryDetails>
-            <H1>Total</H1>
-            <Price>${totalPrice}</Price>
-          </StyledSummaryDetails>
+          <div className={summaryDetails}>
+            <h1 className={heading1}>Total</h1>
+            <p className={price}>${totalPrice}</p>
+          </div>
         </div>
         {/* <div className="w-full h-10 sm:h-14 bg-gray-500 text-center p-1 sm:p-3 cursor-pointer shadow-md shadow-gray-900">
           <button className="text-xl text-gray-50"> Buy Now</button>

@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { HiTrash } from 'react-icons/hi2';
 import { deleteItem } from '../cart/cartSlice';
+
 function CheckoutItem({ item }) {
   const dispatch = useDispatch();
   const {

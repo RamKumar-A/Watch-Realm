@@ -17,7 +17,6 @@ function Shopping() {
           watch={watch}
           brands={brands}
           categories={categories}
-          openFilters={openFilters}
         />
 
         <Products
@@ -32,6 +31,8 @@ function Shopping() {
   );
 }
 
+// below is an method used in the Next.js which allows to pre-fetch data and pass it as props to component
+
 let cachedData = null;
 
 export async function loader() {
@@ -43,5 +44,7 @@ export async function loader() {
   // return { watch, brands, categories };
   return cachedData;
 }
+
+//cachedData is a variable that stores the fetched data. If the data has already been fetched, subsequent calls to the loader function will return the cached data without making additional API calls. This helps to avoid redundant API requests and improves performance.
 
 export default Shopping;
