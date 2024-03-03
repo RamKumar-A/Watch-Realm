@@ -37,12 +37,31 @@ let cachedData = null;
 
 export async function loader() {
   if (cachedData) return cachedData;
-  const watch = await getWatch();
-  const brands = await getFilters('brands');
-  const categories = await getFilters('categories');
-  cachedData = { watch, brands, categories };
-  // return { watch, brands, categories };
-  return cachedData;
+  try {
+    // const watch = await getWatch();
+    // const brands = await getFilters('brands');
+    // const categories = await getFilters('categories');
+
+    // cachedData = {
+    //   watch,
+    //   brands,
+    //   categories,
+    // };
+    const [watchData, brandsData, categoriesData] = await Promise.all([
+      getWatch(),
+      getFilters('brands'),
+      getFilters('categories'),
+    ]);
+    cachedData = {
+      watch: watchData,
+      brands: brandsData,
+      categories: categoriesData,
+    };
+    // return { watch, brands, categories };
+    return cachedData;
+  } catch (err) {
+    console.error(err.message);
+  }
 }
 
 //cachedData is a variable that stores the fetched data. If the data has already been fetched, subsequent calls to the loader function will return the cached data without making additional API calls. This helps to avoid redundant API requests and improves performance.
