@@ -1,42 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useFilter } from './Context';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { filterSize } from './filterSlice';
 
 function FilterSize({ items, size, setSize }) {
-  const [isChecked, setIsChecked] = useState(size.includes(items));
-  const { dispatch } = useFilter();
+  const dispatch = useDispatch();
 
   function handleChange(e) {
     const { value, checked } = e.target;
-    setSize((prev) => {
-      if (checked) {
-        const uniqueValue = new Set([...prev, value]);
-        setIsChecked(true);
-        return [...uniqueValue];
-      } else {
-        const updatedValue = prev.filter((rmvType) => rmvType !== value);
-        setIsChecked(updatedValue.length > 0); // Check if there are still selected checkboxes
-        return updatedValue;
-      }
-    });
+    const newSelectedSize = checked
+      ? [...new Set([...size, value])]
+      : size.filter((rmvSize) => rmvSize !== value);
+
+    setSize(newSelectedSize);
   }
 
   useEffect(
     function () {
-      if (isChecked || size.length === 0) {
-        dispatch({ type: 'filterSize', payload: size });
-      }
+      dispatch(filterSize(size));
     },
-    [isChecked, dispatch, size]
+    [dispatch, size]
   );
 
   return (
     <>
       <input
         type="checkbox"
+        className="accent-green-600"
         id={items}
-        className="form-checkbox w-5 accent-gray-700 "
         value={items}
-        checked={isChecked}
+        checked={size.includes(items)}
         onChange={(e) => handleChange(e)}
       />
       <label htmlFor={items}>{items}</label>

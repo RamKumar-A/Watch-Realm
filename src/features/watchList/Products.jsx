@@ -1,37 +1,28 @@
 import { useState } from 'react';
 import ProductItems from './ProductItems';
-import { useFilter } from './Context';
 import Sort from './Sort';
 import Modal from '../../ui/Modal';
 import Pagination from '../../ui/Pagination';
 import { HiAdjustmentsVertical } from 'react-icons/hi2';
 import ProductsSidebar from './ProductsSidebar';
-
-function Products({
-  categories,
-  brands,
-  openFilters,
-  setOpenFilters,
-  watches,
-}) {
+import { useSelector } from 'react-redux';
+import { getAllWatches, getFilteredWatches } from './filterSlice';
+import Empty from '../../ui/Empty';
+// categories,
+// brands,
+function Products({ openFilters, setOpenFilters }) {
   const [currPage, setCurrPage] = useState(1);
   const ITEMS_PER_PAGE = 6;
-  const { allWatches, filteredWatches } = useFilter();
-  // const { watch } = useLoaderData();
+  const allWatches = useSelector(getAllWatches);
+  const filteredWatches = useSelector(getFilteredWatches);
 
   const displayWatches =
-    filteredWatches.length !== 0 ? filteredWatches : watches;
+    filteredWatches.length !== 0 ? filteredWatches : allWatches;
 
   const lastIndex = currPage * ITEMS_PER_PAGE;
   const firstIndex = lastIndex - ITEMS_PER_PAGE;
-  const currentWatch = displayWatches.slice(firstIndex, lastIndex);
 
-  const renderWatch = (watch, i) => {
-    const isCentered = i >= currentWatch.length - 2;
-    return (
-      <ProductItems watch={watch} key={watch.id} isCentered={isCentered} />
-    );
-  };
+  const currentWatch = displayWatches?.slice(firstIndex, lastIndex);
 
   function paginate(num) {
     setCurrPage(num);
@@ -43,42 +34,50 @@ function Products({
 
   return (
     <>
-      <div className="grid grid-rows-[auto_1fr_auto] gap-y-2 mb-2 place-content-center">
-        <div className="flex items-center justify-between m-[2rem] sm:m-0">
+      <div className="flex-1 space-y-3 ">
+        <div className="flex items-center justify-between px-2 ">
           <div className="hidden sm:block">
             <Sort />
           </div>
-          <Modal>
-            <div onClick={handleToggle}>
-              <Modal.Trigger opens="filter">
-                <div className="sm:hidden text-xl flex items-center gap-1">
-                  <HiAdjustmentsVertical /> Filters & Sort
-                </div>
+          <div onClick={handleToggle} className="sm:hidden">
+            <Modal>
+              <Modal.Trigger opens="filters">
+                <button className="sm:hidden text-lg font-semibold flex items-center gap-1 ">
+                  <HiAdjustmentsVertical size={20} /> Filters & Sort
+                </button>
               </Modal.Trigger>
-            </div>
-            <Modal.Content name="filter" clicks={setOpenFilters}>
-              <ProductsSidebar
-                watch={allWatches}
-                brands={brands}
-                categories={categories}
-                openFilters={openFilters}
-              />
-            </Modal.Content>
-          </Modal>
-          <div className="text-2xl font-semibold text-center">
-            <span className="text-xl">{displayWatches.length}</span> Products
+              <Modal.Content name="filters">
+                <div className="grid justify-items-center place-items-start h-full overflow-y-auto py-10 ">
+                  <ProductsSidebar openFilters={openFilters} />
+                </div>
+              </Modal.Content>
+            </Modal>
+          </div>
+          <div className="">
+            <span className="text-md font-semibold">
+              {displayWatches?.length}
+            </span>{' '}
+            <span className="font-bold text-xl">Products</span>
           </div>
         </div>
-        <div className="lg:grid lg:grid-cols-2 xl:grid-cols-3 mt-3 ">
-          {currentWatch.map(renderWatch)}
+        <div className="flex flex-wrap items-center justify-center gap-5 px-2">
+          {displayWatches.length > 0 ? (
+            currentWatch.map((watch, i) => (
+              <ProductItems watch={watch} key={watch.id} />
+            ))
+          ) : (
+            <Empty>No watch found</Empty>
+          )}
         </div>
-        <div className="mt-10 flex items-center justify-center">
-          <Pagination
-            itemsPerPage={ITEMS_PER_PAGE}
-            paginate={paginate}
-            totalItems={displayWatches.length}
-          />
-        </div>
+        {displayWatches.length > 0 && (
+          <div className="flex items-center justify-center py-4">
+            <Pagination
+              itemsPerPage={ITEMS_PER_PAGE}
+              paginate={paginate}
+              totalItems={displayWatches.length}
+            />
+          </div>
+        )}
       </div>
     </>
   );

@@ -46,6 +46,6 @@ export async function createNewCheckout(checkoutData) {
   if (!res.ok) throw new Error('Failed to get order details');
 
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
   return data;
 }

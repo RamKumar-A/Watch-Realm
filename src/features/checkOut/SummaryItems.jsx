@@ -1,22 +1,15 @@
 function SummaryItems({ items }) {
-  const { name, image_url, material_type } = items;
+  const { name, image_url } = items;
   return (
-    <div className="py-5 px-2">
-      <div className="flex flex-col items-center border border-gray-900 border-b-2 shadow-lg shadow-gray-900">
+    <div className="w-48 p-1 border border-gray-600 rounded">
+      <div className="w-full h-40">
         <img
           src={image_url}
-          alt="name"
-          className="w-[500px] h-[300px] object-contain pt-2"
+          alt={name}
+          className="w-full h-full object-contain aspect-square p-2"
         />
-        <h1 className="p-5">
-          <span className="font-semibold">Name: </span>
-          {name}
-        </h1>
-        <p className="p-5">
-          <span className="font-semibold">Material Type: </span>
-          {material_type}
-        </p>
       </div>
+      <h1 className="text-center p-1 text-md">{name}</h1>
     </div>
   );
 }

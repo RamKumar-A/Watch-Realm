@@ -45,6 +45,7 @@ function applyFilters(
     );
   }
 
+  // console.log(selectedBrandId);
   return filteredWatches;
 }
 
@@ -58,10 +59,10 @@ function reducer(state, action) {
 
     case 'filterBrand':
       const brandId = action.payload;
-      let filteredWatchesBrand = state.allWatches.filter((watch) =>
-        brandId.some((id) => id === watch.brand_id)
-      );
-      filteredWatchesBrand = applyFilters(
+      // let filteredWatchesBrand = state.allWatches.filter((watch) =>
+      //   brandId.some((id) => id === watch.brand_id)
+      // );
+      let filteredWatchesBrand = applyFilters(
         state.allWatches,
         brandId,
         state.selectedCategoryId,
@@ -79,11 +80,11 @@ function reducer(state, action) {
 
     case 'filterCategory':
       const categoryId = action.payload;
-      let filteredWatchesCategory = state.allWatches.filter((watch) =>
-        categoryId.some((id) => id === watch.category_id)
-      );
+      // let filteredWatchesCategory = state.allWatches.filter((watch) =>
+      //   categoryId.some((id) => id === watch.category_id)
+      // );
       // console.log(state.selectedBrandId);
-      filteredWatchesCategory = applyFilters(
+      let filteredWatchesCategory = applyFilters(
         state.allWatches,
         state.selectedBrandId,
         categoryId,
@@ -98,11 +99,11 @@ function reducer(state, action) {
 
     case 'filterMaterial':
       const materialName = action.payload;
-      let filteredMaterial = state.allWatches.filter((material) =>
-        materialName.some((name) => name === material.material_type)
-      );
+      // let filteredMaterial = state.allWatches.filter((material) =>
+      //   materialName.some((name) => name === material.material_type)
+      // );
       // console.log(state.selectedMaterial);
-      filteredMaterial = applyFilters(
+      let filteredMaterial = applyFilters(
         state.allWatches,
         state.selectedBrandId,
         state.selectedCategoryId,
@@ -118,10 +119,10 @@ function reducer(state, action) {
 
     case 'filterSize':
       const size = action.payload;
-      let filteredSize = state.allWatches.filter((sizes) =>
-        size.some((s) => s === sizes.size)
-      );
-      filteredSize = applyFilters(
+      // let filteredSize = state.allWatches.filter((sizes) =>
+      //   size.some((s) => s === sizes.size)
+      // );
+      let filteredSize = applyFilters(
         state.allWatches,
         state.selectedBrandId,
         state.selectedCategoryId,

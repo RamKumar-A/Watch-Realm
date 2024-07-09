@@ -2,64 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Merriweather:wght@300;400;700;900&family=Montserrat:wght@200;300;400;500&family=Poppins:wght@100;200;300;400;500;600&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400&display=swap'); */
-
-/* @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,200;6..12,300;6..12,400;6..12,500;6..12,600;6..12,700;6..12,800;6..12,900;6..12,1000&display=swap'); */
 html {
   scroll-behavior: smooth;
 }
+
 body {
   color: #1f2937;
   font-family: 'Nunito Sans';
 }
+
 ::-webkit-scrollbar {
-  width: 8px;
+  /* width: 8px;
+   */
+  display: none;
 }
+
 ::-webkit-scrollbar-thumb {
-  background-color: #1f2937;
-  border-radius: 10px;
+  background: linear-gradient(
+    rgb(0, 0, 0),
+    rgb(95, 98, 95),
+    rgb(95, 98, 95),
+    rgb(0, 0, 0)
+  );
+  border-radius: 3px;
 }
+
 ::-webkit-scrollbar-track {
-  background-color: #9ca3af;
+  background-color: #d2d2d2;
   border-radius: 10px;
 }
 
-.logo {
-  font-family: 'Dancing Script';
-  font-weight: 900;
-  text-shadow: 0.5px 0.5px 0.1px #374151;
+td {
+  @apply p-3 text-left border border-gray-300;
+}
+/********** Range Input Styles **********/
+/*Range Reset*/
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  /* width: 15rem; */
 }
 
-.para-style {
-  /* font-family: 'Great Vibes'; */
-  /* font-family: 'Dancing Script'; */
-  font-family: 'Nunito Sans';
-}
-.aboutus-para {
-  font-family: 'Great Vibes';
-  /* font-family: 'Dancing Script'; */
+/* Removes default focus */
+input[type='range']:focus {
+  outline: none;
 }
 
-.testimonial-head {
-  font-family: 'Great Vibes';
+/***** Chrome, Safari, Opera and Edge Chromium styles *****/
+/* slider track */
+input[type='range']::-webkit-slider-runnable-track {
+  background-color: #0891b2;
+  border-radius: 0.5rem;
+  height: 0.2rem;
 }
 
-.active {
-  background-color: #e5e7eb;
-  color: #1f2937;
-  border: 1px solid #6b7280;
-  border-radius: 5px;
-  cursor: not-allowed;
+/* slider thumb */
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  margin-top: -0.4rem;
+  border-radius: 25%;
+  background-color: #155e75;
+  height: 1rem;
+  width: 1rem;
 }
 
-.parent:hover {
-  background-color: #9ca3af;
-  transition: all 0.1s ease-in-out;
+input[type='range']:focus::-webkit-slider-thumb {
+  border: 1px solid #0891b2;
+  outline: 2px solid #0891b2;
+  outline-offset: 0.08rem;
 }
 
-.parent:hover .child {
-  background-color: #9ca3af;
-  border: 2px solid #e5e7eb;
-  color: #e5e7eb;
-  transition: all 0.1s ease-in-out;
+/******** Firefox styles ********/
+/* slider track */
+input[type='range']::-moz-range-track {
+  background-color: #053a5f;
+  border-radius: 0.5rem;
+  height: 0.5rem;
+}
+
+/* slider thumb */
+input[type='range']::-moz-range-thumb {
+  border: none;
+  border-radius: 0;
+
+  /*custom styles*/
+  background-color: #5cd5eb;
+  height: 1rem;
+  width: 1rem;
+}
+
+input[type='range']:focus::-moz-range-thumb {
+  border: 1px solid #053a5f;
+  outline: 3px solid #053a5f;
+  outline-offset: 0.125rem;
 }

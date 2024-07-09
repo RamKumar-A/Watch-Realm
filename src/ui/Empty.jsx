@@ -1,9 +1,9 @@
 function Empty({ children }) {
   return (
-    <div className="flex items-center justify-center h-full w-full">
-      <p className="uppercase text-4xl font-bold  px-2 text-center">
+    <div className="flex items-center justify-center w-full ">
+      <h2 className="tracking-wider text-2xl sm:text-4xl font-bold text-center">
         {children}
-      </p>
+      </h2>
     </div>
   );
 }

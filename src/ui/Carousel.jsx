@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { carouselData } from '../helpers/carouselData';
 import { HiArrowLeft, HiArrowRight } from 'react-icons/hi';
-import CarouselItem from './CarouselItem';
+import Button from './Button';
+import { NavLink } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+const variants = {
+  initial: { opacity: 0, scale: 0.9 },
+  animate: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.9 },
+};
 
 function Carousel() {
   const [curIndex, setCurIndex] = useState(0);
-
   const maxLength = carouselData.length;
 
   function handlePrevSlide() {
@@ -19,24 +25,60 @@ function Carousel() {
   }
 
   return (
-    <div className="w-full h-[500px] sm:h-[650px] my-0 mx-auto z-10">
-      <div className="h-[100%] sm:h-[640px] relative z-10">
-        <div
-          className="absolute z-10 sm:top-1/2 top-3/4 left-1 translte-x-1/2 text-gray-900 p-2 cursor-pointer border border-gray-200 parent"
-          onClick={handlePrevSlide}
+    <div className="w-full h-screen sm:h-[650px] my-0 mx-auto ">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          className="bg-no-repeat h-full pb-16 justify-start flex items-center relative "
+          variants={variants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={{ duration: 0.2, staggerChildren: 0.1 }}
+          key={carouselData[curIndex].title}
         >
-          <HiArrowLeft className="text-gray-300 w-8 h-8 z-10 p-1 child " />
-        </div>
-
-        <CarouselItem curIndex={curIndex} carouselData={carouselData} />
-
-        <div
-          className="absolute sm:top-1/2 top-3/4 right-[-.8rem] text-gray-900 z-10 -translate-x-1/2 p-2 cursor-pointer border border-gray-200 parent"
-          onClick={handleNextSlide}
-        >
-          <HiArrowRight className="text-gray-300 z-10 w-8 h-8 p-1 child" />
-        </div>
-      </div>
+          <div className="absolute -z-10 w-full h-full">
+            <img
+              src={carouselData[curIndex].img}
+              alt=""
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div
+            className="mx-auto sm:mx-20 font-nunito md:w-1/2 p-5 "
+            // initial={{ y: -10 }}
+            // animate={{ y: 10,  }}
+          >
+            <h1 className="text-gray-200 font-bold py-3 text-4xl md:text-5xl  ">
+              {carouselData[curIndex].title}
+            </h1>
+            <p className="text-gray-300 pt-4 lg:text-xl text-[0.9rem] md:text-md">
+              {carouselData[curIndex].description}
+            </p>
+          </div>
+          <div className="absolute w-full flex items-center justify-between top-3/4 sm:top-[60%] px-2 py-3  ">
+            <Button
+              label={<HiArrowLeft size={19} />}
+              handler={handlePrevSlide}
+              otherClasses="text-gray-50"
+              padding="p-2"
+            />
+            <NavLink to="/shop">
+              <Button
+                label={<span className="text-[1.1rem]">Shop</span>}
+                padding="px-2 py-2"
+                otherClasses="text-gray-50 text-xl "
+              />
+            </NavLink>
+            <Button
+              label={<HiArrowRight size={19} />}
+              handler={handleNextSlide}
+              otherClasses="text-gray-50"
+              padding="p-2"
+            />
+          </div>
+        </motion.div>
+        {/* </div> */}
+      </AnimatePresence>
     </div>
   );
 }

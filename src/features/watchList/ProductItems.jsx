@@ -1,12 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { HiPlus } from 'react-icons/hi2';
-import {
-  IoBookmark,
-  IoBookmarkOutline,
-  IoCartOutline,
-  IoCartSharp,
-} from 'react-icons/io5';
-
+import { HiHeart, HiMiniStar, HiOutlineHeart } from 'react-icons/hi2';
+import { IoCartOutline, IoCartSharp } from 'react-icons/io5';
+import { motion } from 'framer-motion';
 import { deleteList } from '../Wishlist/wishlistSlice';
 import { addItem } from '../cart/cartSlice';
 import { addList } from '../Wishlist/wishlistSlice';
@@ -51,93 +46,104 @@ function ProductItems({ watch }) {
     dispatch(deleteList(id));
   }
 
-  function handleBuy() {
-    const cart = cartData.some((cart) => cart.id === id);
-    if (!cart) handleAddToCart();
-    navigate('/order/new');
-  }
-
   function handleDetails() {
     navigate(`/watchdetails/${id}`);
   }
 
   return (
-    <main
-      className={`w-[300px] h-[550px] p-1 mb-8 mx-8 border-0 border-b-[3px] border-gray-600 
-        shadow-xl hover:shadow-gray-900 
-       `}
+    <motion.main
+      className="w-80 bg-gray-100 border-gray-300 cursor-pointer p-2 border shadow-sm shadow-gray-400"
+      whileHover={{
+        boxShadow: '0 10px 15px -3px #686868, 0 4px 6px -4px #ffffff',
+        backgroundColor: '#e5e7eb',
+      }}
     >
-      <div className="h-[350px] pt-0.5">
-        <img
-          className="w-full h-[250px] object-contain rounded-xl"
-          src={image_url}
-          alt={id}
-          onClick={handleDetails}
-        />
-        <div className=" w-full mt-16 grid grid-rows-3">
+      <div className="">
+        <div className="w-full h-80 border relative border-gray-200 backdrop-brightness-150 ">
+          <img
+            className="w-full h-full aspect-square object-contain p-3 "
+            src={image_url}
+            alt={id}
+            onClick={handleDetails}
+          />
+          <button
+            className="p-2 border-2 rounded-full bg-gray-50 absolute top-2 right-2 border-gray-500 text-2xl "
+            onClick={
+              wishlist.includes(id) ? handleDeleteList : handleAddToWishlist
+            }
+          >
+            {wishlist.includes(id) ? (
+              <HiHeart className="text-red-600" />
+            ) : (
+              <span className="flex items-center">
+                <HiOutlineHeart className="text-gray-700 " />
+              </span>
+            )}
+          </button>
+        </div>
+        <div className="">
           <h1
-            className="text-center text-2xl font-bold "
+            className="w-full h-20 flex items-center text-center justify-center text-lg font-bold "
             onClick={handleDetails}
           >
             {name}
           </h1>
-          <div className="flex justify-between py-5 text-xl ">
-            <div>
-              ⭐⭐⭐⭐{' '}
-              <span className="text-xs font-bold text-amber-500">
-                {ratings}
+          <div className="flex items-center justify-between text-xl px-2 py-3 ">
+            <span className="flex items-center text-xs font-bold bg-green-600 text-gray-100 py-1 px-2 rounded-xl ">
+              <HiMiniStar size={10} />
+              {ratings}
+            </span>
+            <div className="flex items-center gap-1 ">
+              <span className="font-bold text-2xl">${price}</span>
+              <span className="text-xs line-through font-normal">
+                $45000.35
               </span>
-            </div>
-            <div className="font-semibold">
-              ${price}
-              <span className="text-xs line-through font-normal">$45.35</span>
             </div>
           </div>
           <Modal>
-            <div className={` grid grid-cols-[auto_1fr_auto] px-2 pt-5 `}>
-              <button
-                className="border p-2 border-gray-500 "
-                onClick={handleAddToCart}
-                disabled={cart.includes(id)}
-              >
-                <Modal.Trigger opens="cart">
+            <motion.button
+              className="border w-full flex items-center p-2 border-gray-500 justify-center gap-2 bg-gray-300 "
+              onClick={handleAddToCart}
+              disabled={cart.includes(id)}
+              whileHover={{ backgroundColor: '#eb551a', color: '#fff' }}
+              transition={{ type: 'spring', duration: 0.8 }}
+            >
+              <Modal.Trigger opens="cart">
+                <>
                   {cart.includes(id) ? (
-                    <IoCartSharp className="text-2xl " />
+                    <IoCartSharp size={26} />
                   ) : (
                     <span className="flex items-center">
-                      <HiPlus className=" font-bold" />
-                      <IoCartOutline className="text-2xl" />
+                      <IoCartOutline size={26} />
                     </span>
                   )}
-                </Modal.Trigger>
-              </button>
-              <Modal.Content name="cart">
-                <CartModal />
-              </Modal.Content>
+                  <span>Add to cart</span>
+                </>
+              </Modal.Trigger>
+            </motion.button>
+            <Modal.Content name="cart">
+              <CartModal />
+            </Modal.Content>
 
-              <button className="" onClick={handleBuy}>
-                Buy Now
-              </button>
-              <button
+            {/* <button
                 className="p-2 border border-gray-500 text-2xl "
                 onClick={
                   wishlist.includes(id) ? handleDeleteList : handleAddToWishlist
                 }
               >
                 {wishlist.includes(id) ? (
-                  <IoBookmark />
+                  <HiHeart className="text-red-600" />
                 ) : (
                   <span className="flex items-center">
-                    <HiPlus className="text-sm font-bold" />
-                    <IoBookmarkOutline className="text-gray-700 " />
+                    <HiOutlineHeart className="text-gray-700 " />
                   </span>
                 )}
-              </button>
-            </div>
+              </button> */}
+            {/* </div> */}
           </Modal>
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 }
 

@@ -1,38 +1,51 @@
-// import { useEffect, useState } from 'react';
-// import { useFilter } from './Context';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { filterPrice } from './filterSlice';
 
 function FilterPrice({ setMax, setMin, min, max }) {
-  return (
-    <div className="py-3 pt-5">
-      <h3 className="text-xl font-light">Select Price Range</h3>
-      <div className="flexitems-center flex-col gap-2 p-3 pl-0 font-semibold">
-        <div className="flex items-center gap-2 py-3">
-          <input
-            type="range"
-            name="minPrice"
-            min={0}
-            max={500000}
-            step={1000}
-            value={min}
-            className="w-24 pl-2 border rounded-lg"
-            onChange={(e) => setMin(parseInt(e.target.value))}
-          />
-          <label htmlFor="minPrice">${min}</label>
-        </div>
+  const dispatch = useDispatch();
+  useEffect(
+    function () {
+      dispatch(filterPrice([min, max]));
+    },
+    [dispatch, min, max]
+  );
 
-        <div className="flex items-center gap-2 py-3">
-          <input
-            type="range"
-            name="maxPrice"
-            min={0}
-            max={500000}
-            step={1000}
-            value={max}
-            className="w-24 pl-2 border rounded-lg"
-            onChange={(e) => setMax(parseInt(e.target.value))}
-          />
-          <label htmlFor="maxPrice">${max}</label>
-        </div>
+  return (
+    <div className="space-y-2 py-2">
+      <h3 className="text-md font-light">Select Price Range</h3>
+      <div className="flex items-center justify-between">
+        <input
+          type="range"
+          name="minPrice"
+          id="minPrice"
+          min={4000}
+          max={500000}
+          step={1000}
+          value={min}
+          className=""
+          onChange={(e) => setMin(parseInt(e.target.value))}
+        />
+        <label htmlFor="minPrice">
+          <span className="text-xs">$</span>
+          {min}
+        </label>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <input
+          type="range"
+          name="maxPrice"
+          id="maxPrice"
+          step={1000}
+          max={500000}
+          value={max}
+          onChange={(e) => setMax(parseInt(e.target.value))}
+        />
+        <label htmlFor="maxPrice">
+          <span className="text-xs">$</span>
+          {max}
+        </label>
       </div>
     </div>
   );

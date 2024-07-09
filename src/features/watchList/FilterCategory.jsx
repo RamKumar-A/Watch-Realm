@@ -1,46 +1,38 @@
-import { useEffect, useState } from 'react';
-import { useFilter } from './Context';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { filterCategory } from './filterSlice';
 
 function FilterCategory({ items, categoryIds, setCategoryIds }) {
-  const [isChecked, setIsChecked] = useState(categoryIds.includes(items.id));
-  const { dispatch } = useFilter();
+  const dispatch = useDispatch();
 
   function handleChange(e) {
     const { id, checked } = e.target;
-    setCategoryIds((prev) => {
-      if (checked) {
-        const uniqueIds = new Set([...prev, parseInt(id)]);
-        setIsChecked(true);
-        return [...uniqueIds];
-      } else {
-        const updatedIds = prev.filter((rmvId) => rmvId !== parseInt(id));
-        setIsChecked(updatedIds.length > 0);
-        return updatedIds;
-      }
-    });
+    const newSelectedCategoryId = checked
+      ? [...new Set([...categoryIds, parseInt(id)])]
+      : categoryIds.filter((rmvId) => rmvId !== parseInt(id));
+
+    setCategoryIds(newSelectedCategoryId);
   }
 
   useEffect(
     function () {
-      if (isChecked || categoryIds.length === 0) {
-        dispatch({ type: 'filterCategory', payload: categoryIds });
-      }
+      dispatch(filterCategory(categoryIds));
     },
-    [categoryIds, dispatch, isChecked]
+    [categoryIds, dispatch]
   );
 
   return (
-    <div className="my-5 text-xl font-light flex gap-3 px-5">
+    <>
       <input
         type="checkbox"
+        className="accent-green-600"
         id={items.id}
-        className="form-checkbox w-5 accent-gray-700 "
         value={items.name}
-        checked={isChecked}
+        checked={categoryIds.includes(parseInt(items.id))}
         onChange={(e) => handleChange(e)}
       />
       <label htmlFor={items.id}>{items.name}</label>
-    </div>
+    </>
   );
 }
 

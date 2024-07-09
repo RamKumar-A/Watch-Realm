@@ -1,23 +1,54 @@
 import { useState } from 'react';
-import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
+import { HiChevronDown } from 'react-icons/hi2';
+import { AnimatePresence, motion } from 'framer-motion';
 
-function FilterButtons({ children, title }) {
-  return <FilterButtonsContainer children={children} title={title} />;
-}
-
-function FilterButtonsContainer({ children, title }) {
-  const [toggle, setToggle] = useState(false);
+function FilterButtons({ children, title, noMap }) {
+  const [buttonToggle, setButtonToggle] = useState(false);
 
   return (
-    <div className="mb-4">
+    <div className="">
       <button
-        className="flex justify-between text-xl items-center border-l-8 border-gray-950 w-full bg-gray-300 h-10"
-        onClick={() => setToggle((toggle) => !toggle)}
+        className="flex justify-between  items-center w-full border border-gray-300 border-l-4 border-l-gray-800 rounded bg-gray-100 p-2   "
+        onClick={() => setButtonToggle(!buttonToggle)}
       >
-        <h1 className="pl-2">{title}</h1>
-        <h1 className="pr-2">{toggle ? <HiChevronUp /> : <HiChevronDown />}</h1>
+        <span className="text-lg">{title}</span>
+
+        <motion.span
+          initial={{ rotate: 0 }}
+          animate={{ rotate: buttonToggle ? -180 : 0 }}
+        >
+          <HiChevronDown />
+        </motion.span>
       </button>
-      {toggle && children}
+      <AnimatePresence>
+        {buttonToggle && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            exit={{ opacity: 0, scale: 0 }}
+            className="px-1.5 text-md space-y-1 origin-top "
+          >
+            {!noMap &&
+              children.map((child, index) => (
+                <motion.div
+                  key={child.key || index}
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+
+                    transition: { delay: index * 0.1 },
+                  }}
+                >
+                  {child}
+                </motion.div>
+              ))}
+            {noMap && children}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,33 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Products from './Products';
 import ProductsSidebar from './ProductsSidebar';
 import { getWatch } from '../../services/apiWatches';
 import { useLoaderData } from 'react-router-dom';
 import { getFilters } from '../../services/apiWatches';
+import PageWrapper from '../../PageWrapper';
+import { useDispatch } from 'react-redux';
+import { addAllBrands, addAllCategories, addAllWatches } from './filterSlice';
 
 function Shopping() {
   const [openFilters, setOpenFilters] = useState(false);
   const { watch, brands, categories } = useLoaderData();
+  const dispatch = useDispatch();
+  useEffect(
+    function () {
+      dispatch(addAllWatches(watch));
+      dispatch(addAllBrands(brands));
+      dispatch(addAllCategories(categories));
+    },
+    [watch, brands, categories, dispatch]
+  );
 
   return (
-    <div className="mt-8 gap-y-2.5 lg:m-10 ">
-      <h1 className="text-5xl my-2 mb-16 pt-5 pl-5">Products</h1>
-      <main className="grid sm:grid-cols-[250px_1fr]">
-        <ProductsSidebar
-          watch={watch}
-          brands={brands}
-          categories={categories}
-        />
+    <PageWrapper>
+      <div className="md:px-2">
+        <h1 className="text-2xl font-extrabold text-center p-3 tracking-wide ">
+          Products
+        </h1>
+        <main className="flex h-full justify-center py-3">
+          <div className="sm:sticky top-2 h-[100dvh] pb-2 overflow-y-scroll">
+            <ProductsSidebar />
+          </div>
 
-        <Products
-          watches={watch}
-          categories={categories}
-          brands={brands}
-          openFilters={openFilters}
-          setOpenFilters={setOpenFilters}
-        />
-      </main>
-    </div>
+          {/* categories={categories}
+          brands={brands} */}
+          <Products openFilters={openFilters} setOpenFilters={setOpenFilters} />
+        </main>
+      </div>
+    </PageWrapper>
   );
 }
 

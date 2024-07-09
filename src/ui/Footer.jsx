@@ -2,17 +2,17 @@ import { HiMail, HiPhone } from 'react-icons/hi';
 
 function Footer() {
   return (
-    <div className="mt-10 -mb-8 sm:-mb-9 ">
-      <div className=" text-sm h-20  bg-gray-300 text-gray-800 flex items-center justify-center gap-5">
+    <div className="">
+      <div className=" text-sm bg-gray-300 text-gray-800 flex items-center justify-center gap-3 p-4 flex-wrap">
         <div>
           <p>Contact Us</p>
         </div>
-        <div>
-          <p className="flex items-center gap-2">
+        <div className="flex gap-3 items-center">
+          <p className="flex items-center gap-1">
             <HiPhone />
             +999 999 9999
           </p>
-          <p className="flex items-center gap-2">
+          <p className="flex items-center gap-1">
             <HiMail />
             test@test.com
           </p>

@@ -1,38 +1,39 @@
+import { motion } from 'framer-motion';
+import PageWrapper from '../PageWrapper';
+
 function Aboutus() {
   return (
-    <div className="p-3 h-full">
-      <div className="grid lg:mx-[10rem] sm:grid-cols-2 place-items-center">
-        <div className="p-1">
-          <h1 className="text-center lg:text-5xl text-3xl font-bold p-2 ">
-            OUR <span className="text-gray-400">VISION</span>
-          </h1>
-          <p className="text-[1.25rem] lg:text-2xl font-light py-4 px-3 text-center aboutus-para ">
+    <PageWrapper>
+      <div className="space-y-3">
+        <h1 className="text-center  text-2xl font-extrabold tracking-wide p-3 ">
+          OUR <span className="text-gray-400">VISION</span>
+        </h1>
+        <div className="grid sm:grid-flow-col place-items-center p-2 gap-2">
+          <p className="text-lg sm:text-xl xl:text-2xl leading-10 text-center p-2 font-dancingScript">
             Our vision is to make quality timepieces accessible to everyone. We
             aim to curate a diverse collection of wristwatches that cater to
             various preferences, from classic to contemporary, sporty to
             sophisticated, and everything in between. We want to be your go-to
             destination for finding the perfect watch for every occasion.
           </p>
+          {/* </div> */}
+          <div className="bg-red-600 md:w-full lg:w-3/4 max-h-fit">
+            <img
+              src="https://rolex-1.myshopify.com/cdn/shop/files/abou-04.jpg?v=1622628838&width=1500"
+              className="w-full h-full object-cover aspect-square"
+              alt="aboutus"
+            />
+          </div>
         </div>
-        <img
-          src="https://rolex-1.myshopify.com/cdn/shop/files/abou-04.jpg?v=1622628838&width=1500"
-          alt="alt"
-        />
-      </div>
 
-      <div className="text-center p-3 mt-10">
-        <p className="aboutus-para font-light py-4 px-3 text-center">
-          Our Valuables
-        </p>
-        <h1 className="p-2 text-2xl font-extrabold lg:text-4xl ">
-          NEW ERA <span className="text-gray-400">WORKS</span>
-        </h1>
-        <p className="aboutus-para font-light py-4 px-3 text-center">
-          Super Luxury Watches
-        </p>
-      </div>
-      <main>
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 lg:mx-10">
+        <div className="text-center p-3 space-y-4 ">
+          <p className="   text-center">Our Valuables</p>
+          <h1 className="text-2xl font-extrabold tracking-wide ">
+            NEW ERA <span className="text-gray-400">WORKS</span>
+          </h1>
+          <p className="font-greatVibes   text-center">Super Luxury Watches</p>
+        </div>
+        <main className="flex flex-wrap items-center justify-center ">
           <Watches
             title="HYBRID"
             img="https://rolex-1.myshopify.com/cdn/shop/files/abou-09.png?v=1622628678&width=275"
@@ -53,24 +54,27 @@ function Aboutus() {
           <Watches
             title="WORKWEAR"
             img="https://rolex-1.myshopify.com/cdn/shop/files/abou-13.png?v=1622628780&width=275"
-            className="col-span-2 sm:col-span-1"
           />
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </PageWrapper>
   );
 }
 
-function Watches({ title, img, className }) {
+function Watches({ title, img }) {
   return (
-    <div className={` text-center p-2 ${className}`}>
-      <img
-        src={img}
-        alt="alt"
-        className="m-auto p-4 hover:scale-105 hover:bg-gray-300 rounded-full hover:transition-all duration-500"
-      />
+    <div className={` text-center p-2  `}>
+      <div className="p-2">
+        <motion.img
+          src={img}
+          alt="alt"
+          className="mx-auto p-4 rounded-full  "
+          whileHover={{ backgroundColor: '#70606052', scale: 1.03 }}
+        />
+      </div>
+
       <h1 className="font-extrabold text-xl sm:text-2xl">{title}</h1>
-      <p className="text-center pt-5 sm:text-center sm:text-xl font-normal aboutus-para">
+      <p className="text-center py-3 sm:text-center sm:text-xl font-greatVibes font-normal  ">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
       </p>
     </div>

@@ -1,32 +1,22 @@
-import { useEffect, useState } from 'react';
-import { useFilter } from './Context';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { filterBrand } from './filterSlice';
 
 function FilterBrand({ items, setBrandIds, brandIds }) {
-  const [isChecked, setIsChecked] = useState(brandIds.includes(items.id));
-  const { dispatch } = useFilter();
-
+  const dispatch = useDispatch();
   function handleChange(e) {
     const { id, checked } = e.target;
-    setBrandIds((prev) => {
-      if (checked) {
-        const uniqueIds = new Set([...prev, parseInt(id)]);
-        setIsChecked(true);
-        return [...uniqueIds];
-      } else {
-        const updatedIds = prev.filter((rmvId) => rmvId !== parseInt(id));
-        console.log(updatedIds.length > 0);
-        setIsChecked(updatedIds.length > 0);
-        return updatedIds;
-      }
-    });
+    const newSelectedIds = checked
+      ? [...new Set([...brandIds, parseInt(id)])]
+      : brandIds.filter((rmvId) => rmvId !== parseInt(id));
+    setBrandIds(newSelectedIds);
   }
 
   useEffect(
     function () {
-      if (isChecked || brandIds.length === 0)
-        dispatch({ type: 'filterBrand', payload: brandIds });
+      dispatch(filterBrand(brandIds));
     },
-    [dispatch, brandIds, isChecked]
+    [dispatch, brandIds]
   );
 
   return (
@@ -34,9 +24,9 @@ function FilterBrand({ items, setBrandIds, brandIds }) {
       <input
         type="checkbox"
         id={items.id}
-        className="form-checkbox w-5 accent-gray-700 "
+        className="accent-green-600 "
         value={items.name}
-        checked={isChecked}
+        checked={brandIds.includes(parseInt(items.id))}
         onChange={(e) => handleChange(e)}
       />
       <label htmlFor={items.id}>{items.name}</label>

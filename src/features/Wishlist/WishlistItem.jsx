@@ -2,11 +2,12 @@ import { HiTrash } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteList } from './wishlistSlice';
 import { addItem } from '../cart/cartSlice';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+import Button from '../../ui/Button';
 
 function WishlistItem({ list }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.cart);
   const { id, name, price_range, image_url } = list;
   const cartAdded = cart.some((item) => item.id === id);
@@ -19,42 +20,39 @@ function WishlistItem({ list }) {
     dispatch(addItem(newItem));
   }
 
-  function handleBuy() {
-    if (cartAdded) handleAddToCart();
-    navigate('/order/new');
-  }
+  // function handleBuy() {
+  //   if (cartAdded) handleAddToCart();
+  //   navigate('/order/new');
+  // }
 
   return (
-    <div className=" lg:grid grid-cols-5 place-items-center m-5 shadow-lg shadow-gray-900">
-      <div className="w-[250px] object-cover m-auto my-1 md:h-[350px] lg:w-[150px] lg:h-[250px]">
+    <div className="w-full flex flex-col md:flex-row items-center justify-around  md:px-5 rounded-md shadow-xl shadow-gray-300/30 hover:shadow-gray-300/40 py-5 gap-2 bg-gray-100 ">
+      <div className="w-36 h-full m-auto  p-1 ">
         <img
           src={image_url}
           alt={id}
-          className="object-contain w-[250px] md:h-[250px] lg:h-[250px]"
+          className="w-full h-full object-contain  aspect-square object-center"
         />
       </div>
-      <h1 className="text-[1.3rem] text-center font-bold p-2">{name}</h1>
-      <p className="text-center p-2">${price_range}</p>
-      <div className="flex  justify-around  sm:gap-7 gap-2">
-        <button className="text-center" onClick={handleBuy}>
-          Buy Now
-        </button>
-        <button
-          className={`text-center ${cartAdded && 'pointer-events-none'}`}
-          onClick={handleAddToCart}
-        >
-          Add To Cart
-        </button>
+      <div className="space-y-1 text-center md:text-left p-3 flex-1 ">
+        <h1 className="text-md font-medium ">{name}</h1>
+        <p className="text-2xl font-bold">${price_range}</p>
       </div>
-      <div className="m-auto text-center p-4">
-        <button
-          className="text-center py-2 px-5 "
-          onClick={() => dispatch(deleteList(id))}
-        >
-          <h1 className="text-2xl ">
-            <HiTrash />
-          </h1>
-        </button>
+      <div className="flex items-center justify-center sm:gap-2 gap-2">
+        {/* <Button label="Buy Now" padding="p-1.5" handler={handleBuy} /> */}
+        <Button
+          label="Add To Cart"
+          padding="p-1.5"
+          otherClasses={`text-center ${cartAdded && 'cursor-not-allowed'}`}
+          backgroundColor="hover:bg-orange-600"
+          handler={handleAddToCart}
+        />
+        <Button
+          label={<HiTrash size={19} className="" />}
+          padding="p-1.5"
+          backgroundColor="hover:bg-red-600"
+          handler={() => dispatch(deleteList(id))}
+        />
       </div>
     </div>
   );

@@ -2,98 +2,91 @@ import { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import { HiXMark } from 'react-icons/hi2';
 import { HiMenuAlt2, HiSearch, HiShoppingCart } from 'react-icons/hi';
-import Modal from './Modal';
 import CartModal from '../features/cart/CartModal';
-import { useFilter } from '../features/watchList/Context';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCart } from '../features/cart/cartSlice';
+import Logo from './Logo';
+import useOutsideClick from '../hooks/useOutsideClick';
+import { motion, AnimatePresence } from 'framer-motion';
+import { searchWatch } from '../features/watchList/filterSlice';
 
-function Header() {
-  const [isToggle, setIsToggle] = useState(false);
+function Header({ isToggle, setIsToggle, handleMenuToggle }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const { dispatch } = useFilter();
-
+  const [cartModalToggle, setCartModalToggle] = useState(false);
+  const dispatch = useDispatch();
+  const ref = useOutsideClick(() => setIsSearchOpen(false));
   const cartlength = useSelector(getCart);
-
-  function handleMenuToggle() {
-    setIsToggle((toggle) => !toggle);
-  }
 
   useEffect(
     function () {
-      dispatch({ type: 'searchWatch', payload: query });
+      dispatch(searchWatch(query));
     },
     [query, dispatch]
   );
 
   return (
-    <header>
-      <div className="flex relative px-4 justify-between h-20 lg:mx-10  bg-gray-200 sm:bg-gray-50">
-        <div className="mr-1 flex items-center w-[60%] text-2xl">
-          <div onClick={handleMenuToggle} className="">
-            {isToggle ? (
-              <div>
-                <HiXMark className=" sm:hidden mr-3 " />
-              </div>
-            ) : (
-              <HiMenuAlt2 className=" sm:hidden mr-3 " />
-            )}
-          </div>
-          <Link to="/home">
-            <h2 className="sm:text-5xl text-gray-800 text-[1.8rem] sm:mr-5 logo ">
-              Watch
-              <span className="text-gray-400 pl-2">Realm</span>
-            </h2>
-          </Link>
+    <header className="grid grid-cols-3 items-center w-full py-3 px-1 sm:px-6 bg-gray-50 z-10 relative">
+      <div className="flex items-center  text-2xl">
+        <div onClick={handleMenuToggle} className="pr-3">
+          <HiMenuAlt2 className=" md:hidden " />
         </div>
-        <div className="flex items-center w-[50%] justify-end gap-3">
+        <Logo />
+      </div>
+      <NavBar isToggle={isToggle} handleMenuToggle={handleMenuToggle} />
+      <div className="flex items-center w-fit justify-end justify-self-end gap-3">
+        <AnimatePresence mode="wait" initial={false}>
           {isSearchOpen && (
-            <form
-              className="w-[95%] sm:w-[98%] lg:w-full absolute left-2 top-3  rounded-lg  sm:h-16 flex   items-center justify-center gap-1 sm:gap-5 z-50 bg-gray-200 sm:bg-gray-50"
+            <motion.form
+              className="w-full inset-0 backdrop-blur-md absolute rounded-md h-full flex items-center justify-center gap-1 sm:gap-5 z-50  sm:bg-gray-50 origin-right"
+              ref={ref}
+              initial={{ opactiy: 0, scale: 0 }}
+              animate={{ opactiy: 1, scale: 1 }}
+              exit={{ opactiy: 0, scale: 0 }}
               onSubmit={(e) => e.preventDefault()}
             >
               <input
                 type="search"
-                className="border border-gray-900 sm:block sm:h-16 rounded-lg sm:basis-3/4 items-center p-3 w-[100%] relative"
+                className="border border-gray-900  rounded-lg basis-3/4 items-center p-3 relative"
                 onChange={(e) => setQuery(e.target.value)}
               />
               <button
                 className="font-bold  bg-gray-900 rounded-full "
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
               >
-                <HiXMark className="text-gray-300 text-2xl cursor-pointer" />
+                <HiXMark size={24} className="p-0.5 text-gray-300 " />
               </button>
-            </form>
+            </motion.form>
           )}
-          <div className="mt-1.5 flex text-2xl justify-around items-center gap-3">
-            <h2 className="cursor-pointer">
-              <HiSearch
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-lg sm:text-2xl"
+        </AnimatePresence>
+        <div className="mt-1.5 flex text-2xl justify-around items-center gap-3">
+          <h2 className="cursor-pointer">
+            <HiSearch
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              size={26}
+              className="text-lg sm:text-2xl"
+            />
+          </h2>
+
+          <h2
+            className="relative cursor-pointer "
+            onClick={() => setCartModalToggle(!cartModalToggle)}
+          >
+            <HiShoppingCart size={26} className="" />
+            <span className="text-[0.35rem] absolute text-gray-100 z-10  w-3 h-3 bg-red-600 flex items-center justify-center rounded-full top-0 right-0 ">
+              {cartlength.length}
+            </span>
+          </h2>
+          <AnimatePresence mode="wait" initial={false}>
+            {cartModalToggle && (
+              <CartModal
+                modalToggle={cartModalToggle}
+                setModal={setCartModalToggle}
               />
-            </h2>
-            {/* <h2>
-              <HiUser className="rounded-full sm:[w-6 h-6] text-lg sm:text-2xl cursor-pointer" />
-            </h2> */}
-            <Modal>
-              <Modal.Trigger opens="cart-modal">
-                <h2>
-                  <HiShoppingCart className="rounded-full text-lg sm:text-2xl sm:[w-6 h-6] cursor-pointer relative" />
-                  <div className="text-xs h-1 absolute bg-gray-200 rounded-full z-30 top-7 right-3 flex items-center justify-center">
-                    {cartlength.length}
-                  </div>
-                </h2>
-              </Modal.Trigger>
-              <Modal.Content name="cart-modal">
-                <CartModal />
-              </Modal.Content>
-            </Modal>
-          </div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-      <NavBar isToggle={isToggle} handleMenuToggle={handleMenuToggle} />
     </header>
   );
 }

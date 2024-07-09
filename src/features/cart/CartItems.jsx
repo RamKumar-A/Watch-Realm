@@ -5,10 +5,47 @@ import {
   increaseItemQuantity,
 } from './cartSlice';
 import { HiMinus, HiPlus, HiTrash } from 'react-icons/hi2';
+import Button from '../../ui/Button';
+import { motion } from 'framer-motion';
 
-function CartItems({ items, className }) {
+function Quantity({ className, id, quantity }) {
   const dispatch = useDispatch();
-  
+
+  function handleDelete(ids) {
+    dispatch(deleteItem(ids));
+  }
+  return (
+    <div className="flex items-center justify-center gap-2 p-1 ">
+      <Button
+        className={`
+              ${className ? '' : ''}`}
+        handler={() => dispatch(decreaseItemQuantity(id))}
+        label={<HiMinus size={15} />}
+        padding={className ? 'p-0.5' : 'p-1'}
+      />
+
+      <h1 className={className ? 'text-sm' : 'p-1'}>{quantity}</h1>
+
+      <Button
+        className={`
+             ${className ? '' : ''}
+             `}
+        handler={() => dispatch(increaseItemQuantity(id))}
+        label={<HiPlus size={15} />}
+        padding={className ? 'p-0.5' : 'p-1'}
+      />
+      <Button
+        className={` ${className ? ' ' : ''}`}
+        handler={() => handleDelete(id)}
+        label={<HiTrash size={15} className="" />}
+        padding={className ? 'p-0.5' : 'p-1'}
+        backgroundColor="hover:bg-red-600"
+      />
+    </div>
+  );
+}
+
+function CartItems({ items, classes }) {
   const {
     id,
     name,
@@ -20,119 +57,101 @@ function CartItems({ items, className }) {
     totalPrice,
   } = items;
 
-  function handleDelete(id) {
-    dispatch(deleteItem(id));
-  }
+  const tagList = [
+    { tagTitle: 'Material Type', tagVal: material_type },
+    { tagTitle: 'Size', tagVal: size },
+    { tagTitle: 'Price', tagVal: price_range },
+  ];
 
   return (
-    <div
-      className={`bg-gray-300 border border-gray-900
+    <motion.div
+      className={` border border-gray-900 grid p-2 
         ${
-          className
-            ? 'm-2'
-            : 'grid sm:grid-cols-5  border-b-2 border-gray-900 m-3 place-content-center shadow-lg shadow-gray-900 rounded'
+          classes
+            ? 'w-full place-items-center my-2'
+            : 'm-2 sm:grid-cols-[12rem_1fr_auto] max-sm:justify-items-center px-4'
         }`}
+      layout
+      initial={{ scale: 0.5, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.5, opacity: 0 }}
     >
-      <div
-        className={
-          className
-            ? 'grid grid-cols-2 place-items-center'
-            : 'm-2 text-center sm:col-span-3  sm:flex sm:items-center sm:justify-between '
-        }
-      >
+      <div className="grid items-center justify-center w-full p-1  ">
         <div
-          className={`object-contain 
-           ${
-             className
-               ? 'w-[9rem] h-[10rem] m-auto'
-               : 'w-[105px] h-[105px]  my-10 sm:my-5 mx-auto shadow-sm shadow-gray-700 flex items-center justify-center '
-           }`}
+          className={`
+           ${classes ? 'w-full h-40 sm:h-48' : 'w-full h-40'}`}
         >
           <img
             src={image_url}
             alt={id}
-            className={`object-contain
- ${className ? 'mt-2  m-auto h-[160px]' : 'h-[95px] w-[95px] '}`}
+            className={`object-contain aspect-video w-full h-full  ${
+              classes ? 'p-3' : 'p-3'
+            }`}
           />
         </div>
-        <div
-          className={` m-auto ${
-            className ? '' : `sm:flex items-center sm:justify-center`
+        <Quantity className={classes} quantity={quantity} id={id} />
+      </div>
+      <div
+        className={`grid p-2  ${
+          classes
+            ? 'place-items-center'
+            : ' items-center place-items-center sm:place-items-start'
+        }`}
+      >
+        <h1
+          className={` py-2 font-medium text-center sm:text-left ${
+            classes ? ' text-lg' : ' text-lg'
           }`}
         >
-          <h1
-            className={`font-semibold
- ${
-   className
-     ? 'text-left pt-2 pl-3 '
-     : 'text-center text-2xl  sm:text-xl px-3 pt-2  lg:mr-20 '
- }`}
-          >
-            {name}
-          </h1>
-          <div className="p-3 font font-normal ">
-            <p className={`text-[1rem] font-medium`}>${price_range}</p>
-            <p className="text-xs">{size}</p>
-            <p className="text-xs">{material_type}</p>
+          {name}
+        </h1>
+        <div
+          className={
+            classes ? 'hidden' : 'place-self-center sm:place-self-start '
+          }
+        >
+          {tagList.map((tag) => (
+            <p
+              className={`flex items-center ${
+                tag.tagTitle === 'Price'
+                  ? 'py-2 font-semibold text-lg'
+                  : 'text-md'
+              } `}
+              key={tag.tagTitle}
+            >
+              <span className="w-32 py-1">
+                {tag.tagTitle}{' '}
+                {tag.tagTitle === 'Price' && (
+                  <span className="text-xs font-thin">(per item)</span>
+                )}{' '}
+              </span>
+              {tag.tagTitle !== 'Price' && <span> : </span>}
+              <span
+                className={`${tag.tagTitle === 'Price' ? 'font-semibold' : ''}`}
+              >
+                {tag.tagTitle === 'Price' && <span className="text-sm">$</span>}
+                {tag.tagVal}
+              </span>
+            </p>
+          ))}
+          <div className="w-full flex justify-start place-self-start">
+            <button className="bg-blue-500 text-gray-50 p-0.5 px-1 text-sm rounded-md">
+              Share
+            </button>
           </div>
         </div>
       </div>
       <div
-        className={
-          className
-            ? 'w-full flex gap-2 p-5 justify-center mx-auto text-xl'
-            : 'm-10 md:m-0 lg:mx-5 flex justify-evenly sm:col-span-1 items-center gap-2 sm:justify-center '
-        }
+        className={` font-bold place-self-center text-2xl text-gray-900 rounded-md  ${
+          classes ? 'p-1 px-2 ' : 'shadow shadow-gray-300 p-2'
+        }`}
       >
-        <div className="flex gap-2 items-center justify-center ml-5">
-          <button
-            className={`bg-gray-800 text-gray-200 rounded-full
-              ${
-                className
-                  ? 'w-5 h-5'
-                  : 'text-xs w-8 h-8 lg:w-8 lg:h-8 md:w-5 md:h-5 flex items-center justify-center'
-              }`}
-            onClick={() => dispatch(decreaseItemQuantity(id))}
-          >
-            <HiMinus />
-          </button>
-
-          <h1 className="lg:w-8 lg:h-8 lg:pt-1 text-center font-semibold">
-            {quantity}
-          </h1>
-
-          <button
-            className={`rounded-full bg-gray-800 text-gray-200
-             ${
-               className
-                 ? 'w-5 h-5 '
-                 : 'text-xl w-8 h-8 lg:w-8 lg:h-8 md:w-5 md:h-5 flex items-center justify-center'
-             }
-            `}
-            onClick={() => dispatch(increaseItemQuantity(id))}
-          >
-            <HiPlus />
-          </button>
-          <button
-            className={
-              className
-                ? ' h-5 text-[0.9rem] leading-5 rounded-full text-gray-300 bg-gray-800 flex items-center w-5 justify-center'
-                : 'w-8 h-8 text-xl pl-1.5'
-            }
-            onClick={() => handleDelete(id)}
-          >
-            {<HiTrash className="" />}
-          </button>
-        </div>
-      </div>
-      <div
-        className={className ? 'pb-5 text-center' : 'grid place-items-center'}
-      >
-        <h1 className={className ? 'font-medium' : '"pb-5 text-xl'}>
-          $ {totalPrice}
+        <h1 className={classes ? '' : 'text-center  '}>
+          <span className="text-xs">$</span>
+          <span>{totalPrice}</span>
         </h1>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -15,16 +15,16 @@ import WatchDetails from './features/watchList/WatchDetails';
 
 const router = createBrowserRouter([
   {
+    path: '/',
     element: <AppLayout />,
     loader: watchLoader,
     children: [
       {
-        path: '/',
-        element: <Home />,
-        errorElement: <Error />,
+        path: '*',
+        element: <Error />,
       },
       {
-        path: '/home',
+        path: '/',
         element: <Home />,
         errorElement: <Error />,
       },
@@ -37,14 +37,16 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <Aboutus />,
-      },
-      {
-        path: '/cart',
-        element: <Cart />,
+        errorElement: <Error />,
       },
       {
         path: '/wishlist',
         element: <Wishlist />,
+        errorElement: <Error />,
+      },
+      {
+        path: '/cart',
+        element: <Cart />,
       },
       {
         path: '/watchdetails/:watchId',
@@ -68,11 +70,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
