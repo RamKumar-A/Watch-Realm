@@ -43,7 +43,9 @@ function WishlistItem({ list }) {
         <Button
           label="Add To Cart"
           padding="p-1.5"
-          otherClasses={`text-center ${cartAdded && 'cursor-not-allowed'}`}
+          otherClasses={`text-center ${
+            cartAdded && 'cursor-not-allowed pointer-events-none'
+          }`}
           backgroundColor="hover:bg-orange-600"
           handler={handleAddToCart}
         />

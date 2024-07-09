@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { getCheckout } from '../../services/apiWatches';
 import SummaryItems from './SummaryItems';
 import PageWrapper from '../../PageWrapper';
@@ -6,8 +6,9 @@ import Button from '../../ui/Button';
 import { HiArrowLeft } from 'react-icons/hi2';
 function Checkout() {
   const { id: cartId, cart, address, name } = useLoaderData();
-  const carts = useLoaderData();
+  // const carts = useLoaderData();
   // console.log(carts);
+  const navigate = useNavigate();
   const totalPrice = cart
     .filter((cart) => cart.totalPrice)
     .reduce((cur, acc) => cur + acc.totalPrice, 0);
@@ -50,6 +51,7 @@ function Checkout() {
           padding="p-1.5"
           backgroundColor="bg-gray-600 text-gray-50 hover:bg-gray-800"
           icon={<HiArrowLeft />}
+          handler={() => navigate('/cart')}
         />
       </div>
     </PageWrapper>
