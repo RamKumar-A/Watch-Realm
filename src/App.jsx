@@ -6,15 +6,16 @@ import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import About from './pages/About';
+import Cart from './pages/Cart';
+import Account from './pages/Account';
+import Checkout from './pages/Checkout';
+import Wishlist from './pages/Wishlist';
+import OrderDetails from './pages/OrderDetails';
+
 import Signup from './features/User/Signup';
 import Login from './features/User/Login';
-import Account from './pages/Account';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
 import Orders from './features/Order/Orders';
 import OrderSuccess from './features/Order/OrderSuccess';
-import OrderDetails from './pages/OrderDetails';
-import Wishlist from './pages/Wishlist';
 import ProductDetails from './features/Watchlist/ProductDetails';
 
 import AppLayout from './ui/AppLayout';
