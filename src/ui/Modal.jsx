@@ -1,8 +1,9 @@
 import { cloneElement, createContext, useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HiOutlineXMark } from 'react-icons/hi2';
-import useOutsideClick from '../hooks/useOutsideClick';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import useOutsideClick from '../hooks/useOutsideClick';
 
 const ModalContext = createContext();
 
@@ -27,6 +28,7 @@ function Trigger({ children, opens: opensWindow }) {
     },
   });
 }
+
 const containerVariants = {
   hide: {
     scale: 0,

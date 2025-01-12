@@ -1,156 +1,124 @@
-import { useDispatch } from 'react-redux';
-import {
-  decreaseItemQuantity,
-  deleteItem,
-  increaseItemQuantity,
-} from './cartSlice';
-import { HiMinus, HiPlus, HiTrash } from 'react-icons/hi2';
+import { AnimatePresence, motion } from 'framer-motion';
+import toast from 'react-hot-toast';
+import { HiMinusSmall, HiPlusSmall, HiTrash } from 'react-icons/hi2';
+
+import { useUpdateCartItem } from './useUpdateCartItem';
+import { useDeleteCartItem } from './useDeleteCartItem';
+import { useCart } from './useCart';
+
+import SuccessToast from '../../ui/SuccessToast';
+import ErrorToast from '../../ui/ErrorToast';
+import Spinner from '../../ui/Spinner';
 import Button from '../../ui/Button';
-import { motion } from 'framer-motion';
 
-function Quantity({ className, id, quantity }) {
-  const dispatch = useDispatch();
+function CartItems() {
+  const { cart } = useCart();
+  const { updateCartItem, isPending: isCartItemUpdating } = useUpdateCartItem();
+  const { deleteCartItem } = useDeleteCartItem();
 
-  function handleDelete(ids) {
-    dispatch(deleteItem(ids));
+  const cartItems = cart?.data.items;
+
+  function handleUpdateQuantity(itemId, quantity) {
+    updateCartItem({ itemId, quantity });
   }
-  return (
-    <div className="flex items-center justify-center gap-2 p-1 ">
-      <Button
-        className={`
-              ${className ? '' : ''}`}
-        handler={() => dispatch(decreaseItemQuantity(id))}
-        label={<HiMinus size={15} />}
-        padding={className ? 'p-0.5' : 'p-1'}
-      />
 
-      <h1 className={className ? 'text-sm' : 'p-1'}>{quantity}</h1>
-
-      <Button
-        className={`
-             ${className ? '' : ''}
-             `}
-        handler={() => dispatch(increaseItemQuantity(id))}
-        label={<HiPlus size={15} />}
-        padding={className ? 'p-0.5' : 'p-1'}
-      />
-      <Button
-        className={` ${className ? ' ' : ''}`}
-        handler={() => handleDelete(id)}
-        label={<HiTrash size={15} className="" />}
-        padding={className ? 'p-0.5' : 'p-1'}
-        backgroundColor="hover:bg-red-600"
-      />
-    </div>
-  );
-}
-
-function CartItems({ items, classes }) {
-  const {
-    id,
-    name,
-    price_range,
-    size,
-    material_type,
-    image_url,
-    quantity,
-    totalPrice,
-  } = items;
-
-  const tagList = [
-    { tagTitle: 'Material Type', tagVal: material_type },
-    { tagTitle: 'Size', tagVal: size },
-    { tagTitle: 'Price', tagVal: price_range },
-  ];
+  function handleRemoveCartItem(itemId) {
+    deleteCartItem(
+      { itemId },
+      {
+        onSuccess: () => {
+          toast.success((t) => (
+            <SuccessToast t={t}>Item deleted from cart</SuccessToast>
+          ));
+        },
+        onError: () => {
+          toast.error((t) => (
+            <ErrorToast t={t}>Error while deleting item</ErrorToast>
+          ));
+        },
+      }
+    );
+  }
 
   return (
-    <motion.div
-      className={` border border-gray-900 grid p-2 
-        ${
-          classes
-            ? 'w-full place-items-center my-2'
-            : 'm-2 sm:grid-cols-[12rem_1fr_auto] max-sm:justify-items-center px-4'
-        }`}
-      layout
-      initial={{ scale: 0.5, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.5, opacity: 0 }}
-    >
-      <div className="grid items-center justify-center w-full p-1  ">
-        <div
-          className={`
-           ${classes ? 'w-full h-40 sm:h-48' : 'w-full h-40'}`}
-        >
-          <img
-            src={image_url}
-            alt={id}
-            className={`object-contain aspect-video w-full h-full  ${
-              classes ? 'p-3' : 'p-3'
-            }`}
-          />
-        </div>
-        <Quantity className={classes} quantity={quantity} id={id} />
-      </div>
-      <div
-        className={`grid p-2  ${
-          classes
-            ? 'place-items-center'
-            : ' items-center place-items-center sm:place-items-start'
-        }`}
-      >
-        <h1
-          className={` py-2 font-medium text-center sm:text-left ${
-            classes ? ' text-lg' : ' text-lg'
-          }`}
-        >
-          {name}
-        </h1>
-        <div
-          className={
-            classes ? 'hidden' : 'place-self-center sm:place-self-start '
-          }
-        >
-          {tagList.map((tag) => (
-            <p
-              className={`flex items-center ${
-                tag.tagTitle === 'Price'
-                  ? 'py-2 font-semibold text-lg'
-                  : 'text-md'
-              } `}
-              key={tag.tagTitle}
-            >
-              <span className="w-32 py-1">
-                {tag.tagTitle}{' '}
-                {tag.tagTitle === 'Price' && (
-                  <span className="text-xs font-thin">(per item)</span>
-                )}{' '}
-              </span>
-              {tag.tagTitle !== 'Price' && <span> : </span>}
-              <span
-                className={`${tag.tagTitle === 'Price' ? 'font-semibold' : ''}`}
-              >
-                {tag.tagTitle === 'Price' && <span className="text-sm">$</span>}
-                {tag.tagVal}
-              </span>
-            </p>
-          ))}
-          <div className="w-full flex justify-start place-self-start">
-            <button className="bg-blue-500 text-gray-50 p-0.5 px-1 text-sm rounded-md">
-              Share
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        className={` font-bold place-self-center text-2xl text-gray-900 rounded-md  ${
-          classes ? 'p-1 px-2 ' : 'shadow shadow-gray-300 p-2'
-        }`}
-      >
-        <h1 className={classes ? '' : 'text-center  '}>
-          <span className="text-xs">$</span>
-          <span>{totalPrice}</span>
-        </h1>
-      </div>
+    <motion.div className="space-y-3 lg:flex-[1_1_25%]">
+      <AnimatePresence mode="wait" initial={false}>
+        {cartItems?.map((item, i) => (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            key={i}
+            className="bg-secondary-default p-6 rounded-lg shadow grid sm:grid-flow-col place-content-between place-items-center gap-6 "
+          >
+            <div className="w-full flex items-center justify-start gap-2">
+              <div className="w-20 h-20 ">
+                <img
+                  src={item?.watch?.imageCover}
+                  alt={item?.watch?.name}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+              <div className="">
+                <h2 className="text-base md:text-lg font-semibold line-clamp-2">
+                  {item?.watch?.name}
+                </h2>
+                <p className="opacity-50 max-md:text-sm">
+                  ₹{item?.watch?.price}
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-6 items-center">
+              <div className="flex items-center gap-4">
+                <Button
+                  size="small"
+                  variant="secondary"
+                  rounded="full"
+                  className={`${item?.quantity <= 1 && 'pointer-events-none'}`}
+                  // onClick={() => updateQuantity(item._id, +item.quantity - 1)}
+                  onClick={() =>
+                    handleUpdateQuantity(item?._id, +item?.quantity - 1)
+                  }
+                >
+                  <HiMinusSmall size={14} />
+                </Button>
+                <div>
+                  {isCartItemUpdating ? (
+                    <Spinner small background />
+                  ) : (
+                    item?.quantity
+                  )}
+                </div>
+                <Button
+                  size="small"
+                  variant="secondary"
+                  rounded="full"
+                  className=""
+                  // onClick={() => updateQuantity(item._id, +item.quantity + 1)}
+                  onClick={() =>
+                    handleUpdateQuantity(item?._id, +item?.quantity + 1)
+                  }
+                >
+                  <HiPlusSmall size={14} />
+                </Button>
+              </div>
+              <div>
+                <Button
+                  size="small"
+                  rounded="small"
+                  variant="danger"
+                  className=""
+                  // onClick={() => removeItem(item._id)}
+                  onClick={() => handleRemoveCartItem(item?._id)}
+                >
+                  <HiTrash size={12} className="" />
+                  {/* Remove */}
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </motion.div>
   );
 }

@@ -1,36 +1,69 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { filterBrand } from './filterSlice';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-function FilterBrand({ items, setBrandIds, brandIds }) {
-  const dispatch = useDispatch();
-  function handleChange(e) {
-    const { id, checked } = e.target;
-    const newSelectedIds = checked
-      ? [...new Set([...brandIds, parseInt(id)])]
-      : brandIds.filter((rmvId) => rmvId !== parseInt(id));
-    setBrandIds(newSelectedIds);
+import { useWatchFilter } from './useWatchFilters';
+import { useFilter } from '../../Context/FilterContext';
+
+import FilterWrapper from './FilterWrapper';
+import FilterTitle from './filters/FilterTitle';
+
+import { filterChildVariants } from '../../helpers/variants';
+
+import Checkbox from '../../ui/Checkbox';
+import Collapse from '../../ui/Collapse';
+
+function FilterBrand() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const { brandData } = useWatchFilter();
+  const { selectedBrand, setSelectedBrand } = useFilter();
+
+  function handleSelectedBrand(brand, checked) {
+    const updatedBrand = checked
+      ? [...selectedBrand, brand]
+      : selectedBrand.filter((item) => item !== brand);
+    setSelectedBrand(updatedBrand);
+    const brandParams = updatedBrand.join(',');
+    if (brandParams) {
+      searchParams.set('brand', brandParams);
+    } else {
+      searchParams.delete('brand');
+    }
+    setSearchParams(searchParams);
   }
 
-  useEffect(
-    function () {
-      dispatch(filterBrand(brandIds));
-    },
-    [dispatch, brandIds]
-  );
-
   return (
-    <>
-      <input
-        type="checkbox"
-        id={items.id}
-        className="accent-green-600 "
-        value={items.name}
-        checked={brandIds.includes(parseInt(items.id))}
-        onChange={(e) => handleChange(e)}
-      />
-      <label htmlFor={items.id}>{items.name}</label>
-    </>
+    <div>
+      <FilterWrapper>
+        <FilterTitle onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
+          Brand
+        </FilterTitle>
+        <Collapse open={isOpen}>
+          <div className="max-h-28 overflow-y-auto space-y-1.5 py-3 ">
+            {brandData?.data?.map((brand, i) => (
+              <motion.div
+                key={brand._id}
+                className="origin-left"
+                initial="initial"
+                animate="animate"
+                variants={filterChildVariants}
+                custom={i}
+              >
+                <Checkbox
+                  label={brand.brand}
+                  checked={selectedBrand.includes(brand.brand)}
+                  onChange={(e) =>
+                    handleSelectedBrand(brand.brand, e.target.checked)
+                  }
+                />
+              </motion.div>
+            ))}
+          </div>
+        </Collapse>
+      </FilterWrapper>
+    </div>
   );
 }
 

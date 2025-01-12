@@ -1,38 +1,71 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { filterCategory } from './filterSlice';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-function FilterCategory({ items, categoryIds, setCategoryIds }) {
-  const dispatch = useDispatch();
+import { useWatchFilter } from './useWatchFilters';
+import { useFilter } from '../../Context/FilterContext';
 
-  function handleChange(e) {
-    const { id, checked } = e.target;
-    const newSelectedCategoryId = checked
-      ? [...new Set([...categoryIds, parseInt(id)])]
-      : categoryIds.filter((rmvId) => rmvId !== parseInt(id));
+import FilterWrapper from './FilterWrapper';
+import FilterTitle from './filters/FilterTitle';
 
-    setCategoryIds(newSelectedCategoryId);
+import { filterChildVariants } from '../../helpers/variants';
+import Collapse from '../../ui/Collapse';
+import Checkbox from '../../ui/Checkbox';
+
+function FilterCategory() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const { categoryData } = useWatchFilter();
+  const { selectedCategory, setSelectedCategory } = useFilter();
+
+  function handleSelectedCategory(category, checked) {
+    const updatedCategory = checked
+      ? [...selectedCategory, category]
+      : selectedCategory.filter((item) => item !== category);
+
+    setSelectedCategory(updatedCategory);
+
+    const categoryParams = updatedCategory.join(',');
+    if (categoryParams) {
+      searchParams.set('category', categoryParams);
+    } else {
+      searchParams.delete('category');
+    }
+    setSearchParams(searchParams);
   }
 
-  useEffect(
-    function () {
-      dispatch(filterCategory(categoryIds));
-    },
-    [categoryIds, dispatch]
-  );
-
   return (
-    <>
-      <input
-        type="checkbox"
-        className="accent-green-600"
-        id={items.id}
-        value={items.name}
-        checked={categoryIds.includes(parseInt(items.id))}
-        onChange={(e) => handleChange(e)}
-      />
-      <label htmlFor={items.id}>{items.name}</label>
-    </>
+    <div className="">
+      <FilterWrapper>
+        <FilterTitle onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
+          Category
+        </FilterTitle>
+
+        <Collapse open={isOpen}>
+          <div className="max-h-28 overflow-y-auto space-y-1.5 py-3">
+            {categoryData?.data?.map((category, i) => (
+              <motion.div
+                key={category._id}
+                className="origin-left"
+                initial="initial"
+                animate="animate"
+                custom={i}
+                variants={filterChildVariants}
+              >
+                <Checkbox
+                  label={category.category}
+                  checked={selectedCategory.includes(category.category)}
+                  onChange={(e) =>
+                    handleSelectedCategory(category.category, e.target.checked)
+                  }
+                />
+              </motion.div>
+            ))}
+          </div>
+        </Collapse>
+      </FilterWrapper>
+    </div>
   );
 }
 

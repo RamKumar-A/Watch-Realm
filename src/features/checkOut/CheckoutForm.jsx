@@ -1,45 +1,95 @@
-import InputWithLabel from '../../ui/InputWithLabel';
+import { useForm } from 'react-hook-form';
+
+import FormError from '../../ui/FormError';
 
 function CheckoutForm() {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ defaultValues: { country: 'IN' } });
+
+  function submit(data) {}
+
   return (
-    <fieldset className="border py-4 px-2 bg-gray-200 rounded-sm ">
-      <legend className="bg-gray-50 rounded-sm border border-gray-400 p-1 px-2 text-lg font-medium">
-        Checkout Details
-      </legend>
-      <div className="gap-4 grid sm:grid-cols-2 grid-cols-1 sm:content-center">
-        <InputWithLabel label="Name" id="name" type="text" />
-
-        <InputWithLabel label="Mobile Number" id="mobile" type="number" />
-
-        <InputWithLabel label="Pin Code" id="pin-code" type="number" />
-
-        <InputWithLabel label="Email" id="mail" type="email" />
-
-        <div className="relative sm:col-span-2">
-          <textarea
-            className="px-1 py-2 h-20 block w-full text-sm text-gray-900 border  border-gray-300 outline-none peer resize-none"
-            rows="2"
-            id="address"
-            name="address"
-            placeholder=""
-          />
+    <form className="space-y-4" onSubmit={handleSubmit(submit)}>
+      <h2 className="mb-4 font-bold">Address</h2>
+      <div className="flex flex-wrap gap-4 mb-4">
+        <div className="">
           <label
-            htmlFor="address"
-            className=" absolute top-5 left-2 text-sm duration-300 peer-focus:-translate-y-[2rem] peer-focus:scale-75 -translate-y-[2rem] scale-75 z-10 peer-valid:text-sm px-1 peer-valid:bg-gray-50 peer-placeholder-shown:bg-gray-50  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1/2"
+            htmlFor="Country"
+            className="w-full text-gray-700 font-medium mb-2"
           >
-            Address (Area and Street)
+            Country
           </label>
+          <input
+            type="text"
+            id="Country"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+            placeholder="Enter your country"
+            disabled
+            {...register('country', { value: 'IN' })}
+          />
+          <FormError error={errors?.country?.message} />
         </div>
-
-        <InputWithLabel label="Landmark (optional)" id="landmark" type="text" />
-
-        <InputWithLabel
-          label="Alternative Phone (optional)"
-          id="alternate-number"
-          type="number"
-        />
+        <div className="">
+          <label
+            htmlFor="state"
+            className="w-full text-gray-700 font-medium mb-2"
+          >
+            State
+          </label>
+          <input
+            type="text"
+            id="state"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+            placeholder="Enter your state"
+            {...register('state', {
+              required: 'This field is required',
+            })}
+          />
+          <FormError error={errors?.state?.message} />
+        </div>
+        <div className="">
+          <label
+            htmlFor="street"
+            className="w-full text-gray-700 font-medium mb-2"
+          >
+            Street
+          </label>
+          <input
+            type="text"
+            id="street"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+            placeholder="Enter your street"
+            {...register('street', {
+              required: 'This field is required',
+            })}
+          />
+          <FormError error={errors?.street?.message} />
+        </div>
+        <div className="">
+          <label
+            htmlFor="pincode"
+            className="w-full text-gray-700 font-medium mb-2"
+          >
+            Pin Code
+          </label>
+          <input
+            type="number"
+            id="pincode"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+            placeholder="Enter your pincode"
+            {...register('pincode', {
+              required: 'This field is required',
+            })}
+          />
+          <FormError error={errors?.pincode?.message} />
+        </div>
       </div>
-    </fieldset>
+
+      <button type="submit">submit</button>
+    </form>
   );
 }
 

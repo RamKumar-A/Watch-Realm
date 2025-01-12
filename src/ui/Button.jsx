@@ -1,64 +1,123 @@
 import { motion } from 'framer-motion';
+// import { PropTypes } from 'prop-types';
 
-const containerVariants = {
-  hover: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const childVariants = {
+const firstTextVariant = {
   initial: {
-    x: 0,
-    opacity: 1,
+    y: 0,
   },
   hover: {
-    x: -2,
-    opacity: 1,
+    y: -30,
     transition: {
-      type: 'spring',
-      stiffness: 300,
+      duration: 1.125,
+      ease: [0.19, 1, 0.22, 1],
+    },
+  },
+  animate: {
+    y: 0,
+    transition: {
+      duration: 1.125,
+      ease: [0.19, 1, 0.22, 1],
     },
   },
 };
 
-function Button(
-  {
-    handler,
-    icon,
-    label,
-    padding = 'p-1',
-    backgroundColor = 'bg-transparent hover:bg-gray-700 ',
-    otherClasses,
+const secondTextVariant = {
+  initial: {
+    y: 30,
   },
-  props
-) {
+  hover: {
+    y: 0,
+    transition: {
+      duration: 1.125,
+      ease: [0.19, 1, 0.22, 1],
+    },
+  },
+  animate: {
+    y: 30,
+    transition: {
+      duration: 1.125,
+      ease: [0.19, 1, 0.22, 1],
+    },
+  },
+};
+
+function Button({
+  children,
+  variant = 'primary',
+  size = 'medium',
+  disabled = false,
+  onClick,
+  className = '',
+  rounded = 'xs',
+  animation = true,
+  ...props
+}) {
+  const baseStyles = 'font-medium overflow-hidden ';
+
+  const variantStyles = {
+    primary:
+      ' bg-accent-primary text-contrastText-secondary hover:brightness-110',
+    secondary:
+      'bg-accent-secondary text-contrastText-primary hover:bg-secondary-light',
+    danger: 'bg-red-600 text-emerald-50',
+    text: 'bg-transparent',
+  };
+
+  const sizeStyles = {
+    small: 'px-3 py-1 text-sm',
+    medium: 'px-4 py-2 text-md',
+    large: 'px-6 py-3 text-lg',
+  };
+
+  const roundedStyles = {
+    xs: 'rounded-sm',
+    small: 'rounded-md',
+    medium: 'rounded-lg',
+    large: 'rounded-xl',
+    full: 'rounded-full',
+  };
+
+  const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${
+    sizeStyles[size]
+  } ${disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''} ${
+    roundedStyles[rounded]
+  } ${className}`;
+
   return (
-    <motion.div
-      className={`w-fit border border-gray-400 hover:border-gray-100 group hover:transition-all duration-200 cursor-pointer  ${padding} ${otherClasses} ${backgroundColor}
-      } `}
-      variants={containerVariants}
-      whileHover="hover"
+    <motion.button
+      className={combinedStyles}
+      onClick={onClick}
+      disabled={disabled}
       initial="initial"
-      whileTap={{ scale: 0.9 }}
-      onClick={handler}
+      whileHover="hover"
+      animate="animate"
       {...props}
     >
-      <motion.button
-        className={`flex w-full items-center gap-1 text-sm border border-transparent  group-hover:border-gray-100 group-hover:transition-all group-hover:duration-500  ${padding}`}
-        whileHover="hover"
-        initial="initial"
-      >
-        {icon && (
-          <motion.span className="" variants={childVariants}>
-            {icon}
-          </motion.span>
+      <div className={`overflow-hidden relative  `}>
+        <motion.p variants={animation ? firstTextVariant : ''}>
+          {children}
+        </motion.p>
+        {animation && (
+          <motion.p
+            variants={secondTextVariant}
+            aria-hidden
+            className={`absolute inset-0   `}
+          >
+            {children}
+          </motion.p>
         )}
-        <span className="group-hover:text-gray-50">{label}</span>
-      </motion.button>
-    </motion.div>
+      </div>
+    </motion.button>
   );
 }
+
+// Button.propTypes = {
+//   children: PropTypes.node.isRequired,
+//   variant: PropTypes.oneOf(['primary', 'secondary', 'danger']),
+//   size: PropTypes.oneOf(['small', 'medium', 'large']),
+//   disabled: PropTypes.bool,
+//   onClick: PropTypes.func,
+//   className: PropTypes.string,
+// };
 
 export default Button;

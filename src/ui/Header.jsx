@@ -1,93 +1,136 @@
-import { useEffect, useState } from 'react';
-import NavBar from './NavBar';
-import { HiXMark } from 'react-icons/hi2';
-import { HiMenuAlt2, HiSearch, HiShoppingCart } from 'react-icons/hi';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { HiMenuAlt2 } from 'react-icons/hi';
+import { HiOutlineShoppingCart, HiOutlineUserCircle } from 'react-icons/hi2';
+
+import { useUser } from '../features/user/useUser';
+import { useCart } from '../features/cart/useCart';
+import { useLogout } from '../features/user/useLogout';
 import CartModal from '../features/cart/CartModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCart } from '../features/cart/cartSlice';
+
 import Logo from './Logo';
-import useOutsideClick from '../hooks/useOutsideClick';
-import { motion, AnimatePresence } from 'framer-motion';
-import { searchWatch } from '../features/watchList/filterSlice';
+import Drawer from './Drawer';
+import MobileNavbar from './MobileNavbar';
+import Menu from './Menu';
+import MenuItem from './MenuItem';
+import NavBar from './NavBar';
+import Search from './Search';
 
-function Header({ isToggle, setIsToggle, handleMenuToggle }) {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [query, setQuery] = useState('');
-  const [cartModalToggle, setCartModalToggle] = useState(false);
-  const dispatch = useDispatch();
-  const ref = useOutsideClick(() => setIsSearchOpen(false));
-  const cartlength = useSelector(getCart);
+function Header() {
+  const navigate = useNavigate();
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const anchorRef = useRef(null);
 
-  useEffect(
-    function () {
-      dispatch(searchWatch(query));
-    },
-    [query, dispatch]
-  );
+  const { cart } = useCart();
+  const { user, isAuthenticated } = useUser();
+  const { logout } = useLogout();
+
+  const userPhoto = user?.data?.photo;
+  const cartItems = cart?.data?.items;
+
+  function handleLogout() {
+    logout();
+  }
+
+  function toggleMenu() {
+    setIsMenuOpen((prev) => !prev);
+  }
 
   return (
-    <header className="grid grid-cols-3 items-center w-full py-3 px-1 sm:px-6 bg-gray-50 z-10 relative">
-      <div className="flex items-center  text-2xl">
-        <div onClick={handleMenuToggle} className="pr-3">
-          <HiMenuAlt2 className=" md:hidden " />
+    <>
+      <header className="grid grid-cols-3 items-center w-full px-1 sm:px-6 py-2 z-10 relative ">
+        <div className="flex items-center text-2xl">
+          <div className="pr-3 md:hidden" onClick={() => setIsNavOpen(true)}>
+            <HiMenuAlt2 />
+          </div>
+          <Logo />
         </div>
-        <Logo />
-      </div>
-      <NavBar isToggle={isToggle} handleMenuToggle={handleMenuToggle} />
-      <div className="flex items-center w-fit justify-end justify-self-end gap-3">
-        <AnimatePresence mode="wait" initial={false}>
-          {isSearchOpen && (
-            <motion.form
-              className="w-full inset-0 backdrop-blur-md absolute rounded-md h-full flex items-center justify-center gap-1 sm:gap-5 z-50  sm:bg-gray-50 origin-right"
-              ref={ref}
-              initial={{ opactiy: 0, scale: 0 }}
-              animate={{ opactiy: 1, scale: 1 }}
-              exit={{ opactiy: 0, scale: 0 }}
-              onSubmit={(e) => e.preventDefault()}
+        <NavBar />
+        <div className="flex items-center w-fit justify-end justify-self-end gap-3">
+          {/* <div className="flex justify-around items-center gap-3 "> */}
+          <div className="relative">
+            <div
+              ref={anchorRef}
+              onClick={toggleMenu}
+              className="w-8 h-8 hidden md:block cursor-pointer"
             >
-              <input
-                type="search"
-                className="border border-gray-900  rounded-lg basis-3/4 items-center p-3 relative"
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              <button
-                className="font-bold  bg-gray-900 rounded-full "
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-              >
-                <HiXMark size={24} className="p-0.5 text-gray-300 " />
-              </button>
-            </motion.form>
-          )}
-        </AnimatePresence>
-        <div className="mt-1.5 flex text-2xl justify-around items-center gap-3">
-          <h2 className="cursor-pointer">
-            <HiSearch
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              size={26}
-              className="text-lg sm:text-2xl"
-            />
-          </h2>
+              {isAuthenticated && userPhoto ? (
+                <div className=" rounded-full">
+                  <img
+                    src={userPhoto}
+                    className="w-full h-full rounded-full"
+                    alt={user?.data?.id}
+                  />
+                </div>
+              ) : (
+                <HiOutlineUserCircle className="w-full h-full" />
+              )}
+            </div>
+            <Menu
+              isOpen={isMenuOpen}
+              anchorRef={anchorRef}
+              onClose={() => setIsMenuOpen(false)}
+            >
+              {isAuthenticated ? (
+                <>
+                  <MenuItem onClick={() => navigate('/my-account')}>
+                    My Account
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/my-wishlist')}>
+                    My Wishlist
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem className="" onClick={() => navigate('/login')}>
+                    Login
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/signup')}>
+                    Signup
+                  </MenuItem>
+                </>
+              )}
+            </Menu>
+          </div>
+
+          <Search />
 
           <h2
             className="relative cursor-pointer "
-            onClick={() => setCartModalToggle(!cartModalToggle)}
+            onClick={() => setIsCartOpen(true)}
           >
-            <HiShoppingCart size={26} className="" />
-            <span className="text-[0.35rem] absolute text-gray-100 z-10  w-3 h-3 bg-red-600 flex items-center justify-center rounded-full top-0 right-0 ">
-              {cartlength.length}
+            <HiOutlineShoppingCart size={24} className="" />
+            <span className="text-[0.35rem] absolute z-10 w-3 h-3 bg-accent-primary text-accent-secondary flex items-center justify-center rounded-full top-0 right-0 ">
+              {cartItems?.length || 0}
             </span>
           </h2>
+
           <AnimatePresence mode="wait" initial={false}>
-            {cartModalToggle && (
-              <CartModal
-                modalToggle={cartModalToggle}
-                setModal={setCartModalToggle}
-              />
-            )}
+            <Drawer
+              isOpen={isCartOpen}
+              position="right"
+              onClose={() => setIsCartOpen(false)}
+            >
+              <CartModal onClose={() => setIsCartOpen(false)} />
+            </Drawer>
           </AnimatePresence>
+          <AnimatePresence mode="wait" initial={false}>
+            <Drawer
+              isOpen={isNavOpen}
+              position="left"
+              onClose={() => setIsNavOpen(false)}
+            >
+              <MobileNavbar onClose={() => setIsNavOpen(false)} />
+            </Drawer>
+          </AnimatePresence>
+          {/* </div> */}
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
 

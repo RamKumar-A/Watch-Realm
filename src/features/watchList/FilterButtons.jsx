@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { HiChevronDown } from 'react-icons/hi2';
 import { AnimatePresence, motion } from 'framer-motion';
+import { HiChevronDown } from 'react-icons/hi2';
 
 function FilterButtons({ children, title, noMap }) {
   const [buttonToggle, setButtonToggle] = useState(false);

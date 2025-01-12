@@ -1,149 +1,187 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { HiHeart, HiMiniStar, HiOutlineHeart } from 'react-icons/hi2';
-import { IoCartOutline, IoCartSharp } from 'react-icons/io5';
-import { motion } from 'framer-motion';
-import { deleteList } from '../Wishlist/wishlistSlice';
-import { addItem } from '../cart/cartSlice';
-import { addList } from '../Wishlist/wishlistSlice';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../../ui/Modal';
-import CartModal from '../cart/CartModal';
+import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
+import { HiHeart, HiStar } from 'react-icons/hi2';
+
+import { useCreateCartItem } from '../cart/useCreateCartItem';
+import { useCart } from '../cart/useCart';
+import { useCreateWishlist } from '../wishlist/useCreateWishlist';
+import { useWishlist } from '../wishlist/useWishlist';
+
+import Spinner from '../../ui/Spinner';
+import SuccessToast from '../../ui/SuccessToast';
+import ErrorToast from '../../ui/ErrorToast';
+import Button from '../../ui/Button';
 
 function ProductItems({ watch }) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isInCart, setIsInCart] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
-  const { id, name, price_range, ratings, image_url } = watch;
+  const {
+    name,
+    price,
+    imageCover,
+    ratingsAverage,
+    discountPercentage,
+    brand: { brand },
+    slug,
+    id,
+  } = watch || {};
 
-  const cartData = useSelector((state) => state.cart.cart);
-  const wishListData = useSelector((state) => state.wishlist.wishlist);
+  const { cart } = useCart();
+  const { wishlist } = useWishlist();
+  const { createCartItem, isPending: isCartItemCreating } = useCreateCartItem();
+  const { createWishlistItem, isPending: isWishlistItemCreating } =
+    useCreateWishlist();
 
-  const cart = cartData.map((cart) => cart.id) || [];
-  const wishlist = wishListData.map((list) => list.id) || [];
+  useEffect(
+    function () {
+      const inCart = cart?.data?.items?.some((c) => c.watch.id === id);
+      setIsInCart(inCart);
+      const inWishlist = wishlist?.data?.items?.some(
+        (w) => w?.watch?._id === id
+      );
+      setIsInWishlist(inWishlist);
+    },
+    [cart?.data?.items, id, wishlist]
+  );
 
-  const price = Number(price_range.slice(1));
+  function handleCreateWishlist() {
+    createWishlistItem(
+      { watchId: id },
+      {
+        onSuccess: () => {
+          toast.success((t) => (
+            <SuccessToast t={t}>Item Added to Wishlist</SuccessToast>
+          ));
+        },
+        onError: () => {
+          toast.error((t) => (
+            <ErrorToast t={t}>Error while updating wishlist</ErrorToast>
+          ));
+        },
+      }
+    );
+  }
+
+  function handleProduct() {
+    navigate(`/productdetails/${slug}/${id}`);
+  }
 
   function handleAddToCart() {
-    const newItem = {
-      ...watch,
-      quantity: 1,
-      price_range: price,
-      totalPrice: price * 1,
-    };
-
-    dispatch(addItem(newItem));
-  }
-
-  function handleAddToWishlist() {
-    const newItem = {
-      ...watch,
-      price_range: price,
-    };
-    dispatch(addList(newItem));
-  }
-
-  function handleDeleteList() {
-    dispatch(deleteList(id));
-  }
-
-  function handleDetails() {
-    navigate(`/watchdetails/${id}`);
+    createCartItem(
+      {
+        watchId: id,
+      },
+      {
+        onSuccess: () => {
+          toast.success((t) => (
+            <SuccessToast t={t}>Item Added to cart</SuccessToast>
+          ));
+        },
+        onError: () => {
+          toast.error((t) => (
+            <ErrorToast t={t}>Error while updating cart</ErrorToast>
+          ));
+        },
+      }
+    );
   }
 
   return (
-    <motion.main
-      className="w-80 bg-gray-100 border-gray-300 cursor-pointer p-2 border shadow-sm shadow-gray-400"
-      whileHover={{
-        boxShadow: '0 10px 15px -3px #686868, 0 4px 6px -4px #ffffff',
-        backgroundColor: '#e5e7eb',
-      }}
-    >
-      <div className="">
-        <div className="w-full h-80 border relative border-gray-200 backdrop-brightness-150 ">
-          <img
-            className="w-full h-full aspect-square object-contain p-3 "
-            src={image_url}
-            alt={id}
-            onClick={handleDetails}
-          />
-          <button
-            className="p-2 border-2 rounded-full bg-gray-50 absolute top-2 right-2 border-gray-500 text-2xl "
-            onClick={
-              wishlist.includes(id) ? handleDeleteList : handleAddToWishlist
-            }
-          >
-            {wishlist.includes(id) ? (
-              <HiHeart className="text-red-600" />
-            ) : (
-              <span className="flex items-center">
-                <HiOutlineHeart className="text-gray-700 " />
-              </span>
-            )}
-          </button>
-        </div>
-        <div className="">
-          <h1
-            className="w-full h-20 flex items-center text-center justify-center text-lg font-bold "
-            onClick={handleDetails}
-          >
-            {name}
-          </h1>
-          <div className="flex items-center justify-between text-xl px-2 py-3 ">
-            <span className="flex items-center text-xs font-bold bg-green-600 text-gray-100 py-1 px-2 rounded-xl ">
-              <HiMiniStar size={10} />
-              {ratings}
-            </span>
-            <div className="flex items-center gap-1 ">
-              <span className="font-bold text-2xl">${price}</span>
-              <span className="text-xs line-through font-normal">
-                $45000.35
-              </span>
-            </div>
-          </div>
-          <Modal>
-            <motion.button
-              className="border w-full flex items-center p-2 border-gray-500 justify-center gap-2 bg-gray-300 "
-              onClick={handleAddToCart}
-              disabled={cart.includes(id)}
-              whileHover={{ backgroundColor: '#eb551a', color: '#fff' }}
-              transition={{ type: 'spring', duration: 0.8 }}
-            >
-              <Modal.Trigger opens="cart">
-                <>
-                  {cart.includes(id) ? (
-                    <IoCartSharp size={26} />
-                  ) : (
-                    <span className="flex items-center">
-                      <IoCartOutline size={26} />
-                    </span>
-                  )}
-                  <span>Add to cart</span>
-                </>
-              </Modal.Trigger>
-            </motion.button>
-            <Modal.Content name="cart">
-              <CartModal />
-            </Modal.Content>
+    <motion.div className="min-w-72 max-w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default/90 text-contrastText-primary transition hover:shadow-lg ">
+      {/* <!-- Product Image --> */}
+      <div
+        className="relative w-full h-72"
+        // onClick={handleProduct}
+      >
+        <img
+          src={imageCover}
+          alt="Rolex Submariner"
+          className="w-full h-full object-cover scale-75"
+        />
+        {/* <!-- Badge --> */}
 
-            {/* <button
-                className="p-2 border border-gray-500 text-2xl "
-                onClick={
-                  wishlist.includes(id) ? handleDeleteList : handleAddToWishlist
-                }
-              >
-                {wishlist.includes(id) ? (
-                  <HiHeart className="text-red-600" />
-                ) : (
-                  <span className="flex items-center">
-                    <HiOutlineHeart className="text-gray-700 " />
-                  </span>
-                )}
-              </button> */}
-            {/* </div> */}
-          </Modal>
+        <span className="absolute top-2 left-2 backdrop-brightness-95 cursor-pointer text-green-600 text-xs font-semibold px-2 py-1 rounded-lg">
+          {discountPercentage}% Off
+        </span>
+
+        <Button
+          className={`absolute top-2 right-2 border border-highlight-default py-3 ${
+            isInWishlist && 'pointer-events-none'
+          }`}
+          size="small"
+          variant={'text'}
+          rounded="full"
+          onClick={handleCreateWishlist}
+          // disabled={isInWishlist}
+        >
+          {isWishlistItemCreating ? (
+            <Spinner small background />
+          ) : (
+            <HiHeart
+              className={` ${
+                isInWishlist ? 'text-red-500' : 'text-secondary-dark'
+              }`}
+              size={18}
+            />
+          )}
+        </Button>
+      </div>
+
+      {/* <!-- Card Content --> */}
+      <div className="py-2 px-4 h-full space-y-3">
+        {/* <!-- Product Title --> */}
+        <h2 className="text-lg line-clamp-1 font-medium">{name}</h2>
+        <p className="text-lg contrast-0 capitalize">{brand}</p>
+
+        <div className="flex items-center justify-between">
+          {/* <!-- Price --> */}
+          <p className="text-lg font-extrabold ">
+            ₹{(price / (discountPercentage / 100)).toLocaleString()}
+          </p>
+          {/* <!-- Rating --> */}
+          <div className="flex items-center justify-center ">
+            <span className=" text-white flex items-center justify-center gap-0.5 bg-green-600  px-1.5 rounded-full text-xs ">
+              {ratingsAverage}
+              <HiStar className="text-white " size={12} />
+            </span>
+          </div>
         </div>
       </div>
-    </motion.main>
+
+      {/* <!-- Card Actions --> */}
+      <div className=" p-4 flex justify-between items-center gap-4">
+        <Button
+          className="w-1/2 flex items-center justify-center"
+          // className=" border border-white text-white"
+          rounded="small"
+          onClick={handleAddToCart}
+          size="medium"
+          disabled={isInCart}
+        >
+          {isCartItemCreating ? (
+            <Spinner small />
+          ) : isInCart ? (
+            'In Cart'
+          ) : (
+            'Add to Cart'
+          )}
+        </Button>
+
+        <Button
+          variant="secondary"
+          size="medium"
+          rounded="small"
+          className="w-1/2"
+          onClick={handleProduct}
+        >
+          View Details
+        </Button>
+      </div>
+    </motion.div>
   );
 }
 

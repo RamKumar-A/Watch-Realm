@@ -1,15 +1,9 @@
 import Sort from './Sort';
 import FilterTemplate from './FilterTemplate';
 
-function ProductSidebarModal({ watch, brands, categories, openFilters }) {
+function ProductSidebarModal() {
   return (
-    <FilterTemplate
-      openFilters={openFilters}
-      // classes={`${openFilters ? 'block' : 'hidden'} p-5 w-[250px] sm:block`}
-      // watch={watch}
-      // brands={brands}
-      // categories={categories}
-    >
+    <FilterTemplate>
       <Sort />
     </FilterTemplate>
   );

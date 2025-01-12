@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 function useOutsideClick(handler, listenCaputuring = true) {
   const ref = useRef();
+
   useEffect(
     function () {
       function handleClick(e) {
@@ -16,7 +17,8 @@ function useOutsideClick(handler, listenCaputuring = true) {
     },
     [handler, listenCaputuring]
   );
-  return ref;
+
+  return { ref };
 }
 
 export default useOutsideClick;

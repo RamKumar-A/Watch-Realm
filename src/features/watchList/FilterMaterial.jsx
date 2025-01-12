@@ -1,38 +1,69 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { filterMaterial } from './filterSlice';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-function FilterMaterial({ items, materialType, setMaterialType }) {
-  const dispatch = useDispatch();
+import { useWatchFilter } from './useWatchFilters';
+import { useFilter } from '../../Context/FilterContext';
 
-  function handleChange(e) {
-    const { value, checked } = e.target;
-    const newSelectedMaterial = checked
-      ? [...new Set([...materialType, value])]
-      : materialType.filter((rmvType) => rmvType !== value);
+import FilterWrapper from './FilterWrapper';
+import FilterTitle from './filters/FilterTitle';
 
-    setMaterialType(newSelectedMaterial);
+import { filterChildVariants } from '../../helpers/variants';
+
+import Collapse from '../../ui/Collapse';
+import Checkbox from '../../ui/Checkbox';
+
+function FilterMaterial() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const { materialData } = useWatchFilter();
+  const { selectedMaterial, setSelectedMaterial } = useFilter();
+
+  function handleSelectedMaterial(material, checked) {
+    const updatedMaterial = checked
+      ? [...selectedMaterial, material]
+      : selectedMaterial.filter((item) => item !== material);
+    setSelectedMaterial(updatedMaterial);
+    const materialParams = updatedMaterial.join(',');
+    if (materialParams) {
+      searchParams.set('material', materialParams);
+    } else {
+      searchParams.delete('material');
+    }
+    setSearchParams(searchParams);
   }
 
-  useEffect(
-    function () {
-      dispatch(filterMaterial(materialType));
-    },
-    [dispatch, materialType]
-  );
-
   return (
-    <>
-      <input
-        type="checkbox"
-        id={items}
-        className="accent-green-600"
-        value={items}
-        checked={materialType.includes(items)}
-        onChange={(e) => handleChange(e)}
-      />
-      <label htmlFor={items}>{items}</label>
-    </>
+    <div>
+      <FilterWrapper>
+        <FilterTitle isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>
+          Material
+        </FilterTitle>
+        <Collapse open={isOpen}>
+          <div className="max-h-28 overflow-y-auto space-y-1.5 py-3 ">
+            {materialData?.data?.map((material, i) => (
+              <motion.div
+                key={material._id}
+                className="origin-left"
+                initial="initial"
+                animate="animate"
+                variants={filterChildVariants}
+                custom={i}
+              >
+                <Checkbox
+                  label={material.material}
+                  checked={selectedMaterial.includes(material.material)}
+                  onChange={(e) =>
+                    handleSelectedMaterial(material.material, e.target.checked)
+                  }
+                />
+              </motion.div>
+            ))}
+          </div>
+        </Collapse>
+      </FilterWrapper>
+    </div>
   );
 }
 

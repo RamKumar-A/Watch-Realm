@@ -19,6 +19,7 @@ const pageVariants = {
 
 function PageWrapper({ children }) {
   const location = useLocation();
+
   return (
     <motion.div
       variants={pageVariants}

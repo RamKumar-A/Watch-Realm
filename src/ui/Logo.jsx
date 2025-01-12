@@ -4,9 +4,9 @@ function Logo() {
   return (
     <div className="font-dancingScript font-extrabold">
       <Link to="/">
-        <h2 className="lg:text-4xl text-gray-800 text-3xl space-x-1 logo ">
-          <span>Watch</span>
-          <span className="text-gray-400 ">Realm</span>
+        <h2 className="lg:text-4xl text-contrastText-primary md:text-3xl text-[1.65rem] space-x-1 logo drop-shadow-md">
+          <span className="">Watch</span>
+          <span className="text-contrastText-primary/40 ">Realm</span>
         </h2>
       </Link>
     </div>

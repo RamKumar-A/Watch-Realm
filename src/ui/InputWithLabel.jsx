@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-const InputWithLabel = ({ type, id, label, children }) => {
+function InputWithLabel({ type, id, label, children }) {
   return (
     <div className={`relative  `}>
       {children ? (
@@ -25,6 +25,6 @@ const InputWithLabel = ({ type, id, label, children }) => {
       </motion.label>
     </div>
   );
-};
+}
 
 export default InputWithLabel;

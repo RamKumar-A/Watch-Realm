@@ -1,98 +1,62 @@
-import { useEffect, useState } from 'react';
-import { HiChevronDown } from 'react-icons/hi2';
-import useClickOutside from '../../hooks/useOutsideClick';
-import { motion, AnimatePresence } from 'framer-motion';
-import { sortBy } from './filterSlice';
-import { useDispatch } from 'react-redux';
+import { motion } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
+
+import { useFilter } from '../../Context/FilterContext';
+
 const sortTypes = [
-  { type: 'ascending', label: 'A-Z' },
-  { type: 'descending', label: 'Z-A' },
-  { type: 'high-low', label: 'High-Low' },
-  { type: 'low-high', label: 'Low-High' },
+  { type: 'name', label: 'A-Z' },
+  { type: '-name', label: 'Z-A' },
+  { type: 'price', label: 'Price -- Low to High' },
+  { type: '-price', label: 'Price -- High to Low' },
 ];
-function Sort() {
-  const [toggleSort, setToggleSort] = useState(false);
-  const [sortType, setSortType] = useState('ascending');
-  const dispatch = useDispatch();
-  // const { dispatch } = useFilter();
 
-  const ref = useClickOutside(() => setToggleSort(false));
+function Sort({ visible }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { selectedSort, setSelectedSort } = useFilter();
 
-  function handleToggleSort() {
-    setToggleSort(!toggleSort);
-  }
-
-  useEffect(
-    function () {
-      dispatch(sortBy(sortType));
-    },
-    [dispatch, sortType]
-  );
-
-  function handleSortType(type) {
-    setSortType(type);
-    setToggleSort(false);
+  function handleSort(type) {
+    searchParams.set('sort', type);
+    setSelectedSort(type);
+    setSearchParams(searchParams);
   }
 
   return (
-    <div ref={ref} className="">
-      <div className="cursor-pointer overflow-y-auto ">
-        <div className="flex flex-wrap items-center relative gap-2">
-          <h1
-            className="text-lg flex items-center font-bold gap-1"
-            onClick={handleToggleSort}
-          >
-            Sort by
-            <motion.span
-              initial={{ rotate: 0 }}
-              animate={{ rotate: toggleSort ? -180 : 0 }}
+    <div
+      className={`lg:flex gap-5  ${
+        visible
+          ? 'flex flex-col items-start p-2 bg-secondary-default shadow-md rounded m-3'
+          : 'hidden items-center'
+      }`}
+    >
+      <h3 className={`${visible ? 'font-semibold' : 'font-bold text-lg'} `}>
+        Sort By
+      </h3>
+      <div
+        className={`flex gap-3 ${
+          visible ? 'flex-col items-start' : 'flex-row'
+        } `}
+      >
+        {sortTypes.map((sort) => {
+          return (
+            <button
+              className={`${
+                sort.type === selectedSort && 'text-blue-800'
+              } relative text-md`}
+              onClick={() => handleSort(sort.type)}
+              key={sort.label}
             >
-              <HiChevronDown size={14} className="font-bold" />
-            </motion.span>
-          </h1>
-          <span className="w-40 text-[0.8rem] font-medium px-2 border border-gray-950 rounded ">
-            {sortType}
-          </span>
-        </div>
-        <AnimatePresence initial={false}>
-          {toggleSort && (
-            <motion.section
-              className="absolute origin-top  bg-gray-200 p-1 w-40 sm:w-32 z-20 space-y-1 rounded-md my-1 "
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{
-                scale: 1,
-                opacity: 1,
-                transition: { delayChildren: 0.2 },
-              }}
-              exit={{ scale: 0, opacity: 0 }}
-            >
-              {sortTypes.map((item, i) => (
-                <Options
-                  handler={() => handleSortType(item.type)}
-                  key={item.label}
-                  index={i}
-                >
-                  {item.label}
-                </Options>
-              ))}
-            </motion.section>
-          )}
-        </AnimatePresence>
+              {sort.type === selectedSort && (
+                <motion.div
+                  layoutId="active-sort-pill"
+                  className="absolute w-full h-[0.5px] bottom-0 bg-accent-primary"
+                />
+              )}
+              <span className="relative z-10 brightness-200">{sort.label}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
-  );
-}
-
-function Options({ children, handler, index }) {
-  return (
-    <motion.div
-      className="border p-0.5 text-normal sm:p-1 rounded bg-gray-50"
-      onClick={handler}
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1, transition: { delay: index * 0.1 } }}
-    >
-      {children}
-    </motion.div>
   );
 }
 
