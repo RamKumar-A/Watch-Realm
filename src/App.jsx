@@ -11,7 +11,6 @@ import Account from './pages/Account';
 import Checkout from './pages/Checkout';
 import Wishlist from './pages/Wishlist';
 import OrderDetails from './pages/OrderDetails';
-
 import Orders from './features/Order/Orders';
 import OrderSuccess from './features/Order/OrderSuccess';
 import ProductDetails from './features/Watchlist/ProductDetails';
