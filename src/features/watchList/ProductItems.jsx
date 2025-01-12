@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { HiHeart, HiStar } from 'react-icons/hi2';
 
-import { useCreateCartItem } from '../cart/useCreateCartItem';
-import { useCart } from '../cart/useCart';
-import { useCreateWishlist } from '../wishlist/useCreateWishlist';
-import { useWishlist } from '../wishlist/useWishlist';
+import { useCreateCartItem } from '../Cart/useCreateCartItem';
+import { useCart } from '../Cart/useCart';
+import { useCreateWishlist } from '../Wishlist/useCreateWishlist';
+import { useWishlist } from '../Wishlist/useWishlist';
 
 import Spinner from '../../ui/Spinner';
 import SuccessToast from '../../ui/SuccessToast';

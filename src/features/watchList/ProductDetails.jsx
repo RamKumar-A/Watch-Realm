@@ -11,15 +11,15 @@ import Button from '../../ui/Button';
 import { childVariants, parentVariants } from '../../helpers/variants';
 import ImageSelector from './productDetails/ImageSelector';
 import ProductInfo from './productDetails/ProductInfo';
-import { useCart } from '../cart/useCart';
-import { useCreateCartItem } from '../cart/useCreateCartItem';
-import { useCreateWishlist } from '../wishlist/useCreateWishlist';
-import { useWishlist } from '../wishlist/useWishlist';
+import { useCart } from '../Cart/useCart';
+import { useCreateCartItem } from '../Cart/useCreateCartItem';
+import { useCreateWishlist } from '../Wishlist/useCreateWishlist';
+import { useWishlist } from '../Wishlist/useWishlist';
 import toast from 'react-hot-toast';
 import SuccessToast from '../../ui/SuccessToast';
 import ErrorToast from '../../ui/ErrorToast';
 import Spinner from '../../ui/Spinner';
-import { useUser } from '../user/useUser';
+import { useUser } from '../User/useUser';
 
 function ProductDetails() {
   const [isInWishlist, setIsInWishlist] = useState(false);

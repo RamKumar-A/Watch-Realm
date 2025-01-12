@@ -8,8 +8,8 @@ import {
   HiOutlineUsers,
 } from 'react-icons/hi2';
 
-import { useUser } from '../features/user/useUser';
-import { useLogout } from '../features/user/useLogout';
+import { useUser } from '../features/User/useUser';
+import { useLogout } from '../features/User/useLogout';
 
 import {
   childVariants,

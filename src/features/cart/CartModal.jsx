@@ -7,7 +7,7 @@ import {
   HiPlusSmall,
 } from 'react-icons/hi2';
 
-import { useUser } from '../user/useUser';
+import { useUser } from '../User/useUser';
 import { useCart } from './useCart';
 import { useUpdateCartItem } from './useUpdateCartItem';
 import { useDeleteCartItem } from './useDeleteCartItem';

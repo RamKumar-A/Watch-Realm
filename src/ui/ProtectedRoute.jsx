@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useUser } from '../features/user/useUser';
+import { useUser } from '../features/User/useUser';
 
 import Button from './Button';
 

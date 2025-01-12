@@ -1,6 +1,6 @@
 import { IoIosLogOut } from 'react-icons/io';
 
-import { useLogout } from '../user/useLogout';
+import { useLogout } from '../User/useLogout';
 
 import AccountSectionTemplate from '../../ui/AccountSectionTemplate';
 import Button from '../../ui/Button';

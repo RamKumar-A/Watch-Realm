@@ -4,10 +4,10 @@ import { AnimatePresence } from 'framer-motion';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { HiOutlineShoppingCart, HiOutlineUserCircle } from 'react-icons/hi2';
 
-import { useUser } from '../features/user/useUser';
-import { useCart } from '../features/cart/useCart';
-import { useLogout } from '../features/user/useLogout';
-import CartModal from '../features/cart/CartModal';
+import { useUser } from '../features/User/useUser';
+import { useLogout } from '../features/User/useLogout';
+import { useCart } from '../features/Cart/useCart';
+import CartModal from '../features/Cart/CartModal';
 
 import Logo from './Logo';
 import Drawer from './Drawer';

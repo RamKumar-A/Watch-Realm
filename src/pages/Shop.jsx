@@ -2,8 +2,8 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 import { FilterProvider } from '../Context/FilterContext';
-import ProductsSidebar from '../features/watchList/ProductsSidebar';
-import Products from '../features/watchList/Products';
+import ProductsSidebar from '../features/Watchlist/ProductsSidebar';
+import Products from '../features/Watchlist/Products';
 
 import {
   childHeadingVariants,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { HiOutlineCog6Tooth } from 'react-icons/hi2';
 
-import UpdateUserForm from '../user/UpdateUserForm';
+import UpdateUserForm from '../User/UpdateUserForm';
 
 import AccountSectionTemplate from '../../ui/AccountSectionTemplate';
 import Dialog from '../../ui/Dialog';

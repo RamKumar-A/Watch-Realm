@@ -4,8 +4,8 @@ import toast from 'react-hot-toast';
 import { HiStar, HiTrash } from 'react-icons/hi2';
 import { BsCartPlusFill, BsFillCartCheckFill } from 'react-icons/bs';
 
-import { useCart } from '../cart/useCart';
-import { useCreateCartItem } from '../cart/useCreateCartItem';
+import { useCart } from '../Cart/useCart';
+import { useCreateCartItem } from '../Cart/useCreateCartItem';
 import { useDeleteWishlistItem } from './useDeleteWishlistItem';
 
 import SuccessToast from '../../ui/SuccessToast';

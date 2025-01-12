@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 
-import { useUser } from '../features/user/useUser';
+import { useUser } from '../features/User/useUser';
 
-import MyProfile from '../features/account/MyProfile';
-import MyOrders from '../features/account/MyOrders';
-import MyWishlist from '../features/account/MyWishlist';
-import MyReview from '../features/account/MyReview';
-import Logout from '../features/account/Logout';
+import MyProfile from '../features/Account/MyProfile';
+import MyOrders from '../features/Account/MyOrders';
+import MyWishlist from '../features/Account/MyWishlist';
+import MyReview from '../features/Account/MyReview';
+import Logout from '../features/Account/Logout';
 
 import Button from '../ui/Button';
 

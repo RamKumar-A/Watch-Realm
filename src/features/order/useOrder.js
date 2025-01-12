@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useUser } from '../user/useUser';
+import { useUser } from '../User/useUser';
 
 import { getUserOrders } from '../../services/apiOrders';
 

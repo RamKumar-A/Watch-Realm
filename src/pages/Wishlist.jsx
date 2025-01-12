@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useWishlist } from '../features/wishlist/useWishlist';
-import WishlistItem from '../features/wishlist/WishlistItem';
+import { useWishlist } from '../features/Wishlist/useWishlist';
+import WishlistItem from '../features/Wishlist/WishlistItem';
 
 import Button from '../ui/Button';
 

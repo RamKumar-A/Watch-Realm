@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import toast from 'react-hot-toast';
 
 import { useCreateReview } from './useCreateReview';
-import { useUser } from '../../user/useUser';
+import { useUser } from '../../User/useUser';
 
 import { childVariants, parentVariants } from '../../../helpers/variants';
 

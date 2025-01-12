@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useCart } from '../features/cart/useCart';
-import CartItems from '../features/cart/CartItems';
-import CartSummary from '../features/cart/CartSummary';
+import { useCart } from '../features/Cart/useCart';
+import CartItems from '../features/Cart/CartItems';
+import CartSummary from '../features/Cart/CartSummary';
 
 import Button from '../ui/Button';
 
