@@ -9,9 +9,9 @@ import { childVariants, parentVariants } from '../../helpers/variants';
 import { useSingleWatch } from './useSingleWatch';
 import { useCart } from '../cart/useCart';
 import { useCreateCartItem } from '../cart/useCreateCartItem';
+import { useUser } from '../user/useUser';
 import { useCreateWishlist } from '../wishlist/useCreateWishlist';
 import { useWishlist } from '../wishlist/useWishlist';
-import { useUser } from '../user/useUser';
 
 import Specification from './productDetails/Specification';
 import ReviewsSection from './productDetails/ReviewsSection';
