@@ -1,7 +1,7 @@
 import { useCart } from '../features/cart/useCart';
 
-import CheckoutReview from '../features/checkout/CheckoutReview';
 import CheckoutSummary from '../features/checkout/CheckoutSummary';
+import CheckoutReview from '../features/checkout/CheckoutReview';
 
 function Checkout() {
   const { cart } = useCart();
