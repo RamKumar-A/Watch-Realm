@@ -11,16 +11,16 @@ import Account from './pages/Account';
 import Checkout from './pages/Checkout';
 import Wishlist from './pages/Wishlist';
 import OrderDetails from './pages/OrderDetails';
-import Orders from './features/Order/Orders';
-import OrderSuccess from './features/Order/OrderSuccess';
-import ProductDetails from './features/Watchlist/ProductDetails';
-import Login from './features/User/Login';
-import Signup from './features/User/Signup';
 
 import AppLayout from './ui/AppLayout';
 
 import ProtectedRoute from './ui/ProtectedRoute';
 import Error from './ui/Error';
+import OrderSuccess from './features/Order/OrderSuccess';
+import Orders from './features/Order/Orders';
+import ProductDetails from './features/Watchlist/ProductDetails';
+import Login from './features/User/Login';
+import Signup from './features/User/Signup';
 
 const queryClient = new QueryClient({
   defaultOptions: {
