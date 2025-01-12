@@ -13,8 +13,8 @@ export function useUpdateUser() {
     mutationFn: (user) => {
       updateUserApi(user);
     },
-    onSuccess: (user) => {
-      queryClient.setQueryData(['users'], user);
+    onSuccess: () => {
+      // queryClient.setQueryData(['users'], user);
       queryClient.invalidateQueries({
         queryKey: ['users'],
       });

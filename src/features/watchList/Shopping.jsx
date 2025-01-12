@@ -1,27 +1,30 @@
 import Products from './Products';
 import ProductsSidebar from './ProductsSidebar';
+import PageWrapper from '../../PageWrapper';
 
 function Shopping() {
   return (
-    <div className="md:px-2 lg:mx-20">
-      <div className="text-center p-5 space-y-2">
-        <h1 className="text-xl md:text-3xl font-semibold ">
-          "Timeless Luxury, All in One Place"
-        </h1>
-        <p className=" hidden lg:block lg:text-sm">
-          Explore our exclusive collection of luxury wristwatches crafted for
-          connoisseurs of elegance and precision.
-        </p>
+    <PageWrapper>
+      <div className="md:px-2 lg:mx-20">
+        <div className="text-center p-5 space-y-2">
+          <h1 className="text-xl md:text-3xl font-semibold ">
+            "Timeless Luxury, All in One Place"
+          </h1>
+          <p className=" hidden lg:block lg:text-sm">
+            Explore our exclusive collection of luxury wristwatches crafted for
+            connoisseurs of elegance and precision.
+          </p>
+        </div>
+        <main className="flex h-full justify-center py-3">
+          <div className="h-full overflow-y-auto">
+            <ProductsSidebar />
+          </div>
+          <div className="flex-1 space-y-3">
+            <Products />
+          </div>
+        </main>
       </div>
-      <main className="flex h-full justify-center py-3">
-        <div className="h-full overflow-y-auto">
-          <ProductsSidebar />
-        </div>
-        <div className="flex-1 space-y-3">
-          <Products />
-        </div>
-      </main>
-    </div>
+    </PageWrapper>
   );
 }
 

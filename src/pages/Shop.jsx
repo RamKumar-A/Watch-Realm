@@ -46,6 +46,7 @@ function Shop() {
             <ProductsSidebar />
           </aside>
           <section className="flex-1 h-full space-y-3">
+            {/* <Products watches={watches} isPending={isPending} /> */}
             <Products />
           </section>
         </section>

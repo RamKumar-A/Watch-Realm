@@ -1,5 +1,5 @@
-import { useRef } from 'react';
 import { useInView, motion } from 'framer-motion';
+import { useRef } from 'react';
 import { AiOutlineFileProtect } from 'react-icons/ai';
 import { HiOutlineTruck } from 'react-icons/hi2';
 

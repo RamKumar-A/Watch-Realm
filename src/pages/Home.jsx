@@ -30,6 +30,7 @@ function Home() {
           className="text-xl md:text-3xl lg:text-5xl font-semibold drop-shadow "
           variants={childHeadingVariants}
         >
+          {/* "Timeless Elegance, Curated for You" */}
           Timeless Elegance, Curated for You
         </motion.h1>
         <motion.p
