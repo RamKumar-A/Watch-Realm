@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
+import Button from '../ui/Button';
 import { useWishlist } from '../features/wishlist/useWishlist';
 import WishlistItem from '../features/wishlist/WishlistItem';
-
-import Button from '../ui/Button';
 
 function Wishlist() {
   const navigate = useNavigate();
