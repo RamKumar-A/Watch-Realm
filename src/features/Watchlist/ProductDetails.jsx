@@ -157,13 +157,7 @@ function ProductDetails() {
               className={`bg-secondary-default py-3 rounded-full border border-highlight-dark ${
                 isInWishlist ? 'text-red-600' : 'text-secondary-dark'
               } `}
-              onClick={
-                isAuthenticated
-                  ? () => handleCreateWishlist()
-                  : toast.error((t) => (
-                      <ErrorToast t={t}> Please login</ErrorToast>
-                    ))
-              }
+              onClick={() => handleCreateWishlist()}
             >
               {isWishlistItemCreating ? (
                 <Spinner small background />
@@ -179,10 +173,14 @@ function ProductDetails() {
             <Button
               size="large"
               className="w-full "
-              disabled={isInCart}
+              disabled={isInCart || !isAuthenticated}
               onClick={handleAddToCart}
             >
-              {isInCart ? 'In cart' : 'Add to cart'}
+              {!isAuthenticated
+                ? 'Please login'
+                : isInCart
+                ? 'In cart'
+                : 'Add to cart'}
             </Button>
           </motion.div>
         </motion.div>

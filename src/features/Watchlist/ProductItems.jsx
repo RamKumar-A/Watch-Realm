@@ -13,6 +13,7 @@ import Spinner from '../../ui/Spinner';
 import SuccessToast from '../../ui/SuccessToast';
 import ErrorToast from '../../ui/ErrorToast';
 import Button from '../../ui/Button';
+import { useUser } from '../User/useUser';
 
 function ProductItems({ watch }) {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ function ProductItems({ watch }) {
   const { createCartItem, isPending: isCartItemCreating } = useCreateCartItem();
   const { createWishlistItem, isPending: isWishlistItemCreating } =
     useCreateWishlist();
+  const { isAuthenticated } = useUser();
 
   useEffect(
     function () {
@@ -91,7 +93,7 @@ function ProductItems({ watch }) {
   }
 
   return (
-    <motion.div className="min-w-72 max-w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default/90 text-contrastText-primary transition hover:shadow-lg ">
+    <motion.div className="w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default/90 text-contrastText-primary transition hover:shadow-lg ">
       {/* <!-- Product Image --> */}
       <div
         className="relative w-full h-72"
@@ -101,6 +103,7 @@ function ProductItems({ watch }) {
           src={imageCover}
           alt="Rolex Submariner"
           className="w-full h-full object-cover scale-75"
+          loading="lazy"
         />
         {/* <!-- Badge --> */}
 
@@ -116,7 +119,7 @@ function ProductItems({ watch }) {
           variant={'text'}
           rounded="full"
           onClick={handleCreateWishlist}
-          // disabled={isInWishlist}
+          disabled={!isAuthenticated}
         >
           {isWishlistItemCreating ? (
             <Spinner small background />
@@ -160,7 +163,7 @@ function ProductItems({ watch }) {
           rounded="small"
           onClick={handleAddToCart}
           size="medium"
-          disabled={isInCart}
+          disabled={!isAuthenticated || isInCart}
         >
           {isCartItemCreating ? (
             <Spinner small />

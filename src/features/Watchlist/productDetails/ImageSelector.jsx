@@ -25,6 +25,7 @@ function ImageSelector({ images, imageCover }) {
                 },
               }}
               viewport={{ once: true }}
+              loading="lazy"
             />
           </div>
         ))}

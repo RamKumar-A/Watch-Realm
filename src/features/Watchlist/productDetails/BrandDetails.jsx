@@ -38,6 +38,7 @@ function BrandDetails({ brand }) {
             className="w-full h-full object-contain"
             src={brandLogo}
             alt={brandName}
+            loading="lazy"
           />
         </motion.div>
         <motion.div className="space-y-2 py-2 " variants={childVariants}>

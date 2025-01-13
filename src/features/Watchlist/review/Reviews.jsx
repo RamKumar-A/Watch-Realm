@@ -41,6 +41,7 @@ function Reviews({ reviews }) {
                     src={review?.user?.photo}
                     alt={review.user?.name}
                     className="w-full h-full rounded-full p-0.5"
+                    loading="lazy"
                   />
                 </div>
                 <motion.div>
