@@ -110,9 +110,9 @@ function WishlistItem({ watch }) {
       </div>
 
       {/* <!-- Card Actions --> */}
-      <div className=" py-4 px-4 flex justify-between items-center md:justify-self-end gap-2">
+      <div className=" py-4 px-4 flex justify-end items-center gap-2">
         <Button
-          className="max-sm:w-full"
+          className=""
           rounded="small"
           onClick={handleAddToCart}
           size="medium"
@@ -121,7 +121,7 @@ function WishlistItem({ watch }) {
           {isInCart ? <BsFillCartCheckFill /> : <BsCartPlusFill />}
         </Button>
         <Button
-          className="max-sm:w-full "
+          className=" "
           rounded="small"
           onClick={handleDeleteWishlistItem}
           size="medium"

@@ -35,7 +35,7 @@ function ProductDetailsFooter() {
           </motion.span>
         </motion.div>
         <motion.div
-          className="h-[0.5px] w-3/4 md:h-14 md:w-[1px] bg-accent-primary"
+          className="h-[0.5px] w-1/4 md:h-14 md:w-[1px] bg-accent-primary"
           variants={grandchildVariants}
         />
         {/* authentic watches */}

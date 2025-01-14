@@ -94,17 +94,17 @@ function Button({
       {...props}
     >
       <div className={`overflow-hidden relative  `}>
-        <motion.p variants={animation ? firstTextVariant : ''}>
+        <motion.div variants={animation ? firstTextVariant : ''}>
           {children}
-        </motion.p>
+        </motion.div>
         {animation && (
-          <motion.p
+          <motion.div
             variants={secondTextVariant}
             aria-hidden
             className={`absolute inset-0   `}
           >
             {children}
-          </motion.p>
+          </motion.div>
         )}
       </div>
     </motion.button>
