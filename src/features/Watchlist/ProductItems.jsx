@@ -93,7 +93,7 @@ function ProductItems({ watch }) {
   }
 
   return (
-    <motion.div className="min-w-72 max-w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default/90 text-contrastText-primary transition hover:shadow-lg ">
+    <motion.div className="w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default/90 text-contrastText-primary transition hover:shadow-lg ">
       {/* <!-- Product Image --> */}
       <div className="relative w-full h-72">
         <img

@@ -17,7 +17,7 @@ function Account() {
   const { user, isAuthenticated } = useUser();
 
   const userPhoto = user?.data?.photo;
-  const { email, name } = user?.data || {};
+  const { email, name, role } = user?.data || {};
 
   return (
     <section className="min-h-screen py-10 px-5 lg:px-20">
@@ -61,9 +61,13 @@ function Account() {
               <p className="mt-2">
                 Email: <span>{email}</span>
               </p>
+
+              <p className="px-4 py-0.5 rounded-lg text-sm bg-blue-600 text-white my-3 capitalize">
+                {role}
+              </p>
               {/* <p className=" mt-2">
                 Manage your profile, orders, and wishlist with ease.
-              </p> */}
+                </p> */}
             </div>
           </div>
 
