@@ -93,16 +93,14 @@ function ProductItems({ watch }) {
   }
 
   return (
-    <motion.div className="w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default/90 text-contrastText-primary transition hover:shadow-lg ">
+    <motion.div className="min-w-72 max-w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default/90 text-contrastText-primary transition hover:shadow-lg ">
       {/* <!-- Product Image --> */}
-      <div
-        className="relative w-full h-72"
-        // onClick={handleProduct}
-      >
+      <div className="relative w-full h-72">
         <img
           src={imageCover}
           alt="Rolex Submariner"
           className="w-full h-full object-cover scale-75"
+          onClick={handleProduct}
           loading="lazy"
         />
         {/* <!-- Badge --> */}
@@ -113,13 +111,12 @@ function ProductItems({ watch }) {
 
         <Button
           className={`absolute top-2 right-2 border border-highlight-default py-3 ${
-            isInWishlist && 'pointer-events-none'
+            (isInWishlist || !isAuthenticated) && 'pointer-events-none'
           }`}
           size="small"
           variant={'text'}
           rounded="full"
           onClick={handleCreateWishlist}
-          disabled={!isAuthenticated}
         >
           {isWishlistItemCreating ? (
             <Spinner small background />
@@ -163,7 +160,7 @@ function ProductItems({ watch }) {
           rounded="small"
           onClick={handleAddToCart}
           size="medium"
-          disabled={!isAuthenticated || isInCart}
+          disabled={isInCart}
         >
           {isCartItemCreating ? (
             <Spinner small />

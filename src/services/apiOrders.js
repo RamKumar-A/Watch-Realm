@@ -1,13 +1,8 @@
-import { url } from './api';
+import { api } from './api';
 
 export async function getUserOrders(userId) {
-  const storedToken = localStorage.getItem('token');
   try {
-    const { data } = await url.get(`/orders/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
+    const { data } = await api.get(`/orders/${userId}`);
     return data?.data;
   } catch (error) {
     console.error(error.message);
@@ -15,13 +10,8 @@ export async function getUserOrders(userId) {
 }
 
 export async function getOrder(orderId) {
-  const storedToken = localStorage.getItem('token');
   try {
-    const { data } = await url.get(`/orders/order/${orderId}`, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
+    const { data } = await api.get(`/orders/order/${orderId}`);
     return data?.data;
   } catch (error) {
     console.error(error.message);
@@ -31,19 +21,10 @@ export async function getOrder(orderId) {
 export async function getStripeCheckout({ items }) {
   try {
     // Fetch the checkout session from the backend
-    const storedToken = localStorage.getItem('token');
 
-    const { data } = await url.post(
-      '/orders/checkout-session',
-      {
-        orderItems: items,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
-      }
-    );
+    const { data } = await api.post('/orders/checkout-session', {
+      orderItems: items,
+    });
 
     return data;
   } catch (err) {
@@ -52,20 +33,10 @@ export async function getStripeCheckout({ items }) {
 }
 
 export async function createOrder(sessionId) {
-  const storedToken = localStorage.getItem('token');
-
   try {
-    const data = await url.post(
-      `/orders/session`,
-      {
-        sessionId,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
-      }
-    );
+    const data = await api.post(`/orders/session`, {
+      sessionId,
+    });
     return data.data;
   } catch (err) {
     console.error(err.message);

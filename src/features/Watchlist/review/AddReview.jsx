@@ -76,10 +76,10 @@ function AddReview({ reviews, watchId }) {
           rounded="small"
           size="medium"
           onClick={() => setDialogOpen(true)}
-          disabled={isInReview || isAuthenticated}
+          disabled={isInReview || !isAuthenticated}
         >
           {!isAuthenticated
-            ? 'Please login'
+            ? 'Login Please'
             : isInReview
             ? 'Review Added'
             : 'Write a Review'}
@@ -87,7 +87,7 @@ function AddReview({ reviews, watchId }) {
       </div>
 
       <Dialog
-        open={isAuthenticated && dialogOpen}
+        open={dialogOpen}
         title="Write Your Review"
         onClose={() => setDialogOpen(false)}
       >

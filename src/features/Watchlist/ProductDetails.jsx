@@ -69,6 +69,10 @@ function ProductDetails() {
     [cart?.data?.items, id, wishlist]
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   function handleCreateWishlist() {
     createWishlistItem(
       { watchId: id },
@@ -119,6 +123,7 @@ function ProductDetails() {
             className="w-10 h-10 object-contain"
             src={brand.brandLogo}
             alt={brand.brand}
+            loading="lazy"
           />
         )}
         <h1 className="uppercase font-bold">{brand?.brand}</h1>
@@ -157,7 +162,14 @@ function ProductDetails() {
               className={`bg-secondary-default py-3 rounded-full border border-highlight-dark ${
                 isInWishlist ? 'text-red-600' : 'text-secondary-dark'
               } `}
-              onClick={() => handleCreateWishlist()}
+              onClick={
+                isAuthenticated
+                  ? () => handleCreateWishlist()
+                  : toast.error((t) => (
+                      <ErrorToast t={t}> Please login</ErrorToast>
+                    ))
+              }
+              disabled={!isAuthenticated}
             >
               {isWishlistItemCreating ? (
                 <Spinner small background />
@@ -173,14 +185,10 @@ function ProductDetails() {
             <Button
               size="large"
               className="w-full "
-              disabled={isInCart || !isAuthenticated}
+              disabled={isInCart}
               onClick={handleAddToCart}
             >
-              {!isAuthenticated
-                ? 'Please login'
-                : isInCart
-                ? 'In cart'
-                : 'Add to cart'}
+              {isInCart ? 'In cart' : 'Add to cart'}
             </Button>
           </motion.div>
         </motion.div>

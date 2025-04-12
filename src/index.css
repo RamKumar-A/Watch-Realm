@@ -9,7 +9,8 @@ html {
 
 body {
   color: #1f2937;
-  font-family: 'Nunito Sans';
+  /* font-family: 'Nunito Sans'; */
+  font-family: 'Josefin Sans', sans-serif;
   height: 100%;
 }
 

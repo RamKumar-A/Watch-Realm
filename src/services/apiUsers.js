@@ -1,16 +1,8 @@
-import { url } from './api';
+import { api } from './api';
 
 export async function getUser() {
   try {
-    const storedToken = localStorage.getItem('token');
-    if (!storedToken) {
-      throw new Error('No token found. Please log in.');
-    }
-    const { data } = await url.get(`/users/me`, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
+    const { data } = await api.get(`/users/me`);
     return data?.data;
   } catch (error) {
     console.error('Error fetching user:', error.response || error.message);
@@ -21,11 +13,7 @@ export async function getUser() {
 export async function updateUser(user) {
   const { name, photo } = user;
   try {
-    const storedToken = localStorage.getItem('token');
-    if (!storedToken) {
-      throw new Error('No token found. Please log in.');
-    }
-    const { data } = await url.patch(
+    const { data } = await api.patch(
       `/users/updateMe`,
       {
         name,
@@ -33,7 +21,6 @@ export async function updateUser(user) {
       },
       {
         headers: {
-          Authorization: `Bearer ${storedToken}`,
           'Content-Type': 'multipart/form-data',
         },
       }
@@ -48,23 +35,11 @@ export async function updateUser(user) {
 export async function updatePassword(user) {
   const { passwordCurrent, password, passwordConfirm } = user;
   try {
-    const storedToken = localStorage.getItem('token');
-    if (!storedToken) {
-      throw new Error('No token found. Please log in.');
-    }
-    const { data } = await url.patch(
-      `/users/updateMyPassword`,
-      {
-        passwordCurrent,
-        password,
-        passwordConfirm,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
-      }
-    );
+    const { data } = await api.patch(`/users/updateMyPassword`, {
+      passwordCurrent,
+      password,
+      passwordConfirm,
+    });
     const token = data.token;
     localStorage.setItem('token', token);
     return data?.data;
@@ -77,7 +52,7 @@ export async function updatePassword(user) {
 export async function signup(user) {
   try {
     const { name, email, password, passwordConfirm } = user;
-    const { data } = await url.post('/users/signup', {
+    const { data } = await api.post('/users/signup', {
       name,
       email,
       password,
@@ -93,13 +68,12 @@ export async function signup(user) {
 export async function login(user) {
   try {
     const { email, password } = user;
-    const { data } = await url.post('/users/login', {
+    const { data } = await api.post('/users/login', {
       email,
       password,
     });
 
-    const token = data?.token;
-    localStorage.setItem('token', token);
+    localStorage.setItem('token', data?.token);
     return data?.data;
   } catch (error) {
     console.error('Error fetching user:', error.response || error.message);
@@ -109,16 +83,7 @@ export async function login(user) {
 
 export async function logout() {
   try {
-    const storedToken = localStorage.getItem('token');
-    // console.log(token);
-    if (!storedToken) {
-      throw new Error('No token found. Please log in.');
-    }
-    const { data } = await url.get('/users/logout', {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    });
+    const { data } = await api.get('/users/logout');
     localStorage.removeItem('token');
     return data;
   } catch (error) {

@@ -64,14 +64,14 @@ function Products() {
 
         <div className="">
           {isPending ? (
-            <Spinner />
+            <Spinner small />
           ) : (
-            <span className="text-md font-semibold">{watches?.length}</span>
+            <span className="text-md font-semibold">{watches?.length} </span>
           )}
           <span className="font-bold text-lg">Products</span>
         </div>
       </div>
-      <div className="overflow-auto">
+      <div className="overflow-auto h-full">
         <div
           className="flex flex-wrap items-center justify-center gap-6 px-2 overflow-y-auto"
           // ref={containerRef}
@@ -116,9 +116,11 @@ function Products() {
             <Spinner background />
           </div>
         ) : (
-          <div className="flex items-center justify-center p-5 text-xl font-semibold">
-            No more products...
-          </div>
+          !isPending && (
+            <div className="flex items-center justify-center p-5 text-xl font-semibold">
+              No more products...
+            </div>
+          )
         )}
       </div>
       <Drawer

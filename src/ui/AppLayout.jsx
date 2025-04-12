@@ -9,7 +9,7 @@ function AppLayout() {
       className=" min-h-screen grid 
         grid-rows-[auto_1fr_auto] text-contrastText-primary bg-primary-default"
     >
-      <div className="bg-secondary-dark ">
+      <div className="bg-secondary-dark sticky top-0 z-[100]">
         <Header />
       </div>
 
