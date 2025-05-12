@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // baseURL: 'https://watch-realm-api.onrender.com/api/v1',
-  baseURL: 'http://localhost:8000/api/v1',
+  baseURL: 'https://watch-realm-backend.onrender.com/api/v1',
+  // baseURL: 'http://localhost:8000/api/v1',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
