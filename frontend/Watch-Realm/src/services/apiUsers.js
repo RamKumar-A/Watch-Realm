@@ -5,7 +5,7 @@ export async function getUser() {
     const { data } = await api.get(`/users/me`);
     return data?.data;
   } catch (error) {
-    console.error('Error fetching user:', error.response || error.message);
+    // console.error('Error fetching user:', error.response || error.message);
     throw new Error(error?.response?.data?.message);
   }
 }
@@ -25,10 +25,9 @@ export async function updateUser(user) {
         },
       }
     );
-    console.log(data);
     return data?.data;
   } catch (error) {
-    console.error('Error updating user:', error.response || error.message);
+    // console.error('Error updating user:', error.response || error.message);
     throw new Error(error?.response?.data?.message);
   }
 }
@@ -45,7 +44,7 @@ export async function updatePassword(user) {
     localStorage.setItem('token', token);
     return data?.data;
   } catch (error) {
-    console.error('Error updating password:', error.response || error.message);
+    // console.error('Error updating password:', error.response || error.message);
     throw new Error(error?.response?.data?.message);
   }
 }
@@ -61,7 +60,7 @@ export async function signup(user) {
     });
     return data?.data;
   } catch (error) {
-    console.error(error.response?.data);
+    // console.error(error.response?.data);
     throw new Error(error?.response?.data?.message || 'Failed to sign up');
   }
 }
@@ -77,7 +76,7 @@ export async function login(user) {
     localStorage.setItem('token', data?.token);
     return data?.data;
   } catch (error) {
-    console.error('Error fetching user:', error.response || error.message);
+    // console.error('Error fetching user:', error.response || error.message);
     throw new Error(error?.response?.data?.message || 'Failed to login');
   }
 }

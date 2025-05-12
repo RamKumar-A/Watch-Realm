@@ -5,7 +5,7 @@ const api = axios.create({
   // baseURL: 'http://localhost:8000/api/v1',
   headers: {
     'Content-Type': 'application/json',
-    // Accept: 'application/json',
+    Accept: 'application/json',
   },
 });
 
@@ -24,16 +24,17 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     // Handle common errors globally
-    // if (error.response) {
-    //   if (error.response.status === 401) {
-    //     // Redirect to login page
-    //     window.location.href = '/';
-    //   } else if (error.response.status === 500) {
-    //     console.error('Server error. Please try again later.');
-    //   }
-    // } else if (error.code === 'ECONNABORTED') {
-    //   console.error('Request timeout. Please try again.');
-    // }
+    if (error.response) {
+      if (error.response.status === 401) {
+        // Redirect to login page
+        // window.location.href = '/';
+        console.error(error.response.data.message);
+      } else if (error.response.status === 500) {
+        console.error('Server error. Please try again later.');
+      }
+    } else if (error.code === 'ECONNABORTED') {
+      console.error('Request timeout. Please try again.');
+    }
     return Promise.reject(error);
   }
 );

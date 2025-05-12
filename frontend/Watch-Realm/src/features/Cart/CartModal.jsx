@@ -22,8 +22,8 @@ function CartModal({ onClose }) {
   const { cart } = useCart();
   const { isAuthenticated } = useUser();
 
-  const cartItems = cart?.data?.items;
-  const totalPrice = cart?.data?.totalPrice;
+  const cartItems = isAuthenticated ? cart?.data?.items : [];
+  const totalPrice = isAuthenticated ? cart?.data?.totalPrice : 0;
 
   return (
     <div className="h-screen grid grid-rows-[auto_1fr] p-1 overflow-auto">
