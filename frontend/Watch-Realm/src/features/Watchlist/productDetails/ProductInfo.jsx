@@ -18,11 +18,13 @@ function ProductInfo({
       variants={childVariants}
     >
       <motion.div className="space-y-1" variants={grandchildVariants}>
-        <p className=" capitalize"> {model} model</p>
+        <p className=" capitalize mb-2"> {model} model</p>
         <h2 className="font-bold md:font-extrabold uppercase text-2xl md:text-3xl lg:text-4xl">
           {name}
         </h2>
-        <p className="">{tag}</p>
+        <p className="opacity-70">
+          <em>"{tag}"</em>
+        </p>
       </motion.div>
       <motion.p
         className=" capitalize brightness-200"

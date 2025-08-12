@@ -53,11 +53,11 @@ function Products() {
       <div className="flex items-center justify-between p-1 pb-5">
         <Sort />
         <div
-          className=" flex items-center font-bold gap-1 lg:hidden "
+          className=" flex font-bold gap-1 lg:hidden "
           onClick={() => setOpenFilters(!openFilters)}
         >
-          <IoFilterOutline size={18} className="inline-block" />
-          Filter and Sort
+          <IoFilterOutline className="" />
+          <span>Filter and Sort</span>
         </div>
       </div>
       <div className="overflow-auto h-full">
@@ -94,7 +94,7 @@ function Products() {
               </Empty>
             )
           ) : (
-            <div className="">
+            <div className="w-full h-full flex items-center justify-center">
               <Loader />
             </div>
           )}

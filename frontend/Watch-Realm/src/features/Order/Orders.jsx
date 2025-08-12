@@ -9,7 +9,6 @@ function Orders() {
   const { order } = useOrder();
 
   const orders = order?.data;
-
   return (
     <div className="p-8 space-y-6">
       <h1 className="text-center text-3xl font-bold mb-4">Your Orders</h1>
@@ -56,6 +55,14 @@ function Orders() {
                 <h3 className="font-semibold  ">
                   {order?.orderItems.length} items
                 </h3>
+                <Button
+                  variant="secondary"
+                  className="border border-accent-primary "
+                  size="small"
+                  onClick={() => navigate(`/my-order/${order._id}`)}
+                >
+                  Invoice
+                </Button>
                 <Button
                   variant="secondary"
                   className="border border-accent-primary "

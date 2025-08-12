@@ -29,7 +29,7 @@ export function Tab({
         onClick={onSelect}
         className={`col-span-1 grid place-items-center rounded-lg p-3 cursor-pointer ${
           isActive
-            ? 'bg-secondary-default/20 border border-highlight-dark'
+            ? 'bg-secondary-default/50 border border-highlight-dark'
             : 'bg-secondary-default border border-highlight-default/75'
         }`}
         {...props}

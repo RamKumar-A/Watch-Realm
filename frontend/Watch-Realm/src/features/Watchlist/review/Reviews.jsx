@@ -63,18 +63,25 @@ function Reviews({ reviews }) {
         </AnimatePresence>
       </motion.div>
       {reviews?.length > 3 && (
-        <div className="flex items-center justify-center p-3">
+        <div className="flex items-center justify-center p-3 mt-5">
           <Button
             onClick={handleShowMoreToggle}
-            className="uppercase py-2 px-3 border border-secondary-default text-md rounded-full shadow-lg bg-white"
+            animation={false}
+            variant="text"
+            size="small"
+            rounded="small"
+            className="uppercase py-2 px-3 border border-highlight-dark text-md shadow-lg "
           >
-            {/* {isShowMore ? 'see less' : 'see more'} */}
-            <HiChevronDown
-              className={`inline ${
-                isShowMore ? 'rotate-180' : ''
-              } transition-transform duration-100`}
-              size={20}
-            />
+            <div className="flex items-center gap-1">
+              <span className="text-xs">
+                {isShowMore ? 'show less' : 'show more'}
+              </span>
+              <HiChevronDown
+                className={`text-accent-primary ${
+                  isShowMore ? 'rotate-180' : ''
+                } transition-transform duration-100`}
+              />
+            </div>
           </Button>
         </div>
       )}

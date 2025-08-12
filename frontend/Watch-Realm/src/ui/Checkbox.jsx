@@ -16,11 +16,7 @@ function Checkbox({ checked, onChange, disabled, label }) {
           checked ? 'bg-red-600' : '#fff'
         } ${disabled ? 'cursor-not-allowed ' : 'cursor-pointer '}`}
       />
-      <span
-        className={`text-md font-light brightness-150 ${
-          disabled ? '#999' : '#000'
-        }`}
-      >
+      <span className={`text-md opacity-75 ${disabled ? '#999' : '#000'}`}>
         {label}
       </span>
     </label>

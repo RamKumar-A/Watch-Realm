@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { HiCheckCircle } from 'react-icons/hi2';
 
 import { createOrder } from '../../services/apiOrders';
@@ -37,35 +37,54 @@ function OrderSuccess() {
             <h1>
               <HiCheckCircle size={100} className="text-green-500" />
             </h1>
-            <h3 className="text-3xl font-bold text-center">
+            <h3 className="text-xl sm:text-3xl font-bold text-center">
               Thank you for your purchase.
             </h3>
-            <p>We've received your order will ship in 5-7 business days.</p>
-            <p className="p-2 border border-highlight-dark rounded-lg">
-              Your Order ID:{' '}
-              <span className="font-semibold">#{order.data._id}</span>
+            <p className="text-md sm:text-base">
+              We've received your order will ship in 5-7 business days.
             </p>
-            <p className="opacity-70 capitalize">
-              Delivery Address: {order.data.address.line1} -{' '}
-              {order.data.address.postal_code}
+            <p className="p-2 border border-highlight-dark rounded-lg text-md sm:text-base">
+              Your Order ID:{' '}
+              <span className="font-semibold text-sm sm:text-base">
+                #{order.data._id}
+              </span>
+            </p>
+            <p className="opacity-70 capitalize text-md sm:text-base">
+              Delivery Address:{' '}
+              <span>
+                {order.data.address.line1} - {order.data.address.postal_code}
+              </span>
             </p>
             {/* Display more order details */}
           </div>
           <OrderSummary order={order?.data} />
+          <div className="flex items-center justify-center">
+            <Link
+              to={order?.data.receiptUrl}
+              target="_blank"
+              className="w-full"
+            >
+              <Button size="small" rounded="small" className="w-full">
+                Download Invoice
+              </Button>
+            </Link>
+          </div>
           <div className="flex items-center justify-center gap-1">
             <Button
+              size="small"
               rounded="small"
               onClick={() => navigate('/my-order')}
               className="capitalize"
             >
-              all orders
+              All Orders
             </Button>
             <Button
+              size="small"
               rounded="small"
               onClick={() => navigate('/shop')}
               className="capitalize"
             >
-              continue shopping
+              Continue Shopping
             </Button>
           </div>
         </div>

@@ -65,7 +65,7 @@ function AddReview({ reviews, watchId }) {
           animate={isInView ? 'visible' : 'hidden'}
         >
           <motion.h3 className="text-2xl font-bold " variants={childVariants}>
-            Have feedback for us?
+            Have feedback for this product?
           </motion.h3>
           <motion.p className=" text-lg" variants={childVariants}>
             Your review helps us deliver an even more royal experience.

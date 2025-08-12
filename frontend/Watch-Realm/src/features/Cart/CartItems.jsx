@@ -11,11 +11,13 @@ import ErrorToast from '../../ui/ErrorToast';
 import Spinner from '../../ui/Spinner';
 import Button from '../../ui/Button';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function CartItems() {
   const { cart } = useCart();
   const { updateCartItem } = useUpdateCartItem();
   const { deleteCartItem, isPending: isDeleting } = useDeleteCartItem();
+  const navigate = useNavigate();
 
   const [updatingItemId, setUpdatingItemId] = useState(null);
 
@@ -49,16 +51,21 @@ function CartItems() {
     );
   }
 
+  function handleProduct(slug, id) {
+    navigate(`/productdetails/${slug}/${id}`);
+  }
+
   return (
     <motion.div className="space-y-6 lg:flex-[1_1_25%]">
-      <AnimatePresence>
+      <AnimatePresence initial={false} mode="popLayout">
         {cartItems?.map((item) => (
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             key={item?._id}
-            className="bg-secondary-default p-6 rounded-lg shadow grid sm:grid-flow-col place-content-between place-items-center gap-6 border border-highlight-default"
+            className="bg-secondary-light p-6 rounded-lg shadow sm:grid grid-flow-col w-full place-content-between place-items-center gap-6 border border-highlight-default"
+            onClick={() => handleProduct(item?.watch?.slug, item?.watch?._id)}
           >
             <div className="w-full flex items-center justify-start gap-2">
               <div className="w-20 h-20 ">
@@ -69,7 +76,7 @@ function CartItems() {
                 />
               </div>
               <div className="">
-                <h2 className="text-base md:text-lg font-semibold line-clamp-2">
+                <h2 className="md:text-lg font-semibold line-clamp-2">
                   {item?.watch?.name}
                 </h2>
                 <p className="opacity-65 max-md:text-sm">
@@ -77,11 +84,14 @@ function CartItems() {
                 </p>
               </div>
             </div>
-            <div className="flex gap-6 items-center">
+            <div
+              className="flex gap-6 items-center max-sm:mt-6 max-sm:w-full justify-between"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="flex items-center gap-4">
                 <Button
                   size="small"
-                  variant="secondary"
+                  variant="primary"
                   rounded="full"
                   className={`${item?.quantity <= 1 && 'pointer-events-none'}`}
                   // onClick={() => updateQuantity(item._id, +item.quantity - 1)}
@@ -100,9 +110,10 @@ function CartItems() {
                 </div>
                 <Button
                   size="small"
-                  variant="secondary"
+                  variant="primary"
                   rounded="full"
                   className=""
+                  animation={false}
                   // onClick={() => updateQuantity(item._id, +item.quantity + 1)}
                   onClick={() =>
                     handleUpdateQuantity(item?._id, +item?.quantity + 1)
@@ -111,16 +122,16 @@ function CartItems() {
                   <HiPlusSmall size={14} />
                 </Button>
               </div>
-              <div>
+              <div className="flex items-center">
                 <Button
                   size="small"
-                  rounded="small"
+                  rounded="full"
                   variant="danger"
                   className=""
                   onClick={() => handleRemoveCartItem(item._id)}
                   disabled={isDeleting}
                 >
-                  <HiTrash size={12} className="" />
+                  <HiTrash size={14} className="" />
                 </Button>
               </div>
             </div>

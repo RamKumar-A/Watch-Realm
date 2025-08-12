@@ -25,12 +25,12 @@ export default function Cart() {
           <Button onClick={() => navigate('/shop')}>Go to Shop</Button>
         </div>
       ) : (
-        <div className="md:flex flex-wrap gap-6 w-full justify-center max-md:space-y-2  ">
+        <div className="lg:flex flex-wrap gap-6 w-full justify-center max-lg:space-y-8 ">
           {/* Cart Items */}
           <CartItems />
 
           {/* Summary Section */}
-          <div className="lg:sticky top-0 md:flex-[1_1_0%] ">
+          <div className="lg:sticky top-0 lg:flex-[1_1_0%] ">
             <CartSummary totalPrice={totalPrice} />
           </div>
         </div>

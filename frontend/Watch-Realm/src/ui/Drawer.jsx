@@ -29,7 +29,7 @@ const Drawer = ({ isOpen, position = 'left', onClose, children, classes }) => {
       ref={ref}
       className={`fixed ${
         positions[position]
-      } bg-primary-default shadow-lg z-50 overflow-auto ${
+      } bg-primary-light shadow-lg z-50 overflow-auto ${
         position === 'left' || position === 'right'
           ? 'w-[300px] md:w-[350px]'
           : 'w-auto'

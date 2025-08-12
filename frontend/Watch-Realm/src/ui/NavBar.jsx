@@ -21,7 +21,7 @@ function NavBar() {
 
   return (
     <nav className="flex items-center justify-center py-3">
-      <div className="hidden md:flex items-center justify-center gap-x-4 w-fit p-1 rounded-full bg-highlight-light border border-highlight-dark">
+      <div className="hidden md:flex items-center justify-center gap-x-4 w-fit p-1 rounded-full bg-secondary-light border border-highlight-dark">
         {navbarData?.map((data) => (
           <NavLink to={`${data.to}`} className="" key={data.title}>
             <button

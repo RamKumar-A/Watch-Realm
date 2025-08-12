@@ -14,17 +14,14 @@ function ReviewsSection({ reviews }) {
   const isInView = useInView(ref, { once: true });
 
   return (
-    <section className="  my-5 py-5 px-5 lg:px-20" ref={ref}>
+    <section className="my-5 py-5 px-5 lg:px-20" ref={ref}>
       <SectionSubheading
         subheading="customer reviews"
         variants={parentVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.p
-          className="text-lg brightness-200 text-center"
-          variants={childVariants}
-        >
+        <motion.p className="text-lg text-center" variants={childVariants}>
           Hear what our customers have to say about their royal experience.
         </motion.p>
       </SectionSubheading>

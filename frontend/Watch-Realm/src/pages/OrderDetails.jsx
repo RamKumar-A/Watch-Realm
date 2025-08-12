@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FaRegAddressCard, FaTruckFast } from 'react-icons/fa6';
 import { BsCalendarDate } from 'react-icons/bs';
 import { IoMdPricetags } from 'react-icons/io';
@@ -24,7 +24,7 @@ function OrderDetails() {
     },
     [params.orderId]
   );
-
+  console.log(order);
   return (
     <section className="p-4 min-h-screen md:p-8">
       {!order ? (
@@ -40,9 +40,16 @@ function OrderDetails() {
                 <h2 className="text-sm">Order Id: </h2>
                 <p className="text-lg font-bold">#{params.orderId}</p>
               </div>
-              <Button className="" size="small" onClick={reactToPrint}>
-                Download
-              </Button>
+              <div className="flex items-center gap-2 justify-end w-full">
+                <Link to={order?.receiptUrl} target="_blank">
+                  <Button className="block" size="small">
+                    Invoice
+                  </Button>
+                </Link>
+                <Button className="" size="small" onClick={reactToPrint}>
+                  Download
+                </Button>
+              </div>
             </div>
             <div className="border border-highlight-dark rounded-lg sm:m-4 my-4 p-4">
               <div className="grid md:grid-flow-col gap-6 place-items-stretch pb-6 ">

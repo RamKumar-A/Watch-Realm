@@ -24,7 +24,7 @@ function Sort({ visible }) {
     <div
       className={`lg:flex gap-5  ${
         visible
-          ? 'flex flex-col items-start p-2 bg-secondary-default shadow-md rounded m-3'
+          ? 'flex flex-col items-start p-2 bg-secondary-default shadow-md rounded mx-2 my-3 py-4 px-4 border border-highlight-default'
           : 'hidden items-center'
       }`}
     >
@@ -40,7 +40,9 @@ function Sort({ visible }) {
           return (
             <button
               className={`${
-                sort.type === selectedSort && 'text-blue-800'
+                sort.type === selectedSort
+                  ? 'text-blue-950 opacity-90'
+                  : 'opacity-65'
               } relative text-md`}
               onClick={() => handleSort(sort.type)}
               key={sort.label}
@@ -51,7 +53,7 @@ function Sort({ visible }) {
                   className="absolute w-full h-[0.5px] bottom-0 bg-accent-primary"
                 />
               )}
-              <span className="relative z-10 brightness-200">{sort.label}</span>
+              <span className="relative z-10 ">{sort.label}</span>
             </button>
           );
         })}

@@ -15,7 +15,7 @@ function BrandDetails({ brand }) {
   const isInView = useInView(ref, { once: true });
 
   return (
-    <section className=" my-5 p-5 lg:px-20 " ref={ref}>
+    <section className="my-5 p-5 lg:px-20 " ref={ref}>
       <SectionSubheading
         subheading={'Brand Details'}
         variants={parentVariants}
@@ -30,7 +30,7 @@ function BrandDetails({ brand }) {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div
-          className="w-40 h-40 md:w-72 md:h-72 lg:w-80 lg:h-80 border border-highlight-dark bg-accent-secondary rounded p-1 md:p-4 "
+          className="w-40 h-40 md:w-72 md:h-72 lg:w-80 lg:h-80 border border-highlight-dark bg-primary-default rounded p-1 md:p-4 "
           variants={childVariants}
         >
           <motion.img

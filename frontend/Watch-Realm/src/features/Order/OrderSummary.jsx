@@ -1,12 +1,12 @@
 function OrderSummary({ order }) {
   return (
     <div className="bg-secondary-default p-6 rounded-md shadow max-w-screen-sm">
-      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+      <h2 className="text-lg sm:text-xl font-bold mb-4">Order Summary</h2>
       <div className="flex justify-between mb-2 pb-2">
         <OrderItems order={order} />
       </div>
-      <hr className="text-highlight-dark" />
-      <div className="flex justify-between my-4">
+      <hr className="text-highlight-dark mb-4" />
+      <div className="flex justify-between mb-4 text-sm sm:text-base">
         <p className="">Shipping</p>
         <p>
           <span>Free </span>
@@ -14,7 +14,7 @@ function OrderSummary({ order }) {
         </p>
       </div>
       <hr className="text-highlight-dark mb-4" />
-      <div className="flex justify-between text-lg font-bold">
+      <div className="flex justify-between text-md sm:text-lg font-bold">
         <p>Total</p>
         <p>₹ {order?.totalAmount}</p>
       </div>

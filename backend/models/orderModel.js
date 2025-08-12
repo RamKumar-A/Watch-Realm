@@ -3,9 +3,6 @@ import mongoose from 'mongoose';
 const orderSchema = new mongoose.Schema({
   orderItems: [
     {
-      paymentData: {
-        type: Object,
-      },
       watch: {
         type: mongoose.Schema.ObjectId,
         ref: 'Watch',
@@ -38,6 +35,9 @@ const orderSchema = new mongoose.Schema({
     type: String,
     enum: ['Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
     default: 'Placed',
+  },
+  receiptUrl: {
+    type: String,
   },
 });
 

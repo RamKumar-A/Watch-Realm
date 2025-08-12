@@ -67,8 +67,8 @@ export const createOrder = catchAsync(async (req, res, next) => {
 
   // 2) Get order items
   const lineItems = await stripe.checkout.sessions.listLineItems(sessionId);
-  const user = await User.findOne({ email: session?.customer_email });
 
+  const user = await User.findOne({ email: session?.customer_email });
   const orderItems = await Promise.all(
     lineItems.data.map(async (item) => {
       const product = await stripe.products.retrieve(item.price.product);
@@ -79,25 +79,38 @@ export const createOrder = catchAsync(async (req, res, next) => {
       };
     })
   );
+
+  // 3) Handle invoice/receipt for one-time payments
+  // Getting invoice details - in mode: payment invoice is null for one time payments, so we using paymentIntent and charge to retreive the invoice details (receipt url)
+  const paymentIntent = await stripe.paymentIntents.retrieve(
+    session?.payment_intent
+  );
+  const charge = await stripe.charges.retrieve(paymentIntent.latest_charge);
+
+  // 4) Prevent duplicate orders
   const existingOrder = await Order.findOne({ sessionId });
   if (existingOrder) {
     return res.status(200).json({ status: 'success', data: existingOrder });
   }
-  // 3) Create order
+
+  // 5) Create order
   const order = await Order.create({
     orderItems,
     user: user?._id,
     totalAmount: session?.amount_total / 100,
     address: session?.shipping_details?.address,
-    paid: session.payment_status === 'paid',
+    paid: charge?.paid,
     sessionId: session.id,
+    receiptUrl: charge?.receipt_url,
   });
 
-  if (order) {
-    await Cart.findOneAndUpdate({
-      user: user._id,
-      items: [],
-    });
+  // 6) Clear cart only if payment is successful
+  if (charge?.paid && user?._id) {
+    await Cart.findOneAndUpdate(
+      { user: user._id },
+      { $set: { items: [] } },
+      { new: true }
+    );
   }
 
   res.status(201).json({

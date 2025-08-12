@@ -141,9 +141,11 @@ function ProductDetails() {
           <section className="grid md:grid-cols-[1fr_40%]">
             {/* Image Selector */}
             <ImageSelector imageCover={imageCover} images={images} />
+            <div className="sm:hidden w-full bg-highlight-dark h-[0.5px] " />
+
             {/* Product Info */}
             <motion.div
-              className="md:place-self-center"
+              className="md:place-self-center max-md:my-5"
               variants={parentVariants}
               initial="hidden"
               animate={isInView ? 'visible' : 'hidden'}
@@ -164,6 +166,16 @@ function ProductDetails() {
                 variants={childVariants}
               >
                 <div className="space-x-3 self-end">
+                  <Button
+                    size="small"
+                    variant="text"
+                    rounded="full"
+                    className=" py-3 border border-accent-primary/50 text-accent-primary"
+                    onClick={() => setOpenShare(true)}
+                    animation={false}
+                  >
+                    <HiShare size={18} />
+                  </Button>
                   <Button
                     variant="text"
                     rounded="full"
@@ -186,15 +198,6 @@ function ProductDetails() {
                         size={18}
                       />
                     )}
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="text"
-                    rounded="full"
-                    className=" py-3 border border-accent-primary/50 text-accent-primary"
-                    onClick={() => setOpenShare(true)}
-                  >
-                    <HiShare size={18} />
                   </Button>
                 </div>
                 <Button

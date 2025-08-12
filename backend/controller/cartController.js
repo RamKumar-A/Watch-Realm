@@ -6,7 +6,7 @@ export const getCart = catchAsync(async (req, res, next) => {
     const cart = await Cart.findOne({ user: req?.user?._id })
       .populate({
         path: 'items.watch',
-        select: 'name price imageCover',
+        select: 'name price imageCover slug',
       })
       .sort({ createdAt: -1 });
     res.status(200).json({

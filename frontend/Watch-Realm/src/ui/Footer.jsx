@@ -8,7 +8,7 @@ import {
 
 function Footer() {
   return (
-    <footer className="bg-secondary-dark/60 text-white py-10">
+    <footer className="bg-secondary-dark text-white py-10">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h1 className="text-lg md:text-3xl font-bold text-accent-primary">

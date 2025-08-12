@@ -5,7 +5,7 @@ function ImageSelector({ images, imageCover }) {
   const [selectedImage, setSelectedImage] = useState(images?.at(0) | []);
 
   return (
-    <div className="grid place-content-center py-2 gap-2 lg:grid-cols-1 xl:grid-cols-[20%_1fr]">
+    <div className="grid place-content-center py-2 gap-2 lg:grid-cols-1 xl:grid-cols-[20%_1fr] max-md:mb-5">
       <div className="xl:w-40 max-md:px-2 flex max-md:flex-wrap xl:flex-col items-center justify-center gap-2 order-2 xl:order-1">
         {[...(images || []), imageCover]?.map((img, i) => (
           <div

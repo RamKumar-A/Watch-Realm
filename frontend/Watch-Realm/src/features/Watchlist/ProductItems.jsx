@@ -93,7 +93,7 @@ function ProductItems({ watch }) {
   }
 
   return (
-    <motion.div className="w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default/90 text-contrastText-primary transition hover:shadow-lg border border-highlight-default">
+    <motion.div className="w-72 min-h-96 rounded shadow-md overflow-hidden bg-secondary-default text-black/90 transition hover:shadow-lg border border-highlight-default">
       {/* <!-- Product Image --> */}
       <div className="relative w-full h-72">
         <img
@@ -105,7 +105,7 @@ function ProductItems({ watch }) {
         />
         {/* <!-- Badge --> */}
 
-        <span className="absolute top-2 left-2 backdrop-brightness-95 cursor-pointer text-green-600 text-xs font-semibold px-2 py-1 rounded-lg">
+        <span className="absolute top-2 left-2 backdrop-brightness-90 cursor-pointer text-green-600 text-xs font-semibold px-2 py-1 rounded-lg">
           {discountPercentage}% Off
         </span>
 

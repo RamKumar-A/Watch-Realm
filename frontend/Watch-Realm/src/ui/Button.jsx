@@ -55,10 +55,8 @@ function Button({
   const baseStyles = 'font-medium overflow-hidden ';
 
   const variantStyles = {
-    primary:
-      ' bg-accent-primary text-contrastText-secondary hover:brightness-110',
-    secondary:
-      'bg-accent-secondary text-contrastText-primary hover:bg-secondary-light',
+    primary: 'bg-accent-primary text-white hover:brightness-110 border',
+    secondary: 'bg-secondary-dark text-black hover:bg-secondary-light',
     danger: 'bg-red-600 text-emerald-50',
     text: 'bg-transparent',
   };
@@ -101,7 +99,7 @@ function Button({
           <motion.div
             variants={secondTextVariant}
             aria-hidden
-            className={`absolute inset-0   `}
+            className={`absolute inset-0 `}
           >
             {children}
           </motion.div>

@@ -1,6 +1,6 @@
 function CheckoutReview({ items }) {
   return (
-    <div className="space-y-6 ">
+    <div className="space-y-6 mb-2">
       {items?.length > 0 &&
         items?.map((item) => (
           <div

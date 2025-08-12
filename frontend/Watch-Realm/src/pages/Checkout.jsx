@@ -16,7 +16,7 @@ function Checkout() {
       </div>
       {/* <div className="grid lg:grid-cols-[2fr_1fr] gap-4 "> */}
       <div className="md:flex flex-wrap gap-6 w-full justify-center max-md:space-y-2">
-        <div className="p-2 sm:p-4 md:p-6 shadow rounded-lg bg-secondary-light/15 md:flex-[1_1_25%] ">
+        <div className="p-2 sm:px-4 sm:pt-4 md:px-6 md:pt-6 shadow rounded-lg bg-secondary-light/15 md:flex-[1_1_25%] ">
           <h2 className="text-xl font-bold mb-4">Review your cart</h2>
           <CheckoutReview items={cartItems} />
         </div>

@@ -7,9 +7,9 @@ function AppLayout() {
   return (
     <div
       className=" min-h-screen grid 
-        grid-rows-[auto_1fr_auto] text-contrastText-primary bg-primary-default"
+        grid-rows-[auto_1fr_auto] bg-primary-light"
     >
-      <div className="bg-secondary-dark sticky top-0 z-[100]">
+      <div className="bg-secondary-dark sticky top-0 z-[100] border-b border-black/20">
         <Header />
       </div>
 

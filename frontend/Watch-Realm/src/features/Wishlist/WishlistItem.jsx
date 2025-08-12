@@ -112,19 +112,23 @@ function WishlistItem({ watch }) {
       {/* <!-- Card Actions --> */}
       <div className=" py-4 px-4 flex justify-end items-center gap-2">
         <Button
-          className=""
+          variant="secondary"
+          className="border border-highlight-dark text-accent-primary"
           rounded="small"
           onClick={handleAddToCart}
           size="medium"
           disabled={isInCart}
+          animation={false}
         >
           {isInCart ? <BsFillCartCheckFill /> : <BsCartPlusFill />}
         </Button>
         <Button
-          className=" "
+          variant="danger"
+          className="border border-highlight-dark"
           rounded="small"
           onClick={handleDeleteWishlistItem}
           size="medium"
+          animation={false}
         >
           <HiTrash />
         </Button>

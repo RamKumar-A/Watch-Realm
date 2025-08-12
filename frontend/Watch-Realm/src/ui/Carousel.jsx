@@ -101,10 +101,10 @@ function Carousel() {
             variants={childContainerVariant}
             // transition={{ duration: 0.4 }}
           >
-            <h1 className=" font-bold py-3 text-4xl text-contrastText-secondary ">
+            <h1 className=" font-bold py-3 text-4xl text-white">
               {carouselData[curIndex].headline}
             </h1>
-            <p className=" pt-4 lg:text-lg text-[0.9rem] md:text-md text-contrastText-secondary/70">
+            <p className=" pt-4 lg:text-lg text-[0.9rem] md:text-md text-white/70">
               {carouselData[curIndex].subheadline}
             </p>
           </motion.div>
